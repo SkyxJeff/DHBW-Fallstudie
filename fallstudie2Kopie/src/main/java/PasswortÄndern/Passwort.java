@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
-import com.mysql.jdbc.Statement;
+import com.mysql.cj.jdbc.*;
 
 import LoginLogout.Login;
 
