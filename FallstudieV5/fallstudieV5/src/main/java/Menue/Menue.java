@@ -41,10 +41,10 @@ public class Menue extends javax.swing.JPanel {
 
 	public void initMenu(EventMenu event){
         this.event=event;
-        addMenu("�bersicht", 0);
+        addMenu("Übersicht", 0);
         addMenu("Meine Daten", 1);
         addMenu("Meine Zeiten", 2);
-        addMenu("Eintr�ge", 3);
+        addMenu("Einträge", 3);
         addMenu("Kalender", 4);
         addMenu("Einstellungen", 5);
         addMenu("Logout", 6);

@@ -21,7 +21,7 @@ public class Eintraege_Seite extends javax.swing.JPanel {
 
         Ueberschrift_label.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         Ueberschrift_label.setForeground(new java.awt.Color(255, 255, 255));
-        Ueberschrift_label.setText("Eintr�ge");
+        Ueberschrift_label.setText("Einträge");
 
         jScrollPane1.setBackground(new java.awt.Color(50, 50, 50));
         jScrollPane1.setBorder(null);

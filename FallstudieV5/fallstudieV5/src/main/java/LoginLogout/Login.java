@@ -205,7 +205,7 @@ public class Login extends javax.swing.JFrame {
     			String sql3 = "Update login_daten_mitarbeiter set Passwort = 'start'where Mitarbeiter_ID= '"+Login.username+"';";
     			java.sql.PreparedStatement pst3 = con.prepareStatement(sql3);
     			pst3.executeUpdate(sql3);
-    			 JOptionPane.showMessageDialog(null, "Standardpasswort zur�ckgesetzt, geben Sie nun Ihr eigenes Passwort ein.");
+    			 JOptionPane.showMessageDialog(null, "Standardpasswort zurückgesetzt, geben Sie nun Ihr eigenes Passwort ein.");
     			 passworttextfeld.setText("");	
     			 System.out.println("Ich bin hier");
     			 

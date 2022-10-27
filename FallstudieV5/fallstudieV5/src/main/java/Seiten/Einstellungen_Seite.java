@@ -69,10 +69,10 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
 
         passwortAendern_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         passwortAendern_label.setForeground(new java.awt.Color(255, 255, 255));
-        passwortAendern_label.setText("Passwort �ndern:");
+        passwortAendern_label.setText("Passwort ändern:");
 
         passwortAendern_button.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        passwortAendern_button.setText("Passwort �ndern");
+        passwortAendern_button.setText("Passwort ändern");
         passwortAendern_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwortAendern_buttonActionPerformed(evt);
@@ -81,7 +81,7 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
 
         grenzwerte_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         grenzwerte_label.setForeground(new java.awt.Color(255, 255, 255));
-        grenzwerte_label.setText("Grenzwerte f�r die Ampel:");
+        grenzwerte_label.setText("Grenzwerte für die Ampel:");
 
         rotes_panel.setBackground(new java.awt.Color(255, 0, 0));
         rotes_panel.setPreferredSize(new java.awt.Dimension(35, 35));
@@ -127,7 +127,7 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         
         try {
         	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-        	String Gruen = ("SELECT Gr�n FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
+        	String Gruen = ("SELECT Grün FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Gelb = ("SELECT Gelb FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Rot = ("SELECT Rot FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	java.sql.PreparedStatement pst = con.prepareStatement(Gruen);
@@ -170,7 +170,7 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         });
 
         loeschen_button.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        loeschen_button.setText("L�schen");
+        loeschen_button.setText("Löschen");
         loeschen_button.setBorder(null);
         loeschen_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -264,20 +264,20 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void passwortAendern_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwort�ndern_buttonActionPerformed
+    private void passwortAendern_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwortändern_buttonActionPerformed
         new Passwort().setVisible(true);
-    }//GEN-LAST:event_passwort�ndern_buttonActionPerformed
+    }//GEN-LAST:event_passwortändern_buttonActionPerformed
 
     private void speichern_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichern_buttonActionPerformed
   	
     
     }//GEN-LAST:event_speichern_buttonActionPerformed
 
-    private void loeschen_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_l�schen_buttonActionPerformed
+    private void loeschen_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_löschen_buttonActionPerformed
         rot_grenzwert_textfeld.setText("");
         gelb_grenzwert_textfeld.setText(""); 
         gruen_grenzwert_textfeld.setText("");
-    }//GEN-LAST:event_l�schen_buttonActionPerformed
+    }//GEN-LAST:event_löschen_buttonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

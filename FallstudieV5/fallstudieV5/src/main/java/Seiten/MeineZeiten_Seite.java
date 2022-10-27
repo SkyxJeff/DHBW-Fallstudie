@@ -113,7 +113,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
         ende_textfeld.setText("00:00");
 
         art_combobox.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        art_combobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "B�ro", "Home Office" }));
+        art_combobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Büro", "Home Office" }));
         art_combobox.setBorder(null);
 
         speichern_button1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -126,7 +126,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
         });
 
         loeschen_button1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        loeschen_button1.setText("L�schen");
+        loeschen_button1.setText("Löschen");
         loeschen_button1.setBorder(null);
         loeschen_button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,7 +270,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
         	String Urlaub_aktuelles_Jahr = ("SELECT UrlaubaktuellesJahr FROM `urlaub` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Urlaub_vorjahr = ("SELECT Urlaubvorjahr FROM `urlaub` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Urlaub_genommen = ("SELECT Urlaubgenommen FROM `urlaub` WHERE MitarbeiterID = '"+Login.username+"'");
-        	String Urlaub_verfuegbar = ("SELECT Urlaubverf�gbar FROM `urlaub` WHERE MitarbeiterID = '"+Login.username+"'");
+        	String Urlaub_verfuegbar = ("SELECT Urlaubverfügbar FROM `urlaub` WHERE MitarbeiterID = '"+Login.username+"'");
         	java.sql.PreparedStatement pst = con.prepareStatement(Urlaubsanspruch);
         	java.sql.PreparedStatement pst1 = con.prepareStatement(Urlaub_aktuelles_Jahr);
         	java.sql.PreparedStatement pst2= con.prepareStatement(Urlaub_vorjahr);
@@ -301,7 +301,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
                 {Urlaubsanspruch1, Urlaub_aktuelles_Jahr1, Urlaub_vorjahr1, Urlaub_genommen1, Urlaub_verfuegbar1}
             },
             new String [] {
-                "Urlaubsanspruch", "Urlaub akt. Jahr", "Urlaub Vorjahr", "Urlaub genommen", "Urlaub verf�gbar"
+                "Urlaubsanspruch", "Urlaub akt. Jahr", "Urlaub Vorjahr", "Urlaub genommen", "Urlaub verfügbar"
             }
         ) {
         	private static final long serialVersionUID = 1L;
@@ -475,7 +475,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 				JOptionPane.showMessageDialog(null, "Eintrag gespeichert!");
 				
 			}else if(!DateAktuell.equals(eingDatumEngl)&&(beginn_textfeld.getText().equals("00:00") || pause_textfeld.getText().equals("0,0")||ende_textfeld.getText().equals("00:00"))){
-				JOptionPane.showMessageDialog(null, "Unvollst�ndige Nachtr�ge sind nicht gestattet.");
+				JOptionPane.showMessageDialog(null, "Unvollständige Nachträge sind nicht gestattet.");
 				}
 			else if(!DateAktuell.equals(eingDatumEngl) && !beginn_textfeld.getText().equals("00:00") && !pause_textfeld.getText().equals("0,0")&&!ende_textfeld.getText().equals("00:00")){
 				System.out.println("Bin hier");
@@ -533,9 +533,9 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 				}	
 			
 			
-			//Oder man speichert die Beginn, Ende, Pause seperat zwischen, dann aber mit update --> Heute-Ist dann ebenfalls verwendbar Man k�nnte den max(EintrageNr) der aktuell eingeloggten Person selecten, um die richitge Zeile dann auszuw�hlen und zu updaten		
-			//Er guckt sich den neuesten Eintrag an, �berpr�ft ob der Mitarbeiter bereits eine End-Zeit festgelegt hat, ist das nicht der Fall, speichert er zwischen und updatet dann wenn der Mitarb zb die Pause eintr�gt, die Pause und macht keine neue Zeile. 
-			//Ist hat Ende ein Wert, wird gepr�ft, ob es noch der heutige Eintrag ist, und dann dementsprechen dort reinschreiben muss, oder ob man einen komplett neuen Eintrag machen soll
+			//Oder man speichert die Beginn, Ende, Pause seperat zwischen, dann aber mit update --> Heute-Ist dann ebenfalls verwendbar Man könnte den max(EintrageNr) der aktuell eingeloggten Person selecten, um die richitge Zeile dann auszuwählen und zu updaten		
+			//Er guckt sich den neuesten Eintrag an, Überprüft ob der Mitarbeiter bereits eine End-Zeit festgelegt hat, ist das nicht der Fall, speichert er zwischen und updatet dann wenn der Mitarb zb die Pause einträgt, die Pause und macht keine neue Zeile. 
+			//Ist hat Ende ein Wert, wird geprüft, ob es noch der heutige Eintrag ist, und dann dementsprechen dort reinschreiben muss, oder ob man einen komplett neuen Eintrag machen soll
 			
 			
 				
@@ -554,13 +554,13 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
     	
     }//GEN-LAST:event_speichern_button1ActionPerformed
 
-    private void loeschen_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_l�schen_button1ActionPerformed
+    private void loeschen_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_löschen_button1ActionPerformed
        beginn_textfeld.setText("");
        ende_textfeld.setText("");
        pause_textfeld.setText("");
        datum_textfeld.setText("");
        
-    }//GEN-LAST:event_l�schen_button1ActionPerformed
+    }//GEN-LAST:event_löschen_button1ActionPerformed
 
     private void speichern_button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichern_button2ActionPerformed
     	try {
@@ -602,7 +602,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 	    		long Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - tage;
 	    		long Urlaub_genommen2 = Urlaub_genommen1 + tage;
 	    		long Urlaub_verfuegbar2 = Urlaub_verfuegbar1 - tage;
-	    		String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '"+Urlaub_aktuelles_Jahr2+"', `Urlaubgenommen` = '"+Urlaub_genommen2+"', `Urlaubverf�gbar` = '"+Urlaub_verfuegbar2+"'");
+	    		String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '"+Urlaub_aktuelles_Jahr2+"', `Urlaubgenommen` = '"+Urlaub_genommen2+"', `Urlaubverfügbar` = '"+Urlaub_verfuegbar2+"'");
 	    		java.sql.PreparedStatement pst2 = con1.prepareStatement(update);
 	    		pst2.executeUpdate();
 	    		
@@ -610,18 +610,18 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 	    	loeschen_button2ActionPerformed(evt);
 	    	
 		} catch (SQLException e1) {
-			JOptionPane.showMessageDialog(null, "Keine Verbindung zur Datenbank m�glich");
+			JOptionPane.showMessageDialog(null, "Keine Verbindung zur Datenbank möglich");
 		}
     	catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "Tage gehen nicht");
 		}
     }//GEN-LAST:event_speichern_button2ActionPerformed
 
-    private void loeschen_button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_l�schen_button2ActionPerformed
+    private void loeschen_button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_löschen_button2ActionPerformed
         abwesenheitsbeginn_textfeld.setText("");
         abwesenheitsende_textfeld.setText("");
         notiz_textfeld.setText("");
-    }//GEN-LAST:event_l�schen_button2ActionPerformed
+    }//GEN-LAST:event_löschen_button2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
