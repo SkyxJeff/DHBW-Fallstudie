@@ -48,7 +48,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="roundPanel1" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="menü1" min="-2" pref="191" max="-2" attributes="0"/>
+                          <Component id="menue1" min="-2" pref="191" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Component id="body" pref="529" max="32767" attributes="0"/>
                       </Group>
@@ -64,7 +64,7 @@
                   <Component id="roundPanel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="menü1" max="32767" attributes="0"/>
+                      <Component id="menue1" max="32767" attributes="0"/>
                       <Component id="body" pref="500" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>

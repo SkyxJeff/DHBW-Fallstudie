@@ -39,7 +39,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="grünesPanel" pref="37" max="32767" attributes="0"/>
+                      <Component id="gruenesPanel" pref="37" max="32767" attributes="0"/>
                       <Component id="gelbesPanel" pref="37" max="32767" attributes="0"/>
                       <Component id="rotesPanel" alignment="0" pref="37" max="32767" attributes="0"/>
                   </Group>
@@ -55,7 +55,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="gelbesPanel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="grünesPanel" min="-2" pref="37" max="-2" attributes="0"/>
+                  <Component id="gruenesPanel" min="-2" pref="37" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>

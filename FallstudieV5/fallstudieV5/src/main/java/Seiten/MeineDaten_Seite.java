@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import LoginLogout.Login;
-import Menü.Menü;
+import Menue.Menue;
 
 public class MeineDaten_Seite extends javax.swing.JPanel {
 	 
@@ -27,29 +27,29 @@ public class MeineDaten_Seite extends javax.swing.JPanel {
     	 
 
         hintergrund_panel = new Komponenten.RundesPanel();
-        überschrift_panel = new javax.swing.JLabel();
+        ueberschrift_panel = new javax.swing.JLabel();
         vorname_label = new javax.swing.JLabel();
         nachname_label = new javax.swing.JLabel();
         personalnummer_label = new javax.swing.JLabel();
         anschrift_label = new javax.swing.JLabel();
         telefonnr_label = new javax.swing.JLabel();
-        bürozimmernr_label = new javax.swing.JLabel();
+        buerozimmernr_label = new javax.swing.JLabel();
         vorname_label_ausgabe = new javax.swing.JLabel();
         nachname_label_ausgabe = new javax.swing.JLabel();
         personalnummer_label_ausgabe = new javax.swing.JLabel();
         anschrift_label_ausgabe = new javax.swing.JLabel();
         telefonnr_label_ausgabe = new javax.swing.JLabel();
-        bürozimmernr_label_ausgabe = new javax.swing.JLabel();
-        tätigkeit_label = new javax.swing.JLabel();
-        tätigkeit_label_ausgabe = new javax.swing.JLabel();
+        buerozimmernr_label_ausgabe = new javax.swing.JLabel();
+        taetigkeit_label = new javax.swing.JLabel();
+        taetigkeit_label_ausgabe = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(785, 390));
 
         hintergrund_panel.setBackground(new java.awt.Color(50, 50, 50));
 
-        überschrift_panel.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
-        überschrift_panel.setForeground(new java.awt.Color(255, 255, 255));
-        überschrift_panel.setText("Meine Daten");
+        ueberschrift_panel.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        ueberschrift_panel.setForeground(new java.awt.Color(255, 255, 255));
+        ueberschrift_panel.setText("Meine Daten");
 
         vorname_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         vorname_label.setForeground(new java.awt.Color(255, 255, 255));
@@ -71,20 +71,20 @@ public class MeineDaten_Seite extends javax.swing.JPanel {
         telefonnr_label.setForeground(new java.awt.Color(255, 255, 255));
         telefonnr_label.setText("Telefon-Nr.:");
 
-        bürozimmernr_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        bürozimmernr_label.setForeground(new java.awt.Color(255, 255, 255));
-        bürozimmernr_label.setText("Bürozimmer-Nr.:");
+        buerozimmernr_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        buerozimmernr_label.setForeground(new java.awt.Color(255, 255, 255));
+        buerozimmernr_label.setText("Buerozimmer-Nr.:");
 
         
         
         
         vorname_label_ausgabe.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         vorname_label_ausgabe.setForeground(new java.awt.Color(255, 255, 255));
-        vorname_label_ausgabe.setText(Menü.Vorname);
+        vorname_label_ausgabe.setText(Menue.Vorname);
 
         nachname_label_ausgabe.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         nachname_label_ausgabe.setForeground(new java.awt.Color(255, 255, 255));
-        nachname_label_ausgabe.setText(Menü.Nachname);
+        nachname_label_ausgabe.setText(Menue.Nachname);
 
         personalnummer_label_ausgabe.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         personalnummer_label_ausgabe.setForeground(new java.awt.Color(255, 255, 255));
@@ -92,23 +92,23 @@ public class MeineDaten_Seite extends javax.swing.JPanel {
 
         anschrift_label_ausgabe.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         anschrift_label_ausgabe.setForeground(new java.awt.Color(255, 255, 255));
-        anschrift_label_ausgabe.setText(Menü.Anschrift);
+        anschrift_label_ausgabe.setText(Menue.Anschrift);
 
         telefonnr_label_ausgabe.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         telefonnr_label_ausgabe.setForeground(new java.awt.Color(255, 255, 255));
-        telefonnr_label_ausgabe.setText(Menü.TelefonNr);
+        telefonnr_label_ausgabe.setText(Menue.TelefonNr);
 
-        bürozimmernr_label_ausgabe.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        bürozimmernr_label_ausgabe.setForeground(new java.awt.Color(255, 255, 255));
-        bürozimmernr_label_ausgabe.setText(Menü.OfficeNr);
+        buerozimmernr_label_ausgabe.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        buerozimmernr_label_ausgabe.setForeground(new java.awt.Color(255, 255, 255));
+        buerozimmernr_label_ausgabe.setText(Menue.OfficeNr);
 
-        tätigkeit_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        tätigkeit_label.setForeground(new java.awt.Color(255, 255, 255));
-        tätigkeit_label.setText("Tätigkeit:");
+        taetigkeit_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        taetigkeit_label.setForeground(new java.awt.Color(255, 255, 255));
+        taetigkeit_label.setText("Tï¿½tigkeit:");
 
-        tätigkeit_label_ausgabe.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        tätigkeit_label_ausgabe.setForeground(new java.awt.Color(255, 255, 255));
-        tätigkeit_label_ausgabe.setText(Menü.Taetigkeit);
+        taetigkeit_label_ausgabe.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        taetigkeit_label_ausgabe.setForeground(new java.awt.Color(255, 255, 255));
+        taetigkeit_label_ausgabe.setText(Menue.Taetigkeit);
 
         javax.swing.GroupLayout hintergrund_panelLayout = new javax.swing.GroupLayout(hintergrund_panel);
         hintergrund_panel.setLayout(hintergrund_panelLayout);
@@ -117,21 +117,21 @@ public class MeineDaten_Seite extends javax.swing.JPanel {
             .addGroup(hintergrund_panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(überschrift_panel)
+                    .addComponent(ueberschrift_panel)
                     .addGroup(hintergrund_panelLayout.createSequentialGroup()
                         .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(vorname_label)
                             .addComponent(nachname_label)
                             .addComponent(personalnummer_label)
                             .addComponent(anschrift_label)
-                            .addComponent(bürozimmernr_label)
-                            .addComponent(tätigkeit_label)
+                            .addComponent(buerozimmernr_label)
+                            .addComponent(taetigkeit_label)
                             .addComponent(telefonnr_label))
                         .addGap(59, 59, 59)
                         .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(telefonnr_label_ausgabe)
-                            .addComponent(tätigkeit_label_ausgabe)
-                            .addComponent(bürozimmernr_label_ausgabe)
+                            .addComponent(taetigkeit_label_ausgabe)
+                            .addComponent(buerozimmernr_label_ausgabe)
                             .addComponent(anschrift_label_ausgabe)
                             .addComponent(personalnummer_label_ausgabe)
                             .addComponent(nachname_label_ausgabe)
@@ -142,7 +142,7 @@ public class MeineDaten_Seite extends javax.swing.JPanel {
             hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(hintergrund_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(überschrift_panel)
+                .addComponent(ueberschrift_panel)
                 .addGap(18, 18, 18)
                 .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(vorname_label)
@@ -157,8 +157,8 @@ public class MeineDaten_Seite extends javax.swing.JPanel {
                     .addComponent(personalnummer_label_ausgabe))
                 .addGap(18, 18, 18)
                 .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tätigkeit_label)
-                    .addComponent(tätigkeit_label_ausgabe))
+                    .addComponent(taetigkeit_label)
+                    .addComponent(taetigkeit_label_ausgabe))
                 .addGap(18, 18, 18)
                 .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(anschrift_label)
@@ -169,8 +169,8 @@ public class MeineDaten_Seite extends javax.swing.JPanel {
                     .addComponent(telefonnr_label_ausgabe))
                 .addGap(18, 18, 18)
                 .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bürozimmernr_label)
-                    .addComponent(bürozimmernr_label_ausgabe))
+                    .addComponent(buerozimmernr_label)
+                    .addComponent(buerozimmernr_label_ausgabe))
                 .addContainerGap(64, Short.MAX_VALUE))
         );
 
@@ -190,8 +190,8 @@ public class MeineDaten_Seite extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel anschrift_label;
     private javax.swing.JLabel anschrift_label_ausgabe;
-    private javax.swing.JLabel bürozimmernr_label;
-    private javax.swing.JLabel bürozimmernr_label_ausgabe;
+    private javax.swing.JLabel buerozimmernr_label;
+    private javax.swing.JLabel buerozimmernr_label_ausgabe;
     private Komponenten.RundesPanel hintergrund_panel;
     private javax.swing.JLabel nachname_label;
     private javax.swing.JLabel nachname_label_ausgabe;
@@ -199,10 +199,10 @@ public class MeineDaten_Seite extends javax.swing.JPanel {
     private javax.swing.JLabel personalnummer_label_ausgabe;
     private javax.swing.JLabel telefonnr_label;
     private javax.swing.JLabel telefonnr_label_ausgabe;
-    private javax.swing.JLabel tätigkeit_label;
-    private javax.swing.JLabel tätigkeit_label_ausgabe;
+    private javax.swing.JLabel taetigkeit_label;
+    private javax.swing.JLabel taetigkeit_label_ausgabe;
     private javax.swing.JLabel vorname_label;
     private javax.swing.JLabel vorname_label_ausgabe;
-    private javax.swing.JLabel überschrift_panel;
+    private javax.swing.JLabel ueberschrift_panel;
     // End of variables declaration//GEN-END:variables
 }

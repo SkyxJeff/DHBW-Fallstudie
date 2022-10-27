@@ -60,7 +60,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="grenzwert_rot_label" min="-2" max="-2" attributes="0"/>
                       <Component id="grenzwert_gelb_label" min="-2" max="-2" attributes="0"/>
-                      <Component id="grenzwert_grün_label" min="-2" max="-2" attributes="0"/>
+                      <Component id="grenzwert_gruen_label" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -79,7 +79,7 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="grenzwert_gelb_label" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="grenzwert_grün_label" min="-2" max="-2" attributes="0"/>
+                  <Component id="grenzwert_gruen_label" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               </Group>
           </Group>
