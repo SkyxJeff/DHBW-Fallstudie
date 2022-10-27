@@ -40,7 +40,7 @@ public class Passwort extends javax.swing.JFrame {
 
         Ueberschrift_label.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         Ueberschrift_label.setForeground(new java.awt.Color(255, 255, 255));
-        Ueberschrift_label.setText("Passwort �ndern");
+        Ueberschrift_label.setText("Passwort ändern");
 
         altesPasswort_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         altesPasswort_label.setForeground(new java.awt.Color(255, 255, 255));

@@ -104,7 +104,7 @@ public class MeineDaten_Seite extends javax.swing.JPanel {
 
         taetigkeit_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         taetigkeit_label.setForeground(new java.awt.Color(255, 255, 255));
-        taetigkeit_label.setText("T�tigkeit:");
+        taetigkeit_label.setText("Tätigkeit:");
 
         taetigkeit_label_ausgabe.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         taetigkeit_label_ausgabe.setForeground(new java.awt.Color(255, 255, 255));
