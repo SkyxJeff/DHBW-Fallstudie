@@ -13,17 +13,17 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import LoginLogout.Login;
-import Menü.Menü;
-public class Übersicht_Seite extends javax.swing.JPanel {
+import Menue.Menue;
+public class Uebersicht_Seite extends javax.swing.JPanel {
 
     /**
 	 * 
 	 */
-	int grün;
+	int gruen;
 	int gelb;
 	int rot;
 	
-	public Übersicht_Seite() {
+	public Uebersicht_Seite() {
         initComponents();
         setOpaque(false);
     }
@@ -36,7 +36,7 @@ public class Übersicht_Seite extends javax.swing.JPanel {
         ampel = new Ampel.Ampel();
         grenzwert_rot_label = new javax.swing.JLabel();
         grenzwert_gelb_label = new javax.swing.JLabel();
-        grenzwert_grün_label = new javax.swing.JLabel();
+        grenzwert_gruen_label = new javax.swing.JLabel();
         daten_panel = new Komponenten.RundesPanel();
         heute_ist_panel = new Komponenten.RundesPanel();
         stunden_label1 = new javax.swing.JLabel();
@@ -66,11 +66,11 @@ public class Übersicht_Seite extends javax.swing.JPanel {
         
         try {
         	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-        	String Grün = ("SELECT Grün FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
+        	String Gruen = ("SELECT Grï¿½n FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Gelb = ("SELECT Gelb FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Rot = ("SELECT Rot FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	String saldo = ("SELECT SUM(Saldo) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");
-        	java.sql.PreparedStatement pst = con.prepareStatement(Grün);
+        	java.sql.PreparedStatement pst = con.prepareStatement(Gruen);
         	java.sql.PreparedStatement pst1 = con.prepareStatement(Gelb);
         	java.sql.PreparedStatement pst2 = con.prepareStatement(Rot);
         	java.sql.PreparedStatement pst3 = con.prepareStatement(saldo);
@@ -82,37 +82,37 @@ public class Übersicht_Seite extends javax.swing.JPanel {
         	rs1.next();
         	rs2.next();
         	rs3.next();
-        	 grün = Integer.parseInt(rs.getString(1));
+        	 gruen = Integer.parseInt(rs.getString(1));
         	 gelb = Integer.parseInt(rs1.getString(1));
         	 rot = Integer.parseInt(rs2.getString(1));
         	 String Saldo = rs3.getString(1);
-        	 System.out.println(grün);
+        	 System.out.println(gruen);
         	 System.out.println(gelb);
         	 System.out.println(rot);
         	 System.out.println(Saldo);
         	 float gleitzeit = Float.parseFloat(Saldo);
         	 int Gleitzeit = (int) gleitzeit;
         	 
-        	 if(Gleitzeit <= grün)
+        	 if(Gleitzeit <= gruen)
         	 {
         		 grenzwert_gelb_label.setVisible(false);
         		 grenzwert_rot_label.setVisible(false);
-        		 grenzwert_grün_label.setVisible(true);
-        		 grenzwert_grün_label.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        	     grenzwert_grün_label.setForeground(new java.awt.Color(255, 255, 255));
-        	     grenzwert_grün_label.setText("Perfekt");
+        		 grenzwert_gruen_label.setVisible(true);
+        		 grenzwert_gruen_label.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        	     grenzwert_gruen_label.setForeground(new java.awt.Color(255, 255, 255));
+        	     grenzwert_gruen_label.setText("Perfekt");
         	     
         	 }
         	 else
         	 {
-        		 if(Gleitzeit >grün && Gleitzeit <=rot)
+        		 if(Gleitzeit >gruen && Gleitzeit <=rot)
         		 {
         			 grenzwert_gelb_label.setVisible(true);
         			 grenzwert_gelb_label.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         		     grenzwert_gelb_label.setForeground(new java.awt.Color(255, 255, 255));
-        		     grenzwert_gelb_label.setText("Achtung sie nähern sich der Gleitzeitgrenze");
+        		     grenzwert_gelb_label.setText("Achtung sie nï¿½hern sich der Gleitzeitgrenze");
             		 grenzwert_rot_label.setVisible(false);
-            		 grenzwert_grün_label.setVisible(false); 
+            		 grenzwert_gruen_label.setVisible(false); 
         		 }
         		 else
         		 {
@@ -121,7 +121,7 @@ public class Übersicht_Seite extends javax.swing.JPanel {
             		 grenzwert_rot_label.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
             	     grenzwert_rot_label.setForeground(new java.awt.Color(255, 255, 255));
             	     grenzwert_rot_label.setText("Die Gleitzeit wird zu viel");
-            		 grenzwert_grün_label.setVisible(false);
+            		 grenzwert_gruen_label.setVisible(false);
         		 }
         	 }
         	
@@ -141,7 +141,7 @@ public class Übersicht_Seite extends javax.swing.JPanel {
                 .addGroup(ampel_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(grenzwert_rot_label)
                     .addComponent(grenzwert_gelb_label)
-                    .addComponent(grenzwert_grün_label))
+                    .addComponent(grenzwert_gruen_label))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ampel_panelLayout.setVerticalGroup(
@@ -156,7 +156,7 @@ public class Übersicht_Seite extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(grenzwert_gelb_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(grenzwert_grün_label)
+                .addComponent(grenzwert_gruen_label)
                 .addGap(15, 15, 15))
         );
 
@@ -410,7 +410,7 @@ public class Übersicht_Seite extends javax.swing.JPanel {
 
         nachname_vorname_label.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
         nachname_vorname_label.setForeground(new java.awt.Color(255, 255, 255));
-        nachname_vorname_label.setText(Menü.Nachname+ ", " + Menü.Vorname );
+        nachname_vorname_label.setText(Menue.Nachname+ ", " + Menue.Vorname );
 
         javax.swing.GroupLayout willkommen_panelLayout = new javax.swing.GroupLayout(willkommen_panel);
         willkommen_panel.setLayout(willkommen_panelLayout);
@@ -504,8 +504,8 @@ public class Übersicht_Seite extends javax.swing.JPanel {
 				if(pause.equals("0,0")) {
 					float heuteIst1NK = heuteIst1 - (int)heuteIst1;
 					if((int)heuteIst1 > 6) {
-						JOptionPane.showMessageDialog(null, "Bitte legen Sie eine Pause ein. Sind Sie Jugendlich, und Arbeiten zwischen 4,5 und 6 Stunden, haben Sie ein Anrecht auf 0,5h Pause. Bei mehr als 6 Stunden dürfen Sie 1h Pause machen."
-								+ " Sind Sie Volljährig, haben Sie ein bei einer Arbeitszeit von 6-9h ein Anrecht auf 0,5h Pause. Arbeiten Sie mehr als 9 Stunden, erhöht sich die Pausenzeit auf 0,75h.");
+						JOptionPane.showMessageDialog(null, "Bitte legen Sie eine Pause ein. Sind Sie Jugendlich, und Arbeiten zwischen 4,5 und 6 Stunden, haben Sie ein Anrecht auf 0,5h Pause. Bei mehr als 6 Stunden dï¿½rfen Sie 1h Pause machen."
+								+ " Sind Sie Volljï¿½hrig, haben Sie ein bei einer Arbeitszeit von 6-9h ein Anrecht auf 0,5h Pause. Arbeiten Sie mehr als 9 Stunden, erhï¿½ht sich die Pausenzeit auf 0,75h.");
 					}
 					String heuteIst1NK1 = ""+heuteIst1NK;
 					System.out.println("keine Pause NK heuteISt:"+ heuteIst1NK1 );
@@ -814,11 +814,11 @@ public String GleitzeitproJahr() {
 			heuteistvor6float = heuteistvor6float/100;
 			if( (int)heuteistvor6float >maxArbZG ) {
 				
-				JOptionPane.showMessageDialog(null, "Sie haben Ihre heutige Arbeitszeit lauft ArbZG überschritten, melden Sie dies bei Ihrem Vorgesetzen.");
+				JOptionPane.showMessageDialog(null, "Sie haben Ihre heutige Arbeitszeit lauft ArbZG ï¿½berschritten, melden Sie dies bei Ihrem Vorgesetzen.");
 			}
 			
 			}else if(HeuteistStundenfloat > maxArbZG) {
-				JOptionPane.showMessageDialog(null, "Sie haben Ihre heutige Arbeitszeit lauft ArbZG überschritten, melden Sie dies bei Ihrem Vorgesetzen.");
+				JOptionPane.showMessageDialog(null, "Sie haben Ihre heutige Arbeitszeit lauft ArbZG ï¿½berschritten, melden Sie dies bei Ihrem Vorgesetzen.");
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -837,7 +837,7 @@ public String GleitzeitproJahr() {
     private Komponenten.RundesPanel ampel_panel;
     private Komponenten.RundesPanel daten_panel;
     private javax.swing.JLabel grenzwert_gelb_label;
-    private javax.swing.JLabel grenzwert_grün_label;
+    private javax.swing.JLabel grenzwert_gruen_label;
     private javax.swing.JLabel grenzwert_rot_label;
     private javax.swing.JLabel heute_ist_label;
     private Komponenten.RundesPanel heute_ist_panel;

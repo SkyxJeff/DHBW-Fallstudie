@@ -31,7 +31,7 @@ public class Login extends javax.swing.JFrame {
 
         hintergrund = new javax.swing.JPanel();
         loginfenster = new Komponenten.RundesPanel();
-        überschrift = new javax.swing.JLabel();
+        Ueberschrift = new javax.swing.JLabel();
         benutzernametextfeld = new javax.swing.JTextField();
         passworttextfeld = new javax.swing.JPasswordField();
         loginbutton = new javax.swing.JButton();
@@ -46,10 +46,10 @@ public class Login extends javax.swing.JFrame {
 
         loginfenster.setBackground(new java.awt.Color(50, 50, 50));
 
-        überschrift.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
-        überschrift.setForeground(new java.awt.Color(255, 255, 255));
-        überschrift.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        überschrift.setText("Login");
+        Ueberschrift.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
+        Ueberschrift.setForeground(new java.awt.Color(255, 255, 255));
+        Ueberschrift.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Ueberschrift.setText("Login");
 
         benutzernametextfeld.setBorder(null);
         benutzernametextfeld.addActionListener(new java.awt.event.ActionListener() {
@@ -114,7 +114,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(loginfensterLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(loginfensterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(überschrift, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Ueberschrift, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginfensterLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -124,7 +124,7 @@ public class Login extends javax.swing.JFrame {
             loginfensterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginfensterLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(überschrift)
+                .addComponent(Ueberschrift)
                 .addGap(23, 23, 23)
                 .addComponent(benutzernamelabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -205,7 +205,7 @@ public class Login extends javax.swing.JFrame {
     			String sql3 = "Update login_daten_mitarbeiter set Passwort = 'start'where Mitarbeiter_ID= '"+Login.username+"';";
     			java.sql.PreparedStatement pst3 = con.prepareStatement(sql3);
     			pst3.executeUpdate(sql3);
-    			 JOptionPane.showMessageDialog(null, "Standardpasswort zurückgesetzt, geben Sie nun Ihr eigenes Passwort ein.");
+    			 JOptionPane.showMessageDialog(null, "Standardpasswort zurï¿½ckgesetzt, geben Sie nun Ihr eigenes Passwort ein.");
     			 passworttextfeld.setText("");	
     			 System.out.println("Ich bin hier");
     			 
@@ -290,6 +290,6 @@ public class Login extends javax.swing.JFrame {
     private Komponenten.RundesPanel loginfenster;
     private javax.swing.JLabel passwortlabel;
     private javax.swing.JPasswordField passworttextfeld;
-    private javax.swing.JLabel überschrift;
+    private javax.swing.JLabel Ueberschrift;
     // End of variables declaration//GEN-END:variables
 }

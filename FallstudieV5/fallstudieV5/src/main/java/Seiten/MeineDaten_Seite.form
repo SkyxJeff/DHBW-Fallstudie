@@ -44,22 +44,22 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="überschrift_panel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="ueberschrift_panel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="vorname_label" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="nachname_label" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="personalnummer_label" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="anschrift_label" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="bürozimmernr_label" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="tätigkeit_label" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="buerozimmernr_label" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="taetigkeit_label" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="telefonnr_label" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="telefonnr_label_ausgabe" min="-2" max="-2" attributes="0"/>
-                              <Component id="tätigkeit_label_ausgabe" min="-2" max="-2" attributes="0"/>
-                              <Component id="bürozimmernr_label_ausgabe" min="-2" max="-2" attributes="0"/>
+                              <Component id="taetigkeit_label_ausgabe" min="-2" max="-2" attributes="0"/>
+                              <Component id="buerozimmernr_label_ausgabe" min="-2" max="-2" attributes="0"/>
                               <Component id="anschrift_label_ausgabe" min="-2" max="-2" attributes="0"/>
                               <Component id="personalnummer_label_ausgabe" min="-2" max="-2" attributes="0"/>
                               <Component id="nachname_label_ausgabe" min="-2" max="-2" attributes="0"/>
@@ -75,7 +75,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="überschrift_panel" min="-2" max="-2" attributes="0"/>
+                  <Component id="ueberschrift_panel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="vorname_label" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -93,8 +93,8 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="tätigkeit_label" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="tätigkeit_label_ausgabe" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="taetigkeit_label" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="taetigkeit_label_ausgabe" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -108,8 +108,8 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="bürozimmernr_label" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="bürozimmernr_label_ausgabe" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="buerozimmernr_label" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="buerozimmernr_label_ausgabe" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="64" max="32767" attributes="0"/>
               </Group>

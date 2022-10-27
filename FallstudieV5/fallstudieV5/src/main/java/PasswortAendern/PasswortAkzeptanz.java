@@ -1,4 +1,4 @@
-package PasswortÄndern;
+package PasswortAendern;
 
 public class PasswortAkzeptanz extends javax.swing.JFrame {
 

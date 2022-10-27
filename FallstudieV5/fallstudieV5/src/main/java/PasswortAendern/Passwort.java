@@ -1,4 +1,4 @@
-package PasswortÄndern;
+package PasswortAendern;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,7 +25,7 @@ public class Passwort extends javax.swing.JFrame {
     private void initComponents() {
 
         hintergrund = new javax.swing.JPanel();
-        überschrift_label = new javax.swing.JLabel();
+        Ueberschrift_label = new javax.swing.JLabel();
         altesPasswort_label = new javax.swing.JLabel();
         neuesPasswort_label = new javax.swing.JLabel();
         altesPasswort_textfeld = new javax.swing.JTextField();
@@ -38,9 +38,9 @@ public class Passwort extends javax.swing.JFrame {
 
         hintergrund.setBackground(new java.awt.Color(50, 50, 50));
 
-        überschrift_label.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        überschrift_label.setForeground(new java.awt.Color(255, 255, 255));
-        überschrift_label.setText("Passwort ändern");
+        Ueberschrift_label.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        Ueberschrift_label.setForeground(new java.awt.Color(255, 255, 255));
+        Ueberschrift_label.setText("Passwort ï¿½ndern");
 
         altesPasswort_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         altesPasswort_label.setForeground(new java.awt.Color(255, 255, 255));
@@ -80,7 +80,7 @@ public class Passwort extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(hintergrundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(hintergrundLayout.createSequentialGroup()
-                        .addComponent(überschrift_label)
+                        .addComponent(Ueberschrift_label)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(hintergrundLayout.createSequentialGroup()
                         .addGroup(hintergrundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,7 +102,7 @@ public class Passwort extends javax.swing.JFrame {
             hintergrundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(hintergrundLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(überschrift_label)
+                .addComponent(Ueberschrift_label)
                 .addGap(18, 18, 18)
                 .addGroup(hintergrundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(altesPasswort_label)
@@ -222,6 +222,6 @@ public class Passwort extends javax.swing.JFrame {
     private javax.swing.JLabel neuesPasswort_label;
     private javax.swing.JTextField neuesPasswort_textfeld;
     private javax.swing.JButton speichern_button;
-    private javax.swing.JLabel überschrift_label;
+    private javax.swing.JLabel Ueberschrift_label;
     // End of variables declaration//GEN-END:variables
 }

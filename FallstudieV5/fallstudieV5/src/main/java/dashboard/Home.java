@@ -1,11 +1,11 @@
 package dashboard;
 
 import LoginLogout.Logout;
-import Seiten.Übersicht_Seite;
+import Seiten.Uebersicht_Seite;
 import Seiten.Form;
-import Menü.EventMenu;
+import Menue.EventMenu;
 import Seiten.MeineZeiten_Seite;
-import Seiten.Einträge_Seite;
+import Seiten.Eintraege_Seite;
 import Seiten.MeineDaten_Seite;
 import Seiten.Einstellungen_Seite;
 import Seiten.Kalendar_Seite;
@@ -24,7 +24,7 @@ public class Home extends javax.swing.JFrame {
             @Override
             public void selected(int index) {
                 if (index == 0) {
-                    showForm(new Übersicht_Seite());
+                    showForm(new Uebersicht_Seite());
                 } else if (index == 1) {
                     showForm(new MeineDaten_Seite());
                 }
@@ -32,7 +32,7 @@ public class Home extends javax.swing.JFrame {
                     showForm(new MeineZeiten_Seite());
                 } 
                 else if (index==3){
-                    showForm(new Einträge_Seite());
+                    showForm(new Eintraege_Seite());
                 }
                 else if (index==4){
                     showForm(new Kalendar_Seite());
@@ -48,8 +48,8 @@ public class Home extends javax.swing.JFrame {
                 }
             }
         };
-        menü1.initMenu(event);
-        showForm(new Übersicht_Seite());
+        menue1.initMenu(event);
+        showForm(new Uebersicht_Seite());
     }
     private void showForm(Component com){
         body.removeAll();
@@ -66,7 +66,7 @@ public class Home extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         roundPanel1 = new Komponenten.RundesPanel();
         jLabel1 = new javax.swing.JLabel();
-        menü1 = new Menü.Menü();
+        menue1 = new Menue.Menue();
         body = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -108,7 +108,7 @@ public class Home extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(menü1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(menue1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
                         .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)))
                 .addGap(6, 6, 6))
@@ -120,7 +120,7 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(menü1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(menue1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))
                 .addGap(3, 3, 3))
         );
@@ -179,7 +179,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel body;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private Menü.Menü menü1;
+    private Menue.Menue menue1;
     private Komponenten.RundesPanel roundPanel1;
     // End of variables declaration//GEN-END:variables
 }

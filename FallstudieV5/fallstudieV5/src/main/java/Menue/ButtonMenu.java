@@ -1,4 +1,4 @@
-package Menü;
+package Menue;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

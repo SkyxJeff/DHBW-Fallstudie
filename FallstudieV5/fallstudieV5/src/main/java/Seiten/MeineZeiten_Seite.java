@@ -26,7 +26,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 	int Urlaub_aktuelles_Jahr1;
 	int Urlaub_vorjahr1;
 	int Urlaub_genommen1;
-	int Urlaub_verfügbar1;
+	int Urlaub_verfuegbar1;
 	public int kalenderWoche;
 	public int quartal;
 	public int Jahrpublic;
@@ -41,7 +41,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
     private void initComponents() {
 
         arbeits_panel = new Komponenten.RundesPanel();
-        überschrift_label = new javax.swing.JLabel();
+        ueberschrift_label = new javax.swing.JLabel();
         datum_label = new javax.swing.JLabel();
         beginn_label = new javax.swing.JLabel();
         ende_label = new javax.swing.JLabel();
@@ -51,7 +51,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
         ende_textfeld = new javax.swing.JTextField();
         art_combobox = new javax.swing.JComboBox<>();
         speichern_button1 = new javax.swing.JButton();
-        löschen_button1 = new javax.swing.JButton();
+        loeschen_button1 = new javax.swing.JButton();
         pause_label = new javax.swing.JLabel();
         pause_textfeld = new javax.swing.JTextField();
         abwesenheits_panel = new Komponenten.RundesPanel();
@@ -62,7 +62,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
         abwesenheitsbeginn_textfeld = new javax.swing.JTextField();
         abwesenheitsende_textfeld = new javax.swing.JTextField();
         speichern_button2 = new javax.swing.JButton();
-        löschen_button2 = new javax.swing.JButton();
+        loeschen_button2 = new javax.swing.JButton();
         notiz_label = new javax.swing.JLabel();
         notiz_textfeld = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -70,9 +70,9 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 
         arbeits_panel.setBackground(new java.awt.Color(50, 50, 50));
 
-        überschrift_label.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
-        überschrift_label.setForeground(new java.awt.Color(255, 255, 255));
-        überschrift_label.setText("Meine Zeiten");
+        ueberschrift_label.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        ueberschrift_label.setForeground(new java.awt.Color(255, 255, 255));
+        ueberschrift_label.setText("Meine Zeiten");
 
         datum_label.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         datum_label.setForeground(new java.awt.Color(255, 255, 255));
@@ -113,7 +113,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
         ende_textfeld.setText("00:00");
 
         art_combobox.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        art_combobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Büro", "Home Office" }));
+        art_combobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bï¿½ro", "Home Office" }));
         art_combobox.setBorder(null);
 
         speichern_button1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -125,12 +125,12 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
             }
         });
 
-        löschen_button1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        löschen_button1.setText("Löschen");
-        löschen_button1.setBorder(null);
-        löschen_button1.addActionListener(new java.awt.event.ActionListener() {
+        loeschen_button1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        loeschen_button1.setText("Lï¿½schen");
+        loeschen_button1.setBorder(null);
+        loeschen_button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                löschen_button1ActionPerformed(evt);
+                loeschen_button1ActionPerformed(evt);
             }
         });
 
@@ -150,7 +150,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
             .addGroup(arbeits_panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(arbeits_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(überschrift_label)
+                    .addComponent(ueberschrift_label)
                     .addGroup(arbeits_panelLayout.createSequentialGroup()
                         .addGroup(arbeits_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(datum_label)
@@ -179,14 +179,14 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
                         .addComponent(speichern_button1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(arbeits_panelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(löschen_button1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(loeschen_button1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(35, 35, 35))
         );
         arbeits_panelLayout.setVerticalGroup(
             arbeits_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(arbeits_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(überschrift_label)
+                .addComponent(ueberschrift_label)
                 .addGap(18, 18, 18)
                 .addGroup(arbeits_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(datum_label)
@@ -198,7 +198,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
                     .addComponent(pause_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(arbeits_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(löschen_button1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loeschen_button1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(arbeits_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(ende_label)
                         .addComponent(ende_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -244,12 +244,12 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
             }
         });
 
-        löschen_button2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        löschen_button2.setText("Löschen");
-        löschen_button2.setBorder(null);
-        löschen_button2.addActionListener(new java.awt.event.ActionListener() {
+        loeschen_button2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        loeschen_button2.setText("Loeschen");
+        loeschen_button2.setBorder(null);
+        loeschen_button2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                löschen_button2ActionPerformed(evt);
+                loeschen_button2ActionPerformed(evt);
             }
         });
 
@@ -270,12 +270,12 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
         	String Urlaub_aktuelles_Jahr = ("SELECT UrlaubaktuellesJahr FROM `urlaub` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Urlaub_vorjahr = ("SELECT Urlaubvorjahr FROM `urlaub` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Urlaub_genommen = ("SELECT Urlaubgenommen FROM `urlaub` WHERE MitarbeiterID = '"+Login.username+"'");
-        	String Urlaub_verfügbar = ("SELECT Urlaubverfügbar FROM `urlaub` WHERE MitarbeiterID = '"+Login.username+"'");
+        	String Urlaub_verfuegbar = ("SELECT Urlaubverfï¿½gbar FROM `urlaub` WHERE MitarbeiterID = '"+Login.username+"'");
         	java.sql.PreparedStatement pst = con.prepareStatement(Urlaubsanspruch);
         	java.sql.PreparedStatement pst1 = con.prepareStatement(Urlaub_aktuelles_Jahr);
         	java.sql.PreparedStatement pst2= con.prepareStatement(Urlaub_vorjahr);
         	java.sql.PreparedStatement pst3 = con.prepareStatement(Urlaub_genommen);
-        	java.sql.PreparedStatement pst4 = con.prepareStatement(Urlaub_verfügbar);
+        	java.sql.PreparedStatement pst4 = con.prepareStatement(Urlaub_verfuegbar);
         	ResultSet r = pst.executeQuery();
         	ResultSet r2 = pst1.executeQuery();
         	ResultSet r3 = pst2.executeQuery();
@@ -290,7 +290,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
         	Urlaub_aktuelles_Jahr1 = Integer.parseInt(r2.getString(1));
         	Urlaub_vorjahr1 = Integer.parseInt(r3.getString(1));
         	Urlaub_genommen1 = Integer.parseInt(r4.getString(1));
-        	Urlaub_verfügbar1 = Integer.parseInt(r5.getString(1));
+        	Urlaub_verfuegbar1 = Integer.parseInt(r5.getString(1));
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Datenbankverbindung geht nicht");
 		}
@@ -298,10 +298,10 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
         urlaubs_tabelle.setBackground(new java.awt.Color(50, 50, 50));
         urlaubs_tabelle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {Urlaubsanspruch1, Urlaub_aktuelles_Jahr1, Urlaub_vorjahr1, Urlaub_genommen1, Urlaub_verfügbar1}
+                {Urlaubsanspruch1, Urlaub_aktuelles_Jahr1, Urlaub_vorjahr1, Urlaub_genommen1, Urlaub_verfuegbar1}
             },
             new String [] {
-                "Urlaubsanspruch", "Urlaub akt. Jahr", "Urlaub Vorjahr", "Urlaub genommen", "Urlaub verfügbar"
+                "Urlaubsanspruch", "Urlaub akt. Jahr", "Urlaub Vorjahr", "Urlaub genommen", "Urlaub verfï¿½gbar"
             }
         ) {
         	private static final long serialVersionUID = 1L;
@@ -348,7 +348,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(abwesenheits_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(speichern_button2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(löschen_button2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(loeschen_button2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(35, 35, 35))))
         );
         abwesenheits_panelLayout.setVerticalGroup(
@@ -361,7 +361,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
                             .addComponent(notiz_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(speichern_button2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(löschen_button2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(loeschen_button2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(abwesenheits_panelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(abwesenheits_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -475,7 +475,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 				JOptionPane.showMessageDialog(null, "Eintrag gespeichert!");
 				
 			}else if(!DateAktuell.equals(eingDatumEngl)&&(beginn_textfeld.getText().equals("00:00") || pause_textfeld.getText().equals("0,0")||ende_textfeld.getText().equals("00:00"))){
-				JOptionPane.showMessageDialog(null, "Unvollständige Nachträge sind nicht gestattet.");
+				JOptionPane.showMessageDialog(null, "Unvollstï¿½ndige Nachtrï¿½ge sind nicht gestattet.");
 				}
 			else if(!DateAktuell.equals(eingDatumEngl) && !beginn_textfeld.getText().equals("00:00") && !pause_textfeld.getText().equals("0,0")&&!ende_textfeld.getText().equals("00:00")){
 				System.out.println("Bin hier");
@@ -518,7 +518,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 				String updateSaldo = "Update eintraege set Saldo = '"+SaldoNachtragFloat+"'Where Datum = '"+eingDatumEngl+"' AND Mitarbeiter_ID = '"+Login.username+"';";
 				java.sql.PreparedStatement pst3 = con.prepareStatement(updateSaldo);
 				pst3.executeUpdate();
-				löschen_button1ActionPerformed(evt);
+				loeschen_button1ActionPerformed(evt);
 				JOptionPane.showMessageDialog(null, "Eingabe gespeichert");	
 			}else {
 
@@ -528,21 +528,21 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 					
 					java.sql.PreparedStatement pst = con.prepareStatement(sql);
 					pst.executeUpdate();
-					löschen_button1ActionPerformed(evt);
+					loeschen_button1ActionPerformed(evt);
 					JOptionPane.showMessageDialog(null, "Eingabe gespeichert");		
 				}	
 			
 			
-			//Oder man speichert die Beginn, Ende, Pause seperat zwischen, dann aber mit update --> Heute-Ist dann ebenfalls verwendbar Man könnte den max(EintrageNr) der aktuell eingeloggten Person selecten, um die richitge Zeile dann auszuwählen und zu updaten		
-			//Er guckt sich den neuesten Eintrag an, überprüft ob der Mitarbeiter bereits eine End-Zeit festgelegt hat, ist das nicht der Fall, speichert er zwischen und updatet dann wenn der Mitarb zb die Pause einträgt, die Pause und macht keine neue Zeile. 
-			//Ist hat Ende ein Wert, wird geprüft, ob es noch der heutige Eintrag ist, und dann dementsprechen dort reinschreiben muss, oder ob man einen komplett neuen Eintrag machen soll
+			//Oder man speichert die Beginn, Ende, Pause seperat zwischen, dann aber mit update --> Heute-Ist dann ebenfalls verwendbar Man kï¿½nnte den max(EintrageNr) der aktuell eingeloggten Person selecten, um die richitge Zeile dann auszuwï¿½hlen und zu updaten		
+			//Er guckt sich den neuesten Eintrag an, ï¿½berprï¿½ft ob der Mitarbeiter bereits eine End-Zeit festgelegt hat, ist das nicht der Fall, speichert er zwischen und updatet dann wenn der Mitarb zb die Pause eintrï¿½gt, die Pause und macht keine neue Zeile. 
+			//Ist hat Ende ein Wert, wird geprï¿½ft, ob es noch der heutige Eintrag ist, und dann dementsprechen dort reinschreiben muss, oder ob man einen komplett neuen Eintrag machen soll
 			
 			
 				
 			
 		} catch (ClassNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen1");
-			löschen_button1ActionPerformed(evt);
+			loeschen_button1ActionPerformed(evt);
 			e.printStackTrace();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen2");
@@ -554,13 +554,13 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
     	
     }//GEN-LAST:event_speichern_button1ActionPerformed
 
-    private void löschen_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_löschen_button1ActionPerformed
+    private void loeschen_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lï¿½schen_button1ActionPerformed
        beginn_textfeld.setText("");
        ende_textfeld.setText("");
        pause_textfeld.setText("");
        datum_textfeld.setText("");
        
-    }//GEN-LAST:event_löschen_button1ActionPerformed
+    }//GEN-LAST:event_lï¿½schen_button1ActionPerformed
 
     private void speichern_button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichern_button2ActionPerformed
     	try {
@@ -601,27 +601,27 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 	    	{
 	    		long Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - tage;
 	    		long Urlaub_genommen2 = Urlaub_genommen1 + tage;
-	    		long Urlaub_verfügbar2 = Urlaub_verfügbar1 - tage;
-	    		String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '"+Urlaub_aktuelles_Jahr2+"', `Urlaubgenommen` = '"+Urlaub_genommen2+"', `Urlaubverfügbar` = '"+Urlaub_verfügbar2+"'");
+	    		long Urlaub_verfuegbar2 = Urlaub_verfuegbar1 - tage;
+	    		String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '"+Urlaub_aktuelles_Jahr2+"', `Urlaubgenommen` = '"+Urlaub_genommen2+"', `Urlaubverfï¿½gbar` = '"+Urlaub_verfuegbar2+"'");
 	    		java.sql.PreparedStatement pst2 = con1.prepareStatement(update);
 	    		pst2.executeUpdate();
 	    		
 	    	}
-	    	löschen_button2ActionPerformed(evt);
+	    	loeschen_button2ActionPerformed(evt);
 	    	
 		} catch (SQLException e1) {
-			JOptionPane.showMessageDialog(null, "Keine Verbindung zur Datenbank möglich");
+			JOptionPane.showMessageDialog(null, "Keine Verbindung zur Datenbank mï¿½glich");
 		}
     	catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "Tage gehen nicht");
 		}
     }//GEN-LAST:event_speichern_button2ActionPerformed
 
-    private void löschen_button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_löschen_button2ActionPerformed
+    private void loeschen_button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lï¿½schen_button2ActionPerformed
         abwesenheitsbeginn_textfeld.setText("");
         abwesenheitsende_textfeld.setText("");
         notiz_textfeld.setText("");
-    }//GEN-LAST:event_löschen_button2ActionPerformed
+    }//GEN-LAST:event_lï¿½schen_button2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -642,8 +642,8 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
     private javax.swing.JLabel ende_label;
     private javax.swing.JTextField ende_textfeld;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton löschen_button1;
-    private javax.swing.JButton löschen_button2;
+    private javax.swing.JButton loeschen_button1;
+    private javax.swing.JButton loeschen_button2;
     private javax.swing.JLabel notiz_label;
     private javax.swing.JTextField notiz_textfeld;
     private javax.swing.JLabel pause_label;
@@ -651,6 +651,6 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
     private javax.swing.JButton speichern_button1;
     private javax.swing.JButton speichern_button2;
     private Tabelle.Table urlaubs_tabelle;
-    private javax.swing.JLabel überschrift_label;
+    private javax.swing.JLabel ueberschrift_label;
     // End of variables declaration//GEN-END:variables
 }

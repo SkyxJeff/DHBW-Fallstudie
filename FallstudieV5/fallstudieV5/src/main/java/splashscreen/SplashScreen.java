@@ -71,15 +71,15 @@ public class SplashScreen extends javax.swing.JDialog {
             public void run() {
                 try {
                     doTask("Startet ...", 10);
-                    doTask("Lädt 10% ...", 20);
-                    doTask("Lädt 20%...", 30);
-                    doTask("Lädt 30%...", 40);
-                    doTask("Lädt 40%...", 50);
-                    doTask("Lädt 50%...", 60);
-                    doTask("Lädt 60%...", 70);
-                    doTask("Lädt 70%...", 80);
-                    doTask("Lädt 80%...", 90);
-                    doTask("Lädt 90%...", 100);
+                    doTask("Laedt 10% ...", 20);
+                    doTask("Laedt 20%...", 30);
+                    doTask("Laedt 30%...", 40);
+                    doTask("Laedt 40%...", 50);
+                    doTask("Laedt 50%...", 60);
+                    doTask("Laedt 60%...", 70);
+                    doTask("Laedt 70%...", 80);
+                    doTask("Laedt 80%...", 90);
+                    doTask("Laedt 90%...", 100);
                     doTask("Fertig 100%...", 100);
                     dispose();
                     curvesPanel1.stop();    //  To Stop animation

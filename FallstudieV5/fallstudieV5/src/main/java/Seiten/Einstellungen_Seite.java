@@ -16,11 +16,11 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import LoginLogout.Login;
-import PasswortÄndern.Passwort;
+import PasswortAendern.Passwort;
 
 public class Einstellungen_Seite extends javax.swing.JPanel {
 
-	String grün;
+	String gruen;
 	String gelb;
 	String rot;
 
@@ -35,28 +35,28 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
     private void initComponents() {
 
         hintergrund_panel = new Komponenten.RundesPanel();
-        überschrift_label = new javax.swing.JLabel();
+        Ueberschrift_label = new javax.swing.JLabel();
         sprache_label = new javax.swing.JLabel();
         sprache_combobox = new javax.swing.JComboBox<>();
-        passwortändern_label = new javax.swing.JLabel();
-        passwortändern_button = new javax.swing.JButton();
+        passwortAendern_label = new javax.swing.JLabel();
+        passwortAendern_button = new javax.swing.JButton();
         grenzwerte_label = new javax.swing.JLabel();
         rotes_panel = new Komponenten.RundesPanel();
         gelbes_panel = new Komponenten.RundesPanel();
-        grünes_panel = new Komponenten.RundesPanel();
+        gruenes_panel = new Komponenten.RundesPanel();
         rot_grenzwert_textfeld = new javax.swing.JTextField();
         gelb_grenzwert_textfeld = new javax.swing.JTextField();
-        grün_grenzwert_textfeld = new javax.swing.JTextField();
+        gruen_grenzwert_textfeld = new javax.swing.JTextField();
         speichern_button = new javax.swing.JButton();
-        löschen_button = new javax.swing.JButton();
+        loeschen_button = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(742, 496));
 
         hintergrund_panel.setBackground(new java.awt.Color(50, 50, 50));
 
-        überschrift_label.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
-        überschrift_label.setForeground(new java.awt.Color(255, 255, 255));
-        überschrift_label.setText("Einstellungen");
+        Ueberschrift_label.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        Ueberschrift_label.setForeground(new java.awt.Color(255, 255, 255));
+        Ueberschrift_label.setText("Einstellungen");
 
         sprache_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         sprache_label.setForeground(new java.awt.Color(255, 255, 255));
@@ -67,21 +67,21 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         sprache_combobox.setBorder(null);
         sprache_combobox.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        passwortändern_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        passwortändern_label.setForeground(new java.awt.Color(255, 255, 255));
-        passwortändern_label.setText("Passwort ändern:");
+        passwortAendern_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        passwortAendern_label.setForeground(new java.awt.Color(255, 255, 255));
+        passwortAendern_label.setText("Passwort ï¿½ndern:");
 
-        passwortändern_button.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        passwortändern_button.setText("Passwort ändern");
-        passwortändern_button.addActionListener(new java.awt.event.ActionListener() {
+        passwortAendern_button.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        passwortAendern_button.setText("Passwort ï¿½ndern");
+        passwortAendern_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwortändern_buttonActionPerformed(evt);
+                passwortAendern_buttonActionPerformed(evt);
             }
         });
 
         grenzwerte_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         grenzwerte_label.setForeground(new java.awt.Color(255, 255, 255));
-        grenzwerte_label.setText("Grenzwerte für die Ampel:");
+        grenzwerte_label.setText("Grenzwerte fï¿½r die Ampel:");
 
         rotes_panel.setBackground(new java.awt.Color(255, 0, 0));
         rotes_panel.setPreferredSize(new java.awt.Dimension(35, 35));
@@ -111,26 +111,26 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
             .addGap(0, 35, Short.MAX_VALUE)
         );
 
-        grünes_panel.setBackground(new java.awt.Color(51, 255, 0));
-        grünes_panel.setPreferredSize(new java.awt.Dimension(35, 35));
+        gruenes_panel.setBackground(new java.awt.Color(51, 255, 0));
+        gruenes_panel.setPreferredSize(new java.awt.Dimension(35, 35));
 
-        javax.swing.GroupLayout grünes_panelLayout = new javax.swing.GroupLayout(grünes_panel);
-        grünes_panel.setLayout(grünes_panelLayout);
-        grünes_panelLayout.setHorizontalGroup(
-            grünes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout gruenes_panelLayout = new javax.swing.GroupLayout(gruenes_panel);
+        gruenes_panel.setLayout(gruenes_panelLayout);
+        gruenes_panelLayout.setHorizontalGroup(
+            gruenes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 35, Short.MAX_VALUE)
         );
-        grünes_panelLayout.setVerticalGroup(
-            grünes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        gruenes_panelLayout.setVerticalGroup(
+            gruenes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 35, Short.MAX_VALUE)
         );
         
         try {
         	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-        	String Grün = ("SELECT Grün FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
+        	String Gruen = ("SELECT Grï¿½n FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Gelb = ("SELECT Gelb FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Rot = ("SELECT Rot FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
-        	java.sql.PreparedStatement pst = con.prepareStatement(Grün);
+        	java.sql.PreparedStatement pst = con.prepareStatement(Gruen);
         	java.sql.PreparedStatement pst1 = con.prepareStatement(Gelb);
         	java.sql.PreparedStatement pst2 = con.prepareStatement(Rot);
         	ResultSet rs = pst.executeQuery();
@@ -139,7 +139,7 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         	rs.next();
         	rs1.next();
         	rs2.next();
-        	 grün = String.valueOf(rs.getString(1));
+        	 gruen = String.valueOf(rs.getString(1));
         	 gelb = String.valueOf(rs1.getString(1));
         	 rot = String.valueOf(rs2.getString(1));
 		} catch (SQLException e) {
@@ -155,9 +155,9 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         gelb_grenzwert_textfeld.setBorder(null);
         gelb_grenzwert_textfeld.setText(gelb);
         
-        grün_grenzwert_textfeld.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        grün_grenzwert_textfeld.setBorder(null);
-        grün_grenzwert_textfeld.setText(grün);
+        gruen_grenzwert_textfeld.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        gruen_grenzwert_textfeld.setBorder(null);
+        gruen_grenzwert_textfeld.setText(gruen);
         
 
         speichern_button.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -169,12 +169,12 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
             }
         });
 
-        löschen_button.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        löschen_button.setText("Löschen");
-        löschen_button.setBorder(null);
-        löschen_button.addActionListener(new java.awt.event.ActionListener() {
+        loeschen_button.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        loeschen_button.setText("Lï¿½schen");
+        loeschen_button.setBorder(null);
+        loeschen_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                löschen_buttonActionPerformed(evt);
+                loeschen_buttonActionPerformed(evt);
             }
         });
 
@@ -185,15 +185,15 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
             .addGroup(hintergrund_panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(überschrift_label)
+                    .addComponent(Ueberschrift_label)
                     .addGroup(hintergrund_panelLayout.createSequentialGroup()
                         .addComponent(sprache_label)
                         .addGap(18, 18, 18)
                         .addComponent(sprache_combobox, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(hintergrund_panelLayout.createSequentialGroup()
-                        .addComponent(passwortändern_label)
+                        .addComponent(passwortAendern_label)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(passwortändern_button))
+                        .addComponent(passwortAendern_button))
                     .addGroup(hintergrund_panelLayout.createSequentialGroup()
                         .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(hintergrund_panelLayout.createSequentialGroup()
@@ -201,17 +201,17 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(rotes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(gelbes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(grünes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(gruenes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(gelb_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(hintergrund_panelLayout.createSequentialGroup()
                                 .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(rot_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(grün_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(gruen_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(116, 116, 116)
                                 .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(löschen_button, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(loeschen_button, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(speichern_button, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(212, Short.MAX_VALUE))
         );
@@ -219,21 +219,21 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
             hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(hintergrund_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(überschrift_label)
+                .addComponent(Ueberschrift_label)
                 .addGap(18, 18, 18)
                 .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sprache_label)
                     .addComponent(sprache_combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwortändern_label)
-                    .addComponent(passwortändern_button))
+                    .addComponent(passwortAendern_label)
+                    .addComponent(passwortAendern_button))
                 .addGap(29, 29, 29)
                 .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(hintergrund_panelLayout.createSequentialGroup()
                         .addComponent(grenzwerte_label)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(grün_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(gruen_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(hintergrund_panelLayout.createSequentialGroup()
                         .addComponent(rotes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -244,10 +244,10 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
                             .addComponent(rot_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(speichern_button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(löschen_button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(loeschen_button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(17, 17, 17)
                 .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(grünes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gruenes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gelb_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(154, 195, Short.MAX_VALUE))
         );
@@ -264,37 +264,37 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void passwortändern_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwortändern_buttonActionPerformed
+    private void passwortAendern_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwortï¿½ndern_buttonActionPerformed
         new Passwort().setVisible(true);
-    }//GEN-LAST:event_passwortändern_buttonActionPerformed
+    }//GEN-LAST:event_passwortï¿½ndern_buttonActionPerformed
 
     private void speichern_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichern_buttonActionPerformed
   	
     
     }//GEN-LAST:event_speichern_buttonActionPerformed
 
-    private void löschen_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_löschen_buttonActionPerformed
+    private void loeschen_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lï¿½schen_buttonActionPerformed
         rot_grenzwert_textfeld.setText("");
         gelb_grenzwert_textfeld.setText(""); 
-        grün_grenzwert_textfeld.setText("");
-    }//GEN-LAST:event_löschen_buttonActionPerformed
+        gruen_grenzwert_textfeld.setText("");
+    }//GEN-LAST:event_lï¿½schen_buttonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField gelb_grenzwert_textfeld;
     private Komponenten.RundesPanel gelbes_panel;
     private javax.swing.JLabel grenzwerte_label;
-    private javax.swing.JTextField grün_grenzwert_textfeld;
-    private Komponenten.RundesPanel grünes_panel;
+    private javax.swing.JTextField gruen_grenzwert_textfeld;
+    private Komponenten.RundesPanel gruenes_panel;
     private Komponenten.RundesPanel hintergrund_panel;
-    private javax.swing.JButton löschen_button;
-    private javax.swing.JButton passwortändern_button;
-    private javax.swing.JLabel passwortändern_label;
+    private javax.swing.JButton loeschen_button;
+    private javax.swing.JButton passwortAendern_button;
+    private javax.swing.JLabel passwortAendern_label;
     private javax.swing.JTextField rot_grenzwert_textfeld;
     private Komponenten.RundesPanel rotes_panel;
     private javax.swing.JButton speichern_button;
     private javax.swing.JComboBox<String> sprache_combobox;
     private javax.swing.JLabel sprache_label;
-    private javax.swing.JLabel überschrift_label;
+    private javax.swing.JLabel Ueberschrift_label;
     // End of variables declaration//GEN-END:variables
 }

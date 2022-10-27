@@ -1,4 +1,4 @@
-package Menü;
+package Menue;
 
 
 import java.awt.Color;
@@ -17,7 +17,7 @@ import Komponenten.RundesPanel;
 import LoginLogout.Login;
 import Seiten.MeineDaten_Seite;
 
-public class Menü extends javax.swing.JPanel {
+public class Menue extends javax.swing.JPanel {
     /**
 	 * 
 	 */
@@ -30,10 +30,10 @@ public class Menü extends javax.swing.JPanel {
     public static String OfficeNr;
     public static String Anschrift;
 
-    public Menü() {
+    public Menue() {
         initComponents();
         setOpaque(false);
-        menüPanel.setLayout(new BoxLayout(menüPanel,BoxLayout.Y_AXIS));
+        menuePanel.setLayout(new BoxLayout(menuePanel,BoxLayout.Y_AXIS));
     }
     
   
@@ -41,10 +41,10 @@ public class Menü extends javax.swing.JPanel {
 
 	public void initMenu(EventMenu event){
         this.event=event;
-        addMenu("Übersicht", 0);
+        addMenu("ï¿½bersicht", 0);
         addMenu("Meine Daten", 1);
         addMenu("Meine Zeiten", 2);
-        addMenu("Einträge", 3);
+        addMenu("Eintrï¿½ge", 3);
         addMenu("Kalender", 4);
         addMenu("Einstellungen", 5);
         addMenu("Logout", 6);
@@ -54,7 +54,7 @@ public class Menü extends javax.swing.JPanel {
     private void addMenu(String text, int index){
         ButtonMenu menu=new ButtonMenu();
         menu.setText(" "+text);
-        menüPanel.add(menu);
+        menuePanel.add(menu);
         menu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -67,7 +67,7 @@ public class Menü extends javax.swing.JPanel {
         });
     }
     public void setSelected(ButtonMenu menu){
-        for(Component com:menüPanel.getComponents()){
+        for(Component com:menuePanel.getComponents()){
             if(com instanceof ButtonMenu)
             {
                 ButtonMenu b=(ButtonMenu) com;
@@ -125,7 +125,7 @@ public class Menü extends javax.swing.JPanel {
         accountPanel = new Komponenten.RundesPanel();
         vorname_label = new javax.swing.JLabel();
         nachname_label = new javax.swing.JLabel();
-        menüPanel = new Komponenten.RundesPanel();
+        menuePanel = new Komponenten.RundesPanel();
 
         setPreferredSize(new java.awt.Dimension(150, 464));
 
@@ -158,16 +158,16 @@ public class Menü extends javax.swing.JPanel {
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
-        menüPanel.setBackground(new java.awt.Color(50, 50, 50));
+        menuePanel.setBackground(new java.awt.Color(50, 50, 50));
 
-        javax.swing.GroupLayout menüPanelLayout = new javax.swing.GroupLayout(menüPanel);
-        menüPanel.setLayout(menüPanelLayout);
-        menüPanelLayout.setHorizontalGroup(
-            menüPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout menuePanelLayout = new javax.swing.GroupLayout(menuePanel);
+        menuePanel.setLayout(menuePanelLayout);
+        menuePanelLayout.setHorizontalGroup(
+            menuePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 150, Short.MAX_VALUE)
         );
-        menüPanelLayout.setVerticalGroup(
-            menüPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        menuePanelLayout.setVerticalGroup(
+            menuePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 348, Short.MAX_VALUE)
         );
 
@@ -176,21 +176,21 @@ public class Menü extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(accountPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(menüPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menuePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(accountPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(menüPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(menuePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Komponenten.RundesPanel accountPanel;
-    private Komponenten.RundesPanel menüPanel;
+    private Komponenten.RundesPanel menuePanel;
     private javax.swing.JLabel nachname_label;
     private javax.swing.JLabel vorname_label;
     // End of variables declaration//GEN-END:variables
