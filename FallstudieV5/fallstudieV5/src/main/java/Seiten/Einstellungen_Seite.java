@@ -20,9 +20,9 @@ import PasswortAendern.Passwort;
 
 public class Einstellungen_Seite extends javax.swing.JPanel {
 
-	String gruen;
-	String gelb;
-	String rot;
+	int gruen;
+	int gelb;
+	int rot;
 
 	
     public Einstellungen_Seite() {
@@ -139,9 +139,9 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         	rs.next();
         	rs1.next();
         	rs2.next();
-        	 gruen = String.valueOf(rs.getString(1));
-        	 gelb = String.valueOf(rs1.getString(1));
-        	 rot = String.valueOf(rs2.getString(1));
+        	 gruen = rs.getInt(1);
+        	 gelb = rs1.getInt(1);
+        	 rot = rs2.getInt(1);
 		} catch (SQLException e) {
 					JOptionPane.showMessageDialog(null, "Geht nicht");
 					
@@ -149,15 +149,15 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
 
         rot_grenzwert_textfeld.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         rot_grenzwert_textfeld.setBorder(null);
-        rot_grenzwert_textfeld.setText(rot);
+        rot_grenzwert_textfeld.setText(String.valueOf(rot));
 
         gelb_grenzwert_textfeld.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gelb_grenzwert_textfeld.setBorder(null);
-        gelb_grenzwert_textfeld.setText(gelb);
+        gelb_grenzwert_textfeld.setText(String.valueOf(gelb));
         
         gruen_grenzwert_textfeld.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gruen_grenzwert_textfeld.setBorder(null);
-        gruen_grenzwert_textfeld.setText(gruen);
+        gruen_grenzwert_textfeld.setText(String.valueOf(gruen));
         
 
         speichern_button.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -269,7 +269,21 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
     }//GEN-LAST:event_passwortändern_buttonActionPerformed
 
     private void speichern_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichern_buttonActionPerformed
-  	
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+            int rot = Integer.parseInt(rot_grenzwert_textfeld.getText());
+            int gelb = Integer.parseInt(gelb_grenzwert_textfeld.getText());
+            int gruen = Integer.parseInt(gruen_grenzwert_textfeld.getText());
+            String Update = ("UPDATE gleitzeitgrenze SET Gruen= '"+gruen+"', Gelb= '"+gelb+"', Rot= '"+rot+"' WHERE MitarbeiterID = '"+Login.username+"'");
+            java.sql.PreparedStatement pst = con.prepareStatement(Update);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Hat gefunst");
+
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "neeeeeee");
+        }
     
     }//GEN-LAST:event_speichern_buttonActionPerformed
 
