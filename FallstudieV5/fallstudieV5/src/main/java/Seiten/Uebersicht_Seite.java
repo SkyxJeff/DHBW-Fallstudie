@@ -490,7 +490,10 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 			
 		    String aktuellesDatum = ""+aktuellesDate;
 			if(Date.equals(aktuellesDatum)) {
-				if(beginnhh<6) {
+				
+				if(beginnhh == 0) {heuteIst = "0";}
+				
+				else if(beginnhh<6) {
 					heuteIst = ""+(date2.getTime() - date3.getTime())/36000;
 				}else if((date2.getTime()-date4.getTime())>0 && !ende.equals("00:00") ){
 					heuteIst = ""+(date4.getTime() - date1.getTime())/36000;
@@ -503,7 +506,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 				if(pause.equals("0,0")) {
 					float heuteIst1NK = heuteIst1 - (int)heuteIst1;
 					if((int)heuteIst1 > 6) {
-						JOptionPane.showMessageDialog(null, "Bitte legen Sie eine Pause ein. Sind Sie Jugendlich, und Arbeiten zwischen 4,5 und 6 Stunden, haben Sie ein Anrecht auf 0,5h Pause. Bei mehr als 6 Stunden dürfen Sie 1h Pause machen."
+						JOptionPane.showMessageDialog(null, "Bitte legen Sie eine Pause ein. Sind Sie Jugendlich und arbeiten zwischen 4,5 und 6 Stunden, haben Sie ein Anrecht auf 0,5h Pause. Bei mehr als 6 Stunden dürfen Sie 1h Pause machen."
 								+ " Sind Sie Volljährig, haben Sie ein bei einer Arbeitszeit von 6-9h ein Anrecht auf 0,5h Pause. Arbeiten Sie mehr als 9 Stunden, erhöht sich die Pausenzeit auf 0,75h.");
 					}
 					String heuteIst1NK1 = ""+heuteIst1NK;
@@ -624,15 +627,20 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 				return "00:00 Std.";	
 			}	
 			else {
-			
 			String Saldodone = ""+(int)Saldofloat+":"+SaldofloatNK1float;
-			if((int)Saldofloat<=0) {
+			if((int)Saldofloat<0) {
 				Saldodone = ""+((int)Saldofloat * (-1))+":"+SaldofloatNK1float*(-1);
 				Date saldo = format.parse(Saldodone);
 				Saldodone = ""+saldo;
 				Saldodone = "-"+Saldodone.substring(11,16)+" Std.";
 				return Saldodone;
-			}
+			}else if((int)Saldofloat<0){
+				Saldodone = ""+((int)Saldofloat)+":"+SaldofloatNK1float*(-1);
+				Date saldo = format.parse(Saldodone);
+				Saldodone = ""+saldo;
+				Saldodone = "-"+Saldodone.substring(11,16)+" Std.";
+				return Saldodone;		
+			} else{
 			System.out.println(Saldodone);
 			Date saldo = format.parse(Saldodone);
 			System.out.println(saldo);
@@ -641,6 +649,8 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 			System.out.println(Saldodone);
 			return Saldodone;
 			}
+			
+			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -648,7 +658,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
     	return "00:00 Std.";
     }
     
-    public void insertSaldo(float Saldo) {
+	public void insertSaldo(float Saldo) {
     	
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -712,7 +722,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 			return "0,0 Std.";
 		}
 	}
-public String GleitzeitproWoche() {
+	public String GleitzeitproWoche() {
 		
     	try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -747,41 +757,41 @@ public String GleitzeitproWoche() {
 		}
 	}
 
-public String GleitzeitproJahr() {
+	public String GleitzeitproJahr() {
 	
-	try {
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-		LocalDate Datumaktuell = LocalDate.now(); 
-	    String DateAktuell = ""+Datumaktuell;
-		String Jahr = "Select Jahr from eintraege Where Datum  = '"+DateAktuell+"' AND Mitarbeiter_ID = '"+Login.username+"';";
-		java.sql.PreparedStatement pstJahr = con.prepareStatement(Jahr);
-		ResultSet rsJahr = pstJahr.executeQuery();
-		rsJahr.next();
-		int JahrInt = rsJahr.getInt(1);
-		String SaldoSummeJahr = "Select sum(Saldo) from eintraege where Jahr = '"+JahrInt+"' AND Mitarbeiter_ID = '"+Login.username+"';";
-		java.sql.PreparedStatement pstJahrSumme = con.prepareStatement(SaldoSummeJahr);
-		ResultSet rsJahrSumme = pstJahrSumme.executeQuery();
-		rsJahrSumme.next();
-		Float SaldoSummeFloat = rsJahrSumme.getFloat(1);
-		System.out.println("Jahr: "+SaldoSummeFloat);
-		String SaldoFlaotSumme = ""+SaldoSummeFloat;
-		DecimalFormat df = new DecimalFormat("0.00");
-		SaldoFlaotSumme = df.format(SaldoSummeFloat);		
-		SaldoFlaotSumme = SaldoFlaotSumme.replace(".", ",");
-		String GleitzeitproJahr = ""+SaldoFlaotSumme+" Std.";
-		return GleitzeitproJahr;
-		
-	} catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		return "0,0 Std.";
-		
-	} catch (SQLException e) {
-		e.printStackTrace();
-		return "0,0 Std.";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+			LocalDate Datumaktuell = LocalDate.now(); 
+			String DateAktuell = ""+Datumaktuell;
+			String Jahr = "Select Jahr from eintraege Where Datum  = '"+DateAktuell+"' AND Mitarbeiter_ID = '"+Login.username+"';";
+			java.sql.PreparedStatement pstJahr = con.prepareStatement(Jahr);
+			ResultSet rsJahr = pstJahr.executeQuery();
+			rsJahr.next();
+			int JahrInt = rsJahr.getInt(1);
+			String SaldoSummeJahr = "Select sum(Saldo) from eintraege where Jahr = '"+JahrInt+"' AND Mitarbeiter_ID = '"+Login.username+"';";
+			java.sql.PreparedStatement pstJahrSumme = con.prepareStatement(SaldoSummeJahr);
+			ResultSet rsJahrSumme = pstJahrSumme.executeQuery();
+			rsJahrSumme.next();
+			Float SaldoSummeFloat = rsJahrSumme.getFloat(1);
+			System.out.println("Jahr: "+SaldoSummeFloat);
+			String SaldoFlaotSumme = ""+SaldoSummeFloat;
+			DecimalFormat df = new DecimalFormat("0.00");
+			SaldoFlaotSumme = df.format(SaldoSummeFloat);		
+			SaldoFlaotSumme = SaldoFlaotSumme.replace(".", ",");
+			String GleitzeitproJahr = ""+SaldoFlaotSumme+" Std.";
+			return GleitzeitproJahr;
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "0,0 Std.";
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "0,0 Std.";
+		}
 	}
-}
 	public void PopUp() {
 		
 		try {
