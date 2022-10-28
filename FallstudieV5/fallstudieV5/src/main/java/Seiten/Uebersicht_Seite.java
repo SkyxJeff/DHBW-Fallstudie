@@ -66,7 +66,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         
         try {
         	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-        	String Gruen = ("SELECT Grün FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
+        	String Gruen = ("SELECT Gruen FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Gelb = ("SELECT Gelb FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Rot = ("SELECT Rot FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	String saldo = ("SELECT SUM(Saldo) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");
@@ -85,13 +85,12 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         	 gruen = Integer.parseInt(rs.getString(1));
         	 gelb = Integer.parseInt(rs1.getString(1));
         	 rot = Integer.parseInt(rs2.getString(1));
-        	 String Saldo = rs3.getString(1);
+        	 float Saldo = rs3.getFloat(1);
         	 System.out.println(gruen);
         	 System.out.println(gelb);
         	 System.out.println(rot);
         	 System.out.println(Saldo);
-        	 float gleitzeit = Float.parseFloat(Saldo);
-        	 int Gleitzeit = (int) gleitzeit;
+        	 int Gleitzeit = (int) Saldo;
         	 
         	 if(Gleitzeit <= gruen)
         	 {

@@ -127,7 +127,7 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         
         try {
         	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-        	String Gruen = ("SELECT Grün FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
+        	String Gruen = ("SELECT Gruen FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Gelb = ("SELECT Gelb FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	String Rot = ("SELECT Rot FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
         	java.sql.PreparedStatement pst = con.prepareStatement(Gruen);
