@@ -30,6 +30,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 	public int kalenderWoche;
 	public int quartal;
 	public int Jahrpublic;
+	int baum;
     public MeineZeiten_Seite() {
         initComponents();
         setOpaque(false);
