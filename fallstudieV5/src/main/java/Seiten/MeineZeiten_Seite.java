@@ -399,104 +399,120 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void speichern_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichern_button1ActionPerformed
-       
-    	try {
+		boolean EintragAktualisiert = false;
+		boolean AktuellerEintragAktualisiert = false;
+		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
 			String Ende = ("Select `Ende` from eintraege where Datum = (SELECT MAX(Datum) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"') AND Mitarbeiter_ID = '"+Login.username+"';");
 			String maxDatum = ("SELECT MAX(Datum),count(EintraegeNr) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"';");
+			String age  = "Select Age from mitarbeiter where Mitarbeiter_ID = '"+Login.username+"';";
 			java.sql.PreparedStatement pst1 = con.prepareStatement(Ende);
 			java.sql.PreparedStatement pst2 = con.prepareStatement(maxDatum);
+			java.sql.PreparedStatement pstage = con.prepareStatement(age);
 			ResultSet rs = pst1.executeQuery();
 			ResultSet rs1 = pst2.executeQuery();
+			ResultSet rsAge = pstage.executeQuery();
 			rs.next();
 			rs1.next();
+			rsAge.next();
+			int Age = rsAge.getInt(1);
 			String end = rs.getString(1); //Nochmal ran
 			String Date = rs1.getString(1);
 			int countEintraege = rs1.getInt(2);
 			String EndeUhrzeit = ""+end;
 			System.out.println(Date);
 			System.out.println(EndeUhrzeit);
-			LocalDate Datumaktuell = LocalDate.now(); 
-		    String DateAktuell = ""+Datumaktuell;
-		   
-		    String eingegebenesDate = ""+datum_textfeld.getText();
-		    String Jahr = eingegebenesDate.substring(6,10);
-		    int jahr = Integer.parseInt(Jahr);
-		    System.out.println("Jahr: "+jahr);
-		    Jahrpublic = jahr;
-		    int Quartal = (Integer.parseInt(eingegebenesDate.substring(3, 5))/3)+1;
-		    System.out.println(Integer.parseInt(eingegebenesDate.substring(3, 5)));
-		    quartal = Quartal;
-		    int day = Integer.parseInt(eingegebenesDate.substring(0, 2));
-		    System.out.println(Quartal);
-		    System.out.println(day);
-		   
-		    Calendar calendar = new GregorianCalendar();
-		    calendar.set(jahr, Integer.parseInt(eingegebenesDate.substring(3, 5)),day);
-		    System.out.println("YEAR: " + calendar.get(Calendar.YEAR));
-		    System.out.println("MONTH: " + calendar.get(Calendar.MONTH));
-		    System.out.println("DAY: " + calendar.get(Calendar.DATE));
-		    String eingDatumEngl = calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DATE);
-		    
-		    int kw = calendar.get(Calendar.WEEK_OF_YEAR);
-		    kalenderWoche = kw;
-		    System.out.println(kalenderWoche);
-		    System.out.println(kw);
-		    System.out.println(EndeUhrzeit);
-		    
-		    //irgendwo beim Insert noch checken, ob Arbeitszeit unterhalb 8h oder so liegt, wies halt im ArbZG steht
-		    
-			
-			if(/*EndeUhrzeit.equals("00:00") && */ Date.equals(DateAktuell)) {
-				
-							
-				String sql7 = ("Update eintraege set Beginn = '"+beginn_textfeld.getText()+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
-				String sql3 = ("Update eintraege set Pause = '"+pause_textfeld.getText()+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
-				String sql4 = ("Update eintraege set Ende = '"+ende_textfeld.getText()+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
-				String sql8 = ("Update eintraege set KW = '"+kalenderWoche+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
-				String sql9 = ("Update eintraege set Quartal = '"+quartal+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
-				String sql10 = ("Update eintraege set Jahr = '"+Jahrpublic+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
-				String sql11 = ("Update eintraege set Art = '"+art_combobox.getSelectedItem()+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
-				java.sql.PreparedStatement pst3 = con.prepareStatement(sql3);
-				java.sql.PreparedStatement pst4 = con.prepareStatement(sql4);
-				java.sql.PreparedStatement pst7 = con.prepareStatement(sql7);
-				java.sql.PreparedStatement pst8 = con.prepareStatement(sql8);
-				java.sql.PreparedStatement pst9 = con.prepareStatement(sql9);
-				java.sql.PreparedStatement pst10 = con.prepareStatement(sql10);
-				java.sql.PreparedStatement pst11 = con.prepareStatement(sql11);
-				pst3.executeUpdate();
-				pst4.executeUpdate();
-				pst7.executeUpdate();
-				pst8.executeUpdate();
-				pst9.executeUpdate();
-				pst10.executeUpdate();
-				pst11.executeUpdate();
-				JOptionPane.showMessageDialog(null, "Eintrag gespeichert!");
-				
-			}else if(!DateAktuell.equals(eingDatumEngl)&&(beginn_textfeld.getText().equals("00:00") || pause_textfeld.getText().equals("0,0")||ende_textfeld.getText().equals("00:00"))){
-				JOptionPane.showMessageDialog(null, "Unvollständige Nachträge sind nicht gestattet.");
+			LocalDate Datumaktuell = LocalDate.now();
+			String DateAktuell = ""+Datumaktuell;
+
+			String eingegebenesDate = ""+datum_textfeld.getText();
+			String Jahr = eingegebenesDate.substring(6,10);
+			int jahr = Integer.parseInt(Jahr);
+			System.out.println("Jahr: "+jahr);
+			Jahrpublic = jahr;
+			int Quartal = (Integer.parseInt(eingegebenesDate.substring(3, 5))/3)+1;
+			System.out.println(Integer.parseInt(eingegebenesDate.substring(3, 5)));
+			quartal = Quartal;
+			int day = Integer.parseInt(eingegebenesDate.substring(0, 2));
+			System.out.println(Quartal);
+			System.out.println(day);
+
+			Calendar calendar = new GregorianCalendar();
+			calendar.set(jahr, Integer.parseInt(eingegebenesDate.substring(3, 5)),day);
+			System.out.println("YEAR: " + calendar.get(Calendar.YEAR));
+			System.out.println("MONTH: " + calendar.get(Calendar.MONTH));
+			System.out.println("DAY: " + calendar.get(Calendar.DATE));
+			String eingDatumEngl = calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DATE);
+
+			int kw = calendar.get(Calendar.WEEK_OF_YEAR);
+			kalenderWoche = kw;
+			System.out.println(kalenderWoche);
+			System.out.println(kw);
+			System.out.println(EndeUhrzeit);
+
+
+
+			//irgendwo beim Insert noch checken, ob Arbeitszeit unterhalb 8h oder so liegt, wies halt im ArbZG steht
+			String DatenAusEintraege = ("Select Datum from eintraege where Mitarbeiter_ID = '"+Login.username+"';");
+			java.sql.PreparedStatement pstDatumEingabe = con.prepareStatement(DatenAusEintraege);
+			ResultSet rsDatum = pstDatumEingabe.executeQuery();
+			int i = 0;
+			String [] DatumArr = new String[countEintraege];
+			while(rsDatum.next() ) {
+
+				String DatumDB = rsDatum.getString(1);
+				DatumArr [i] = DatumDB;
+				i++;
+				System.out.println(DatumArr[i-1]);
+			}
+
+			if(/*EndeUhrzeit.equals("00:00") && */ DateAktuell.equals(eingDatumEngl)) {
+				for(int y = 0; y<i ; y++) {
+					String DatumausCount = DatumArr [y];
+					if(DatumausCount.equals(eingDatumEngl)) {
+
+						String sql7 = ("Update eintraege set Beginn = '"+beginn_textfeld.getText()+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");							String sql3 = ("Update eintraege set Pause = '"+pause_textfeld.getText()+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
+						String sql4 = ("Update eintraege set Ende = '"+ende_textfeld.getText()+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
+						String sql8 = ("Update eintraege set KW = '"+kalenderWoche+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
+						String sql9 = ("Update eintraege set Quartal = '"+quartal+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
+						String sql10 = ("Update eintraege set Jahr = '"+Jahrpublic+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
+						String sql11 = ("Update eintraege set Art = '"+art_combobox.getSelectedItem()+"'where Datum = '"+Date+"'AND Mitarbeiter_ID = '"+Login.username+"';");
+						java.sql.PreparedStatement pst3 = con.prepareStatement(sql3);
+						java.sql.PreparedStatement pst4 = con.prepareStatement(sql4);
+						java.sql.PreparedStatement pst7 = con.prepareStatement(sql7);
+						java.sql.PreparedStatement pst8 = con.prepareStatement(sql8);
+						java.sql.PreparedStatement pst9 = con.prepareStatement(sql9);
+						java.sql.PreparedStatement pst10 = con.prepareStatement(sql10);
+						java.sql.PreparedStatement pst11 = con.prepareStatement(sql11);
+						pst3.executeUpdate();
+						pst4.executeUpdate();
+						pst7.executeUpdate();
+						pst8.executeUpdate();
+						pst9.executeUpdate();
+						pst10.executeUpdate();
+						pst11.executeUpdate();
+						JOptionPane.showMessageDialog(null, "Eintrag gespeichert!");
+						AktuellerEintragAktualisiert = true;
+						System.out.println(AktuellerEintragAktualisiert);
+					}
 				}
+
+			}if(AktuellerEintragAktualisiert == false && DateAktuell.equals(eingDatumEngl)) {
+				String sql5 = ("Insert into eintraege (`Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`,`KW`,`Quartal`, `Jahr`, `Saldo`) values ('"+Login.username+"','"+eingDatumEngl+"','"+beginn_textfeld.getText()+"','"+pause_textfeld.getText()+"','"+ende_textfeld.getText()+"','"+art_combobox.getSelectedItem()+"',"
+						+ "'"+kw+"','"+Quartal+"','"+jahr+"','0');");
+				java.sql.PreparedStatement pst5 = con.prepareStatement(sql5);
+				pst5.executeUpdate();
+			}
+			else if(!DateAktuell.equals(eingDatumEngl)&&(beginn_textfeld.getText().equals("00:00") || pause_textfeld.getText().equals("0,0")||ende_textfeld.getText().equals("00:00"))){
+				JOptionPane.showMessageDialog(null, "Unvollständige Nachträge sind nicht gestattet.");
+			}
 			else if(!DateAktuell.equals(eingDatumEngl) && !beginn_textfeld.getText().equals("00:00") && !pause_textfeld.getText().equals("0,0")&&!ende_textfeld.getText().equals("00:00")){
 				System.out.println("Bin hier");
-				boolean EintragAktualisiert = false;
-				//if(){}
-				
-				String Datum = ("Select Datum from eintraege where Mitarbeiter_ID = '"+Login.username+"';");
-			    java.sql.PreparedStatement pstDatumEingabe = con.prepareStatement(Datum);
-			    ResultSet rsDatum = pstDatumEingabe.executeQuery();
-			    int i = 0;
-			     String [] DatumArr = new String[countEintraege];
-				while(rsDatum.next() ) {	
-			    	
-			    	 String DatumDB = rsDatum.getString(1);
-			    		 DatumArr [i] = DatumDB;
-			    		 i++;	 
-			    }
-			   for(int y = 0; y<=i ; y++) {
-				   String DatumausCount = DatumArr [y];
-				   if(DatumausCount.equals(eingDatumEngl)) {
-					   String sql7 = ("Update eintraege set Beginn = '"+beginn_textfeld.getText()+"'where Datum = '"+eingDatumEngl+"'AND Mitarbeiter_ID = '"+Login.username+"';");
+				for(int y = 0; y<i ; y++) {
+					String DatumausCount = DatumArr [y];
+					if(DatumausCount.equals(eingDatumEngl)) {
+						String sql7 = ("Update eintraege set Beginn = '"+beginn_textfeld.getText()+"'where Datum = '"+eingDatumEngl+"'AND Mitarbeiter_ID = '"+Login.username+"';");
 						String sql3 = ("Update eintraege set Pause = '"+pause_textfeld.getText()+"'where Datum = '"+eingDatumEngl+"'AND Mitarbeiter_ID = '"+Login.username+"';");
 						String sql4 = ("Update eintraege set Ende = '"+ende_textfeld.getText()+"'where Datum = '"+eingDatumEngl+"'AND Mitarbeiter_ID = '"+Login.username+"';");
 						//String sql8 = ("Update eintraege set KW = '"+kalenderWoche+"'where Datum = '"+eingDatumEngl+"'AND Mitarbeiter_ID = '"+Login.username+"';");
@@ -517,75 +533,120 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 //						pst9.executeUpdate();
 //						pst10.executeUpdate();
 						pst11.executeUpdate();
-						EintragAktualisiert = true;
-				   }
-				   
-			   }
-			   if(EintragAktualisiert = false) {
-				   
-				   String sql5 = ("Insert into eintraege (`Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`,`KW`,`Quartal`, `Jahr`, `Saldo`) values ('"+Login.username+"','"+eingDatumEngl+"','"+beginn_textfeld.getText()+"','"+pause_textfeld.getText()+"','"+ende_textfeld.getText()+"','"+art_combobox.getSelectedItem()+"',"
-						+ "'"+kw+"','"+Quartal+"','"+jahr+"','0');");
-				java.sql.PreparedStatement pst5 = con.prepareStatement(sql5);
-				pst5.executeUpdate();
-				String NachtragBeginnEnde = "Select Beginn, Ende, Pause from eintraege where Datum = '"+eingDatumEngl+"'AND Mitarbeiter_ID = '"+Login.username+"';";
-				java.sql.PreparedStatement pstNachtragSaldo = con.prepareStatement(NachtragBeginnEnde);
-				ResultSet rsNachtragSaldo = pstNachtragSaldo.executeQuery();
-				rsNachtragSaldo.next();
-				String beginn = rsNachtragSaldo.getString(1);
-				String ende = rsNachtragSaldo.getString(2);
-				String pause = rsNachtragSaldo.getString(3);
-				String maxArbeitszeit = "Select maxArbeitszeitproTag from taetigkeit_bez where Bezeichnung = (Select Taetigkeit from Mitarbeiter where Mitarbeiter_ID = '"+Login.username+"');";
-				java.sql.PreparedStatement pstmaxWorktime = con.prepareStatement(maxArbeitszeit);
-				ResultSet rsmaxWork = pstmaxWorktime.executeQuery();
-				rsmaxWork.next();
-				maxArbeitszeit = rsmaxWork.getString(1);
-				maxArbeitszeit = maxArbeitszeit.substring(0,5);
-				
-				SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-				Date beginnDate = format.parse(beginn);
-				Date endeDate = format.parse(ende);
-				pause = pause.replace(",", ".");
-				float pauseFloat = Float.parseFloat(pause);
-				maxArbeitszeit = maxArbeitszeit.substring(0,5);
-				maxArbeitszeit = maxArbeitszeit.replace(":", ".");
-				float maxArbeitszeitFloat = Float.parseFloat(maxArbeitszeit);
-				String SaldoNachtrag = ""+(endeDate.getTime() - beginnDate.getTime())/36000;
-				System.out.println("Ende" + endeDate);
-				System.out.println("Beginn" + beginnDate);
-				System.out.println("maxWork" +maxArbeitszeitFloat);
-				Float SaldoNachtragFloat = Float.parseFloat(SaldoNachtrag);
-				SaldoNachtragFloat = SaldoNachtragFloat/100;
-				System.out.println("SaldoNachtrag ohne Pause: "+ SaldoNachtragFloat);
-				SaldoNachtragFloat = SaldoNachtragFloat - maxArbeitszeitFloat  - pauseFloat;
-				System.out.println("Mit Pause:" +SaldoNachtragFloat);
-				String updateSaldo = "Update eintraege set Saldo = '"+SaldoNachtragFloat+"'Where Datum = '"+eingDatumEngl+"' AND Mitarbeiter_ID = '"+Login.username+"';";
-				java.sql.PreparedStatement pst3 = con.prepareStatement(updateSaldo);
-				pst3.executeUpdate();
-				loeschen_button1ActionPerformed(evt);
-				JOptionPane.showMessageDialog(null, "Eingabe gespeichert");	
-			   }
-				
-				
-			}else {
+						String NachtragBeginnEnde = "Select Beginn, Ende, Pause from eintraege where Datum = '"+eingDatumEngl+"'AND Mitarbeiter_ID = '"+Login.username+"';";
+						java.sql.PreparedStatement pstNachtragSaldo = con.prepareStatement(NachtragBeginnEnde);
+						ResultSet rsNachtragSaldo = pstNachtragSaldo.executeQuery();
+						rsNachtragSaldo.next();
+						String beginn = rsNachtragSaldo.getString(1);
+						String ende = rsNachtragSaldo.getString(2);
+						String pause = rsNachtragSaldo.getString(3);
+						String maxArbeitszeit = "Select maxArbeitszeitproTag from taetigkeit_bez where Bezeichnung = (Select Taetigkeit from Mitarbeiter where Mitarbeiter_ID = '"+Login.username+"');";
+						java.sql.PreparedStatement pstmaxWorktime = con.prepareStatement(maxArbeitszeit);
+						ResultSet rsmaxWork = pstmaxWorktime.executeQuery();
+						rsmaxWork.next();
+						maxArbeitszeit = rsmaxWork.getString(1);
+						maxArbeitszeit = maxArbeitszeit.substring(0,5);
 
-//					String sql = ("Insert into eintraege (`Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`) values ('"+Login.username+"','"+datum_textfeld.getText()+"','"+beginn_textfeld.getText()+"','"+pause_textfeld.getText()+"','"+ende_textfeld.getText()+"','"+art_combobox.getSelectedItem()+"');");
-					String sql = ("Insert into eintraege (`Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`,`KW`,`Quartal`, `Jahr`, `Saldo`) values ('"+Login.username+"','"+eingDatumEngl+"','"+beginn_textfeld.getText()+"','"+pause_textfeld.getText()+"','"+ende_textfeld.getText()+"','"+art_combobox.getSelectedItem()+"',"
-							+ "'"+kw+"','"+Quartal+"','"+jahr+"','0');");
-					
-					java.sql.PreparedStatement pst = con.prepareStatement(sql);
-					pst.executeUpdate();
-					loeschen_button1ActionPerformed(evt);
-					JOptionPane.showMessageDialog(null, "Eingabe gespeichert");		
-				}	
-			
-			
-			//Oder man speichert die Beginn, Ende, Pause seperat zwischen, dann aber mit update --> Heute-Ist dann ebenfalls verwendbar Man könnte den max(EintrageNr) der aktuell eingeloggten Person selecten, um die richitge Zeile dann auszuwählen und zu updaten		
-			//Er guckt sich den neuesten Eintrag an, überprüft ob der Mitarbeiter bereits eine End-Zeit festgelegt hat, ist das nicht der Fall, speichert er zwischen und updatet dann wenn der Mitarb zb die Pause einträgt, die Pause und macht keine neue Zeile. 
+						SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+						Date beginnDate = format.parse(beginn);
+						Date endeDate = format.parse(ende);
+						pause = pause.replace(",", ".");
+						float pauseFloat = Float.parseFloat(pause);
+						maxArbeitszeit = maxArbeitszeit.substring(0,5);
+						maxArbeitszeit = maxArbeitszeit.replace(":", ".");
+						float maxArbeitszeitFloat = Float.parseFloat(maxArbeitszeit);
+						String SaldoNachtrag = ""+(endeDate.getTime() - beginnDate.getTime())/36000;
+						System.out.println("Ende" + endeDate);
+						System.out.println("Beginn" + beginnDate);
+						System.out.println("maxWork" +maxArbeitszeitFloat);
+						Float SaldoNachtragFloat = Float.parseFloat(SaldoNachtrag);
+						SaldoNachtragFloat = SaldoNachtragFloat/100;
+						System.out.println("SaldoNachtrag ohne Pause: "+ SaldoNachtragFloat);
+						SaldoNachtragFloat = SaldoNachtragFloat - maxArbeitszeitFloat  - pauseFloat;
+						System.out.println("Mit Pause:" +SaldoNachtragFloat);
+						String updateSaldo = "Update eintraege set Saldo = '"+SaldoNachtragFloat+"'Where Datum = '"+eingDatumEngl+"' AND Mitarbeiter_ID = '"+Login.username+"';";
+						java.sql.PreparedStatement pst13 = con.prepareStatement(updateSaldo);
+						pst13.executeUpdate();
+						loeschen_button1ActionPerformed(evt);
+						JOptionPane.showMessageDialog(null, "Eingabe gespeichert");
+						EintragAktualisiert = true;
+					}
+				}
+				if(EintragAktualisiert == false) {
+					SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+					String pauseEingabe = pause_textfeld.getText();
+					pauseEingabe = pauseEingabe.replace(",", ".");
+					float pauseEingabeFloat = Float.parseFloat(pauseEingabe);
+					Date BeginnDateFeld = format.parse(beginn_textfeld.getText());
+					Date EndeFeld = format.parse(ende_textfeld.getText());
+					float ArbeitsZeitNachtrag = ((EndeFeld.getTime()-pauseEingabeFloat-BeginnDateFeld.getTime())/36000) / 100;
+					if(((int)ArbeitsZeitNachtrag >9 && pauseEingabeFloat < 0.75 && Age >= 18 ) || ((int)ArbeitsZeitNachtrag >6 && pauseEingabeFloat < 0.5 && Age >= 18) ||((int)ArbeitsZeitNachtrag >6 && pauseEingabeFloat < 1 && Age < 18) || ((int)ArbeitsZeitNachtrag <6 && ArbeitsZeitNachtrag > 4.5 && pauseEingabeFloat < 1 && Age < 18) ) {
+						JOptionPane.showMessageDialog(null, "Sie haben nach ArbZG nicht die nötige Pausenzeit eingelegt, bitte informieren Sie sich und nehmen Sie korrekte Pausen.\n Ihr Eintrag wurde nicht gespeichert, achten Sie auf Ihre Gesundheit");
+					}else {
+
+						String sql5 = ("Insert into eintraege (`Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`,`KW`,`Quartal`, `Jahr`, `Saldo`) values ('"+Login.username+"','"+eingDatumEngl+"','"+beginn_textfeld.getText()+"','"+pause_textfeld.getText()+"','"+ende_textfeld.getText()+"','"+art_combobox.getSelectedItem()+"',"
+								+ "'"+kw+"','"+Quartal+"','"+jahr+"','0');");
+						java.sql.PreparedStatement pst5 = con.prepareStatement(sql5);
+						pst5.executeUpdate();
+						String NachtragBeginnEnde = "Select Beginn, Ende, Pause from eintraege where Datum = '"+eingDatumEngl+"'AND Mitarbeiter_ID = '"+Login.username+"';";
+						java.sql.PreparedStatement pstNachtragSaldo = con.prepareStatement(NachtragBeginnEnde);
+						ResultSet rsNachtragSaldo = pstNachtragSaldo.executeQuery();
+						rsNachtragSaldo.next();
+						String beginn = rsNachtragSaldo.getString(1);
+						String ende = rsNachtragSaldo.getString(2);
+						String pause = rsNachtragSaldo.getString(3);
+						String maxArbeitszeit = "Select maxArbeitszeitproTag from taetigkeit_bez where Bezeichnung = (Select Taetigkeit from Mitarbeiter where Mitarbeiter_ID = '"+Login.username+"');";
+						java.sql.PreparedStatement pstmaxWorktime = con.prepareStatement(maxArbeitszeit);
+						ResultSet rsmaxWork = pstmaxWorktime.executeQuery();
+						rsmaxWork.next();
+						maxArbeitszeit = rsmaxWork.getString(1);
+						maxArbeitszeit = maxArbeitszeit.substring(0,5);
+
+
+						Date beginnDate = format.parse(beginn);
+						Date endeDate = format.parse(ende);
+						pause = pause.replace(",", ".");
+						float pauseFloat = Float.parseFloat(pause);
+						maxArbeitszeit = maxArbeitszeit.substring(0,5);
+						maxArbeitszeit = maxArbeitszeit.replace(":", ".");
+						float maxArbeitszeitFloat = Float.parseFloat(maxArbeitszeit);
+						String SaldoNachtrag = ""+(endeDate.getTime() - beginnDate.getTime())/36000;
+						System.out.println("Ende" + endeDate);
+						System.out.println("Beginn" + beginnDate);
+						System.out.println("maxWork" +maxArbeitszeitFloat);
+						Float SaldoNachtragFloat = Float.parseFloat(SaldoNachtrag);
+						SaldoNachtragFloat = SaldoNachtragFloat/100;
+						System.out.println("SaldoNachtrag ohne Pause: "+ SaldoNachtragFloat);
+						SaldoNachtragFloat = SaldoNachtragFloat - maxArbeitszeitFloat  - pauseFloat;
+						System.out.println("Mit Pause:" +SaldoNachtragFloat);
+						String updateSaldo = "Update eintraege set Saldo = '"+SaldoNachtragFloat+"'Where Datum = '"+eingDatumEngl+"' AND Mitarbeiter_ID = '"+Login.username+"';";
+						java.sql.PreparedStatement pst3 = con.prepareStatement(updateSaldo);
+						pst3.executeUpdate();
+						loeschen_button1ActionPerformed(evt);
+						JOptionPane.showMessageDialog(null, "Eingabe gespeichert");
+					}
+				}
+			}
+//			else {
+//
+////					String sql = ("Insert into eintraege (`Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`) values ('"+Login.username+"','"+datum_textfeld.getText()+"','"+beginn_textfeld.getText()+"','"+pause_textfeld.getText()+"','"+ende_textfeld.getText()+"','"+art_combobox.getSelectedItem()+"');");
+//					String sql = ("Insert into eintraege (`Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`,`KW`,`Quartal`, `Jahr`, `Saldo`) values ('"+Login.username+"','"+eingDatumEngl+"','"+beginn_textfeld.getText()+"','"+pause_textfeld.getText()+"','"+ende_textfeld.getText()+"','"+art_combobox.getSelectedItem()+"',"
+//							+ "'"+kw+"','"+Quartal+"','"+jahr+"','0');");
+//
+//					java.sql.PreparedStatement pst = con.prepareStatement(sql);
+//					pst.executeUpdate();
+//					löschen_button1ActionPerformed(evt);
+//					JOptionPane.showMessageDialog(null, "Eingabe gespeichert");
+//				}
+
+
+			//Oder man speichert die Beginn, Ende, Pause seperat zwischen, dann aber mit update --> Heute-Ist dann ebenfalls verwendbar Man könnte den max(EintrageNr) der aktuell eingeloggten Person selecten, um die richitge Zeile dann auszuwählen und zu updaten
+			//Er guckt sich den neuesten Eintrag an, überprüft ob der Mitarbeiter bereits eine End-Zeit festgelegt hat, ist das nicht der Fall, speichert er zwischen und updatet dann wenn der Mitarb zb die Pause einträgt, die Pause und macht keine neue Zeile.
 			//Ist hat Ende ein Wert, wird geprüft, ob es noch der heutige Eintrag ist, und dann dementsprechen dort reinschreiben muss, oder ob man einen komplett neuen Eintrag machen soll
-			
-			
-				
-			
+
+
+
+
 		} catch (ClassNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen1");
 			loeschen_button1ActionPerformed(evt);
@@ -596,6 +657,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		
     	
     }//GEN-LAST:event_speichern_button1ActionPerformed

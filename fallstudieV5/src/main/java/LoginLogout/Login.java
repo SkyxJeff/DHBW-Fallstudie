@@ -1,8 +1,13 @@
 package LoginLogout;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
@@ -70,7 +75,11 @@ public class Login extends javax.swing.JFrame {
         loginbutton.setBorder(null);
         loginbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginbuttonActionPerformed(evt);
+                try {
+                    loginbuttonActionPerformed(evt);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -181,7 +190,7 @@ public class Login extends javax.swing.JFrame {
         
     }//GEN-LAST:event_passworttextfeldActionPerformed
 
-    private void loginbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginbuttonActionPerformed
+    private void loginbuttonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_loginbuttonActionPerformed
     	String StandardPW = "start";
 
         try {
@@ -240,6 +249,55 @@ public class Login extends javax.swing.JFrame {
     		e.printStackTrace();
     		JOptionPane.showMessageDialog(null, "Login fehlgeschlagen1");
     	}
+
+
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+            String Ausgabe = ("SELECT * FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");
+            String Zahl = ("SELECT COUNT(Mitarbeiter_ID) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");
+            java.sql.PreparedStatement pst = con.prepareStatement(Ausgabe);
+            java.sql.PreparedStatement pst1 = con.prepareStatement(Zahl);
+            ResultSet rs = pst.executeQuery();
+            ResultSet rs1 = pst1.executeQuery();
+            rs.next();
+            rs1.next();
+            String Wert = rs.getString(1);
+            int zahl = rs1.getInt(1);
+            File datei = new File("test.txt");
+            FileWriter writer = new FileWriter(datei);
+            writer.write("ID\t\t");
+            writer.write("Datum\t \t");
+            writer.write("Beginn\t");
+            writer.write("Pause\t");
+            writer.write("Ende\t");
+            writer.write("Art\t\t");
+            writer.write("Saldo\n");
+            writer.write("------------------------------------------------------ \n");
+            writer.write(rs.getString(2) + "\t");
+            writer.write(rs.getString(3) + "\t");
+            writer.write(rs.getString(4) + "\t");
+            writer.write(rs.getString(5) + "\t\t");
+            writer.write(rs.getString(6) + "\t");
+            writer.write(rs.getString(7) + "\t");
+            writer.write(rs.getString(11) + "Std.\n");
+
+            while(rs.next()) {
+
+                writer.write(rs.getString(2) + "\t");
+                writer.write(rs.getString(3) + "\t");
+                writer.write(rs.getString(4) + "\t");
+                writer.write(rs.getString(5) + "\t\t");
+                writer.write(rs.getString(6) + "\t");
+                writer.write(rs.getString(7) + "\t");
+                writer.write(rs.getString(11) + "Std.\n");
+            }
+            writer.flush();
+            writer.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
     }//GEN-LAST:event_loginbuttonActionPerformed

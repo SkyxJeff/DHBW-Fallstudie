@@ -454,127 +454,151 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
    
     public String StundenUebersichtHeuteIst() {
-    	String leer = "00:00 Std.";
-    	try {
-    		String leer1 = "00:00 Std.";
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-			String Beginn = ("Select Beginn,Pause,Ende from eintraege Where Datum = (SELECT MAX(Datum) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"') AND Mitarbeiter_ID = '"+Login.username+"';");
-			String maxDatum = ("Select max(Datum) from `Eintraege` where `Mitarbeiter_ID` = '"+Login.username+"';");
-			java.sql.PreparedStatement pst1 = con.prepareStatement(Beginn);
-			java.sql.PreparedStatement pst2 = con.prepareStatement(maxDatum);
-			ResultSet rs = pst1.executeQuery();
-			ResultSet rs1 = pst2.executeQuery();
-			rs.next();
-			rs1.next();
-			String beginn = rs.getString(1);
-			String pause = rs.getString(2);
-			String ende = rs.getString(3);
-			int beginnhh = Integer.parseInt(beginn.substring(0,2));
-			int beginnmin = Integer.parseInt(beginn.substring(3,5));
-			String Date = rs1.getString(1);
-			Calendar Cal = Calendar.getInstance();
-			String Uhrzeit = ""+Cal.getTime();
-			String uhrzeitnow = Uhrzeit.substring(11,16);
-			String sechsuhr = "06:00";
-			SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-			Date date1 = format.parse(beginn);
-			Date date2 = format.parse(uhrzeitnow);
-			Date date3 = format.parse(sechsuhr);
-			Date date4 = format.parse(ende);
-			String heuteIst;		
-			LocalDate aktuellesDate = LocalDate.now(); 
-			System.out.println(date4);
-			System.out.println(date2);
-			System.out.println(date1);
-			
-		    String aktuellesDatum = ""+aktuellesDate;
-			if(Date.equals(aktuellesDatum)) {
-				
-				if(beginnhh == 0) {heuteIst = "0";}
-				
-				else if(beginnhh<6) {
-					heuteIst = ""+(date2.getTime() - date3.getTime())/36000;
-				}else if((date2.getTime()-date4.getTime())>0 && !ende.equals("00:00") ){
-					heuteIst = ""+(date4.getTime() - date1.getTime())/36000;
-					System.out.println("Hier");
-				} else {heuteIst = ""+(date2.getTime() - date1.getTime())/36000;System.out.println("Hallo");}	
-				float heuteIst1 = Float.parseFloat(heuteIst);
-				heuteIst1 = heuteIst1/100;
-				System.out.println("Floatzahl heute ist: "+ heuteIst1);
-	
-				if(pause.equals("0,0")) {
-					float heuteIst1NK = heuteIst1 - (int)heuteIst1;
-					if((int)heuteIst1 > 6) {
-						JOptionPane.showMessageDialog(null, "Bitte legen Sie eine Pause ein. Sind Sie Jugendlich und arbeiten zwischen 4,5 und 6 Stunden, haben Sie ein Anrecht auf 0,5h Pause. Bei mehr als 6 Stunden dürfen Sie 1h Pause machen."
-								+ " Sind Sie Volljährig, haben Sie ein bei einer Arbeitszeit von 6-9h ein Anrecht auf 0,5h Pause. Arbeiten Sie mehr als 9 Stunden, erhöht sich die Pausenzeit auf 0,75h.");
-					}
-					String heuteIst1NK1 = ""+heuteIst1NK;
-					System.out.println("keine Pause NK heuteISt:"+ heuteIst1NK1 );
-					heuteIst1NK1 = heuteIst1NK1.substring(0,3);
-					Float heuteIst1NK1float = Float.parseFloat(heuteIst1NK1);
-					heuteIst1NK1float = heuteIst1NK1float*60;
-					System.out.println("Keine Pause NK in Min: " + heuteIst1NK1float);
-					String heuteIstdone = ""+(int)heuteIst1+":"+heuteIst1NK1float;
-					Date heuteIstfertig = format.parse(heuteIstdone);
-					heuteIstdone = ""+heuteIstfertig;
-					heuteIstdone = heuteIstdone.substring(11,16)+" Std.";
-					System.out.println("im format:" + heuteIstfertig);
-					System.out.println("gesubbt:" + heuteIstdone);
-					return heuteIstdone;
-				} else {
-					pause = pause.replace(",", ".");
-					float pausefloat = Float.parseFloat(pause);
-					if(pausefloat < 0.5) {JOptionPane.showMessageDialog(null,"Ihre Pause ist zu kurz, bitte machen Sie mind. 0,5h Pause.");}
-					System.out.println("Pause: "+pausefloat);
-					float heuteIst1NK = (heuteIst1-pausefloat) - ((int)(heuteIst1-pausefloat)); 
-					String heuteIst1NK1 = ""+heuteIst1NK;
-					heuteIst1NK1 = heuteIst1NK1.substring(0,3); //nackommas abschneiden
-					Float heuteIst1NK1float = Float.parseFloat(heuteIst1NK1); //nackomma wieder zu float
-					heuteIst1NK1float = heuteIst1NK1float*60; //nachkomma zu min
-					String heuteIstdone = ""+((int)(heuteIst1-pausefloat))+":"+heuteIst1NK1float;//ausgabe
-					Date heuteIstfertig = format.parse(heuteIstdone);
-					heuteIstdone = ""+heuteIstfertig;
-					heuteIstdone = heuteIstdone.substring(11,16)+" Std.";
-					//heuteIstdone = heuteIstdone.replace(".", " ");
-					System.out.println(heuteIstdone);
-					//heuteIstdone = heuteIstdone.substring(0, 5);		
-					//heuteIstdone = heuteIstdone+"  Std.";				
-					return heuteIstdone;		
-				}	
-			}else {return leer1;}
-				
-			
-    	} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen4");
-			
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Sie haben sich das erste Mal angemeldet, bitte speichern Sie sofort unter 'Meine Zeiten' einen Zeiteintrag.");
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-				LocalDate Datumaktuell = LocalDate.now(); 
-			    String DateAktuell = ""+Datumaktuell;
-				String sql6 = ("Insert into eintraege (`Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`,`KW`,`Quartal`, `Jahr`, `Saldo`) values ('"+Login.username+"','"+DateAktuell+"','00:00','0,0','00:00','-',0,0,0,0);");
-				java.sql.PreparedStatement pst6 = con.prepareStatement(sql6);
-				pst6.executeUpdate();
-				
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}			
-			e.printStackTrace();
-		
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen5");
-			e.printStackTrace();
-		}
-		return leer;   	
+        String leer = "00:00 Std.";
+        try {
+            String leer1 = "00:00 Std.";
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+            String Beginn = ("Select Beginn,Pause,Ende from eintraege Where Datum = (SELECT MAX(Datum) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"') AND Mitarbeiter_ID = '"+Login.username+"';");
+            String maxDatum = ("Select max(Datum) from `Eintraege` where `Mitarbeiter_ID` = '"+Login.username+"';");
+            String age  = "Select Age from mitarbeiter where Mitarbeiter_ID = '"+Login.username+"';";
+            java.sql.PreparedStatement pst1 = con.prepareStatement(Beginn);
+            java.sql.PreparedStatement pst2 = con.prepareStatement(maxDatum);
+            java.sql.PreparedStatement pstage = con.prepareStatement(age);
+            ResultSet rs = pst1.executeQuery();
+            ResultSet rs1 = pst2.executeQuery();
+            ResultSet rsAge = pstage.executeQuery();
+            rs.next();
+            rs1.next();
+            rsAge.next();
+            String beginn = rs.getString(1);
+            String pause = rs.getString(2);
+            String ende = rs.getString(3);
+            int Age = rsAge.getInt(1);
+            int beginnhh = Integer.parseInt(beginn.substring(0,2));
+            int beginnmin = Integer.parseInt(beginn.substring(3,5));
+            String Date = rs1.getString(1);
+            Calendar Cal = Calendar.getInstance();
+            String Uhrzeit = ""+Cal.getTime();
+            String uhrzeitnow = Uhrzeit.substring(11,16);
+            String sechsuhr = "06:00";
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+            Date date1 = format.parse(beginn);
+            Date date2 = format.parse(uhrzeitnow);
+            Date date3 = format.parse(sechsuhr);
+            Date date4 = format.parse(ende);
+            String heuteIst;
+            LocalDate aktuellesDate = LocalDate.now();
+            System.out.println(date4);
+            System.out.println(date2);
+            System.out.println(date1);
+
+            String aktuellesDatum = ""+aktuellesDate;
+            if(Date.equals(aktuellesDatum)) {
+
+                if(beginnhh == 0) {heuteIst = "0";}
+
+                else if(beginnhh<6) {
+                    heuteIst = ""+(date2.getTime() - date3.getTime())/36000;
+                }else if((date2.getTime()-date4.getTime())>0 && !ende.equals("00:00") ){
+                    heuteIst = ""+(date4.getTime() - date1.getTime())/36000;
+                    System.out.println("Hier");
+                } else {heuteIst = ""+(date2.getTime() - date1.getTime())/36000;System.out.println("Hallo");}
+                float heuteIst1 = Float.parseFloat(heuteIst);
+                heuteIst1 = heuteIst1/100;
+                System.out.println("Floatzahl heute ist: "+ heuteIst1);
+
+                if(pause.equals("0,0")) {
+                    float heuteIst1NK = heuteIst1 - (int)heuteIst1;
+                    JOptionPane.showMessageDialog(null,"Ihre Pause ist zu kurz, bitte machen Sie mind. 0,5h Pause.");
+                    String pausezeit = "0,0";
+                    if((int)heuteIst1 > 9) {
+                        if(Age >18) {pausezeit = "0,75";}
+                        JOptionPane.showMessageDialog(null,"Sie arbeiten zu viel.");
+                    } else if((int)heuteIst1 >6) {
+                        if(Age >18 ) {pausezeit = "0,5";} else {pausezeit = "1,0";} }
+                    else if((int)heuteIst1 <6 && heuteIst1 > 4.5 && Age < 18) {pausezeit = "0,5";} else {System.out.println("Waddup");}
+                    String pauseEintragen6h = "Update eintraege set Pause = '"+pausezeit+"' where Datum = '"+aktuellesDatum+"' and Mitarbeiter_ID = '"+Login.username+"';";
+                    java.sql.PreparedStatement pstPauseEintrag6h = con.prepareStatement(pauseEintragen6h);
+                    pstPauseEintrag6h.executeUpdate();
+                    String heuteIst1NK1 = ""+heuteIst1NK;
+                    System.out.println("keine Pause NK heuteISt:"+ heuteIst1NK1 );
+                    heuteIst1NK1 = heuteIst1NK1.substring(0,3);
+                    Float heuteIst1NK1float = Float.parseFloat(heuteIst1NK1);
+                    heuteIst1NK1float = heuteIst1NK1float*60;
+                    System.out.println("Keine Pause NK in Min: " + heuteIst1NK1float);
+                    String heuteIstdone = ""+(int)heuteIst1+":"+heuteIst1NK1float;
+                    Date heuteIstfertig = format.parse(heuteIstdone);
+                    heuteIstdone = ""+heuteIstfertig;
+                    heuteIstdone = heuteIstdone.substring(11,16)+" Std.";
+                    System.out.println("im format:" + heuteIstfertig);
+                    System.out.println("gesubbt:" + heuteIstdone);
+                    return heuteIstdone;
+                } else {
+                    pause = pause.replace(",", ".");
+                    float pausefloat = Float.parseFloat(pause);
+                    if(pausefloat < 0.5) {
+                        JOptionPane.showMessageDialog(null,"Ihre Pause ist zu kurz, bitte machen Sie mind. 0,5h Pause.");
+                        String pausezeit = "0,0";
+                        if((int)heuteIst1 > 9) {
+                            if(Age >18) {pausezeit = "0,75";}
+                            JOptionPane.showMessageDialog(null,"Sie arbeiten zu viel.");
+                        } else if((int)heuteIst1 >6) {
+                            if(Age >18 ) {pausezeit = "0,5";} else {pausezeit = "1,0";} }
+                        else if((int)heuteIst1 <6 && heuteIst1 > 4.5 && Age < 18) {pausezeit = "0,5";} else {System.out.println("Waddup");}
+                        String pauseEintragen6h = "Update eintraege set Pause = '"+pausezeit+"' where Datum = '"+aktuellesDatum+"' and Mitarbeiter_ID = '"+Login.username+"';";
+                        java.sql.PreparedStatement pstPauseEintrag6h = con.prepareStatement(pauseEintragen6h);
+                        pstPauseEintrag6h.executeUpdate();
+                    }
+                    System.out.println("Pause: "+pausefloat);
+                    float heuteIst1NK = (heuteIst1-pausefloat) - ((int)(heuteIst1-pausefloat));
+                    String heuteIst1NK1 = ""+heuteIst1NK;
+                    heuteIst1NK1 = heuteIst1NK1.substring(0,3); //nackommas abschneiden
+                    Float heuteIst1NK1float = Float.parseFloat(heuteIst1NK1); //nackomma wieder zu float
+                    heuteIst1NK1float = heuteIst1NK1float*60; //nachkomma zu min
+                    String heuteIstdone = ""+((int)(heuteIst1-pausefloat))+":"+heuteIst1NK1float;//ausgabe
+                    Date heuteIstfertig = format.parse(heuteIstdone);
+                    heuteIstdone = ""+heuteIstfertig;
+                    heuteIstdone = heuteIstdone.substring(11,16)+" Std.";
+                    //heuteIstdone = heuteIstdone.replace(".", " ");
+                    System.out.println(heuteIstdone);
+                    //heuteIstdone = heuteIstdone.substring(0, 5);
+                    //heuteIstdone = heuteIstdone+"  Std.";
+                    return heuteIstdone;
+                }
+            }else {return leer1;}
+
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen4");
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Sie haben sich das erste Mal angemeldet, bitte speichern Sie sofort unter 'Meine Zeiten' einen Zeiteintrag.");
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+                LocalDate Datumaktuell = LocalDate.now();
+                String DateAktuell = ""+Datumaktuell;
+                String sql6 = ("Insert into eintraege (`Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`,`KW`,`Quartal`, `Jahr`, `Saldo`) values ('"+Login.username+"','"+DateAktuell+"','00:00','0,0','00:00','-',0,0,0,0);");
+                java.sql.PreparedStatement pst6 = con.prepareStatement(sql6);
+                pst6.executeUpdate();
+
+            } catch (ClassNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
+
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen5");
+            e.printStackTrace();
+        }
+        return leer;
     }
     
     public String StundenUebersichtSoll() {

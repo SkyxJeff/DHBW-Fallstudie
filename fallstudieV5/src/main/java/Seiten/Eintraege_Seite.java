@@ -27,6 +27,7 @@ public class Eintraege_Seite extends javax.swing.JPanel {
         jScrollPane1.setBorder(null);
 
 
+
         jScrollPane1.setViewportView(eintraege_tabelle);
 
         javax.swing.GroupLayout hintergrund_panelLayout = new javax.swing.GroupLayout(hintergrund_panel);
