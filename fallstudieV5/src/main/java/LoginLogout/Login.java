@@ -341,7 +341,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
-    public boolean passwortPruefen(String passwort) {
+    public static boolean passwortPruefen(String passwort) {
         System.out.println(passwort);
         int MIN_Uppercase = 0;
         int MIN_Lowercase = 0;

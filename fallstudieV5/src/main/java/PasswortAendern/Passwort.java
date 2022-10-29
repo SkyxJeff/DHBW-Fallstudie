@@ -133,42 +133,46 @@ public class Passwort extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void speichern_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichern_buttonActionPerformed
-    	
-    	String altesPW = altesPasswort_textfeld.getText();
-    	System.out.println(Login.username);
-    	String sql1 = "Select Passwort from login_daten_mitarbeiter where Mitarbeiter_ID='"+Login.username+"';";
-    	
-    	
-    		try {
-    			
-    			Class.forName("com.mysql.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-				java.sql.PreparedStatement pst1 = con.prepareStatement(sql1);
-				ResultSet rs = pst1.executeQuery();
-				
-				
-				if (rs.next()) {
-					String altPWDB = rs.getString(1);
-					
-					if (altesPW.equals(altPWDB) && !altesPW.equals("start")) {
-						String sql2 = "Update login_daten_mitarbeiter set Passwort = '"+neuesPasswort_textfeld.getText()+"'where Mitarbeiter_ID= '"+Login.username+"';";
-						java.sql.PreparedStatement pst = con.prepareStatement(sql2);
-						pst.executeUpdate(sql2);
-						new PasswortAkzeptanz().setVisible(true);
-						dispose();
-						
-						
-	    				} else {JOptionPane.showMessageDialog(null, "Altes Passwort ist falsch.");}
-				}
-				
-				
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+        String altesPW = altesPasswort_textfeld.getText();
+        System.out.println(Login.username);
+        String sql1 = "Select Passwort from login_daten_mitarbeiter where Mitarbeiter_ID='"+Login.username+"';";
+
+
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+            java.sql.PreparedStatement pst1 = con.prepareStatement(sql1);
+            ResultSet rs = pst1.executeQuery();
+
+
+            if (rs.next()) {
+                String altPWDB = rs.getString(1);
+
+                if (altesPW.equals(altPWDB) && !altesPW.equals("start")) {
+                    String neuesPW = neuesPasswort_textfeld.getText();
+                    boolean pwPruef = Login.passwortPruefen(neuesPW);
+                    if(pwPruef) {
+                        String sql2 = "Update login_daten_mitarbeiter set Passwort = '"+neuesPasswort_textfeld.getText()+"'where Mitarbeiter_ID= '"+Login.username+"';";
+                        java.sql.PreparedStatement pst = con.prepareStatement(sql2);
+                        pst.executeUpdate(sql2);
+                        new PasswortAkzeptanz().setVisible(true);
+                        dispose();
+                    }
+
+
+                } else {JOptionPane.showMessageDialog(null, "Änderung fehlgeschlagen.");}
+            }
+
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     		
     		
     	

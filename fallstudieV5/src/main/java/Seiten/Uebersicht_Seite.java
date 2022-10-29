@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.JOptionPane;
 
@@ -712,157 +713,184 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
     }
     
     public String GleitzeitproQuartal() {
-		
-    	try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-			LocalDate Datumaktuell = LocalDate.now(); 
-		    String DateAktuell = ""+Datumaktuell;
-			String Quartal = "Select Quartal from eintraege Where Datum  = '"+DateAktuell+"' AND Mitarbeiter_ID = '"+Login.username+"';";
-			java.sql.PreparedStatement pstQuartal = con.prepareStatement(Quartal);
-			ResultSet rsQuartal = pstQuartal.executeQuery();
-			rsQuartal.next();
-			int QuartalInt = rsQuartal.getInt(1);
-			String SaldoSummeQuartal = "Select sum(Saldo) from eintraege where Quartal = '"+QuartalInt+"' AND Mitarbeiter_ID = '"+Login.username+"';";
-			java.sql.PreparedStatement pstQuartalSumme = con.prepareStatement(SaldoSummeQuartal);
-			ResultSet rsQuartalSumme = pstQuartalSumme.executeQuery();
-			rsQuartalSumme.next();
-			Float SaldoSummeFloat = rsQuartalSumme.getFloat(1);
-			System.out.println(SaldoSummeFloat+"Quartal");
-			DecimalFormat df = new DecimalFormat("0.00");
-			String SaldoFlaotSumme = ""+SaldoSummeFloat;
-			SaldoFlaotSumme = df.format(SaldoSummeFloat);		
-			SaldoFlaotSumme = SaldoFlaotSumme.replace(".", ",");
-			String GleitzeitproQuartal = ""+SaldoFlaotSumme+" Std.";
-			return GleitzeitproQuartal;
-			
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "0,0 Std.";
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return "0,0 Std.";
-		}
+
+        try {
+            LocalDate Datumaktuell = LocalDate.now();
+            Calendar calendar = new GregorianCalendar();
+            calendar.set(Datumaktuell.getYear(), Datumaktuell.getMonthValue(),Datumaktuell.getDayOfMonth());
+            System.out.println("YEAR: " + calendar.get(Calendar.YEAR));
+            System.out.println("MONTH: " + calendar.get(Calendar.MONTH));
+            System.out.println("DAY: " + calendar.get(Calendar.DATE));
+            int Quart = (calendar.get(Calendar.MONTH)/3) +1;
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+//
+//		    String DateAktuell = ""+Datumaktuell;
+//			String Quartal = "Select Quartal from eintraege Where Datum  = '"+DateAktuell+"' AND Mitarbeiter_ID = '"+Login.username+"';";
+//			java.sql.PreparedStatement pstQuartal = con.prepareStatement(Quartal);
+//			ResultSet rsQuartal = pstQuartal.executeQuery();
+//			rsQuartal.next();
+//			int QuartalInt = rsQuartal.getInt(1);
+            String SaldoSummeQuartal = "Select sum(Saldo) from eintraege where Quartal = '"+Quart+"' AND Mitarbeiter_ID = '"+Login.username+"';";
+            java.sql.PreparedStatement pstQuartalSumme = con.prepareStatement(SaldoSummeQuartal);
+            ResultSet rsQuartalSumme = pstQuartalSumme.executeQuery();
+            rsQuartalSumme.next();
+            Float SaldoSummeFloat = rsQuartalSumme.getFloat(1);
+            System.out.println(SaldoSummeFloat+"Quartal");
+            DecimalFormat df = new DecimalFormat("0.00");
+            String SaldoFlaotSumme = ""+SaldoSummeFloat;
+            SaldoFlaotSumme = df.format(SaldoSummeFloat);
+            SaldoFlaotSumme = SaldoFlaotSumme.replace(".", ",");
+            String GleitzeitproQuartal = ""+SaldoFlaotSumme+" Std.";
+            return GleitzeitproQuartal;
+
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "0,0 Std.";
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "0,0 Std.";
+        }
 	}
 	public String GleitzeitproWoche() {
-		
-    	try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-			LocalDate Datumaktuell = LocalDate.now(); 
-		    String DateAktuell = ""+Datumaktuell;
-			String KW = "Select KW from eintraege Where Datum  = '"+DateAktuell+"' AND Mitarbeiter_ID = '"+Login.username+"';";
-			java.sql.PreparedStatement pstKW = con.prepareStatement(KW);
-			ResultSet rsKW = pstKW.executeQuery();
-			rsKW.next();
-			int KWInt = rsKW.getInt(1);
-			String SaldoSummeKW = "Select sum(Saldo) from eintraege where KW = '"+KWInt+"' AND Mitarbeiter_ID = '"+Login.username+"';";
-			java.sql.PreparedStatement pstKWSumme = con.prepareStatement(SaldoSummeKW);
-			ResultSet rsKWSumme = pstKWSumme.executeQuery();
-			rsKWSumme.next();
-			Float SaldoSummeFloat = rsKWSumme.getFloat(1);
-			String SaldoFlaotSumme = ""+SaldoSummeFloat;
-			DecimalFormat df = new DecimalFormat("0.00");
-			SaldoFlaotSumme = df.format(SaldoSummeFloat);		
-			SaldoFlaotSumme = SaldoFlaotSumme.replace(".", ",");
-			String GleitzeitproWoche = ""+SaldoFlaotSumme+" Std.";
-			return GleitzeitproWoche;
-			
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "0,0 Std.";
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return "0,0 Std.";
-		}
+
+        try {
+            LocalDate Datumaktuell = LocalDate.now();
+            Calendar calendar = new GregorianCalendar();
+            calendar.set(Datumaktuell.getYear(), Datumaktuell.getMonthValue(),Datumaktuell.getDayOfMonth());
+            System.out.println("YEAR: " + calendar.get(Calendar.YEAR));
+            System.out.println("MONTH: " + calendar.get(Calendar.MONTH));
+            System.out.println("DAY: " + calendar.get(Calendar.DATE));
+            int kw = calendar.get(Calendar.WEEK_OF_YEAR);
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+            String DateAktuell = ""+Datumaktuell;
+//			String KW = "Select KW from eintraege Where Datum  = '"+DateAktuell+"' AND Mitarbeiter_ID = '"+Login.username+"';";
+//			java.sql.PreparedStatement pstKW = con.prepareStatement(KW);
+//			ResultSet rsKW = pstKW.executeQuery();
+//			rsKW.next();
+//			int KWInt = rsKW.getInt(1);
+            String SaldoSummeKW = "Select sum(Saldo) from eintraege where KW = '"+kw+"' AND Mitarbeiter_ID = '"+Login.username+"';";
+            java.sql.PreparedStatement pstKWSumme = con.prepareStatement(SaldoSummeKW);
+            ResultSet rsKWSumme = pstKWSumme.executeQuery();
+            rsKWSumme.next();
+            Float SaldoSummeFloat = rsKWSumme.getFloat(1);
+            String SaldoFlaotSumme = ""+SaldoSummeFloat;
+            DecimalFormat df = new DecimalFormat("0.00");
+            SaldoFlaotSumme = df.format(SaldoSummeFloat);
+            SaldoFlaotSumme = SaldoFlaotSumme.replace(".", ",");
+            String GleitzeitproWoche = ""+SaldoFlaotSumme+" Std.";
+            return GleitzeitproWoche;
+
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "0,0 Std.";
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "0,0 Std.";
+        }
 	}
 
 	public String GleitzeitproJahr() {
-	
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-			LocalDate Datumaktuell = LocalDate.now(); 
-			String DateAktuell = ""+Datumaktuell;
-			String Jahr = "Select Jahr from eintraege Where Datum  = '"+DateAktuell+"' AND Mitarbeiter_ID = '"+Login.username+"';";
-			java.sql.PreparedStatement pstJahr = con.prepareStatement(Jahr);
-			ResultSet rsJahr = pstJahr.executeQuery();
-			rsJahr.next();
-			int JahrInt = rsJahr.getInt(1);
-			String SaldoSummeJahr = "Select sum(Saldo) from eintraege where Jahr = '"+JahrInt+"' AND Mitarbeiter_ID = '"+Login.username+"';";
-			java.sql.PreparedStatement pstJahrSumme = con.prepareStatement(SaldoSummeJahr);
-			ResultSet rsJahrSumme = pstJahrSumme.executeQuery();
-			rsJahrSumme.next();
-			Float SaldoSummeFloat = rsJahrSumme.getFloat(1);
-			System.out.println("Jahr: "+SaldoSummeFloat);
-			String SaldoFlaotSumme = ""+SaldoSummeFloat;
-			DecimalFormat df = new DecimalFormat("0.00");
-			SaldoFlaotSumme = df.format(SaldoSummeFloat);		
-			SaldoFlaotSumme = SaldoFlaotSumme.replace(".", ",");
-			String GleitzeitproJahr = ""+SaldoFlaotSumme+" Std.";
-			return GleitzeitproJahr;
-			
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "0,0 Std.";
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return "0,0 Std.";
-		}
+
+        try {
+            LocalDate Datumaktuell = LocalDate.now();
+            Calendar calendar = new GregorianCalendar();
+            calendar.set(Datumaktuell.getYear(), Datumaktuell.getMonthValue(),Datumaktuell.getDayOfMonth());
+            System.out.println("YEAR: " + calendar.get(Calendar.YEAR));
+            System.out.println("MONTH: " + calendar.get(Calendar.MONTH));
+            System.out.println("DAY: " + calendar.get(Calendar.DATE));
+            int Year = calendar.get(Calendar.YEAR);
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+            String DateAktuell = ""+Datumaktuell;
+//		String Jahr = "Select Jahr from eintraege Where Datum  = '"+DateAktuell+"' AND Mitarbeiter_ID = '"+Login.username+"';";
+//		java.sql.PreparedStatement pstJahr = con.prepareStatement(Jahr);
+//		ResultSet rsJahr = pstJahr.executeQuery();
+//		rsJahr.next();
+//		int JahrInt = rsJahr.getInt(1);
+            String SaldoSummeJahr = "Select sum(Saldo) from eintraege where Jahr = '"+Year+"' AND Mitarbeiter_ID = '"+Login.username+"';";
+            java.sql.PreparedStatement pstJahrSumme = con.prepareStatement(SaldoSummeJahr);
+            ResultSet rsJahrSumme = pstJahrSumme.executeQuery();
+            rsJahrSumme.next();
+            Float SaldoSummeFloat = rsJahrSumme.getFloat(1);
+            System.out.println("Jahr: "+SaldoSummeFloat);
+            String SaldoFlaotSumme = ""+SaldoSummeFloat;
+            DecimalFormat df = new DecimalFormat("0.00");
+            SaldoFlaotSumme = df.format(SaldoSummeFloat);
+            SaldoFlaotSumme = SaldoFlaotSumme.replace(".", ",");
+            String GleitzeitproJahr = ""+SaldoFlaotSumme+" Std.";
+            return GleitzeitproJahr;
+
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "0,0 Std.";
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "0,0 Std.";
+        }
 	}
 	public void PopUp() {
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-			String Beginn = ("Select Beginn from eintraege Where Datum = (SELECT MAX(Datum) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"') AND Mitarbeiter_ID = '"+Login.username+"';");
-			java.sql.PreparedStatement pst1 = con.prepareStatement(Beginn);
-			ResultSet rs = pst1.executeQuery();
-			rs.next();
-			String ArbZGmax = "Select ArbZGmax from mitarbeiter where Mitarbeiter_ID = '"+Login.username+"';";
-			java.sql.PreparedStatement pst2 = con.prepareStatement(ArbZGmax);
-			ResultSet rs1 = pst2.executeQuery();
-			rs1.next();
-			String beginn = rs.getString(1);
-			int maxArbZG = rs1.getInt(1);
-			String Heuteist = StundenUebersichtHeuteIst();
-			String HeuteistStunden = Heuteist.substring(0,2);
-			float HeuteistStundenfloat = Float.parseFloat(HeuteistStunden);
-			int beginnhh = Integer.parseInt(beginn.substring(0,2));
-			String sechsuhr = "06:00";
-			SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-			Heuteist = Heuteist.substring(0,5);
-			Date datebeginn = format.parse(beginn);
-			Date datesechs = format.parse(sechsuhr);
-			Date heute = format.parse(Heuteist);
-			if(beginnhh < 6) {
-			String heuteIstvor6 = ""+(heute.getTime() - (datesechs.getTime()-datebeginn.getTime())/36000);
-			float heuteistvor6float = Float.parseFloat(heuteIstvor6);
-			heuteistvor6float = heuteistvor6float/100;
-			if( (int)heuteistvor6float >maxArbZG ) {
-				
-				JOptionPane.showMessageDialog(null, "Sie haben Ihre heutige Arbeitszeit lauft ArbZG überschritten, melden Sie dies bei Ihrem Vorgesetzen.");
-			}
-			
-			}else if(HeuteistStundenfloat > maxArbZG) {
-				JOptionPane.showMessageDialog(null, "Sie haben Ihre heutige Arbeitszeit lauft ArbZG überschritten, melden Sie dies bei Ihrem Vorgesetzen.");
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+            String Beginn = ("Select Beginn,Pause from eintraege Where Datum = (SELECT MAX(Datum) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"') AND Mitarbeiter_ID = '"+Login.username+"';");
+            java.sql.PreparedStatement pst1 = con.prepareStatement(Beginn);
+            ResultSet rs = pst1.executeQuery();
+            rs.next();
+            String ArbZGmax = "Select ArbZGmax from mitarbeiter where Mitarbeiter_ID = '"+Login.username+"';";
+            java.sql.PreparedStatement pst2 = con.prepareStatement(ArbZGmax);
+            ResultSet rs1 = pst2.executeQuery();
+            rs1.next();
+            String beginn = rs.getString(1);
+            int maxArbZG = rs1.getInt(1);
+            String pause = rs.getString(2);
+            pause = pause.replace(",", ".");
+            float pausefloat = Float.parseFloat(pause);
+            String Heuteist = StundenUebersichtHeuteIst();
+            System.out.println("HeutIStSTunden "+ Heuteist);
+            String HeuteistStunden = Heuteist.substring(0,2);
+            float HeuteistStundenfloat = Float.parseFloat(HeuteistStunden);
+            int beginnhh = Integer.parseInt(beginn.substring(0,2));
+            String sechsuhr = "06:00";
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+            Heuteist = Heuteist.substring(0,5);
+            Date datebeginn = format.parse(beginn);
+            Date datesechs = format.parse(sechsuhr);
+            Date heute = format.parse(Heuteist);
+            System.out.println(heute);
+            if(beginnhh < 6) {
+                String heuteIstvor6 = ""+(heute.getTime() + datesechs.getTime()-datebeginn.getTime())/36000;
+                float heuteistvor6float = Float.parseFloat(heuteIstvor6);
+                System.out.println("SAKDJHFKJASDF "+heuteistvor6float);
+                heuteistvor6float = heuteistvor6float/100;
+                heuteistvor6float = heuteistvor6float+1; // gibt immer ne Stunde zu wenig aus, warum auch immer
+                System.out.println("WHYYYY "+heuteistvor6float);
+                if( heuteistvor6float >maxArbZG ) {
+
+                    JOptionPane.showMessageDialog(null, "Sie haben Ihre heutige Arbeitszeit lauft ArbZG überschritten, melden Sie dies bei Ihrem Vorgesetzen.");
+                }
+
+            }else if(HeuteistStundenfloat >= maxArbZG) {
+                JOptionPane.showMessageDialog(null, "Sie haben Ihre heutige Arbeitszeit lauft ArbZG überschritten, melden Sie dies bei Ihrem Vorgesetzen.");
+            }
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
