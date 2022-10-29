@@ -90,9 +90,9 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         	 System.out.println(gelb);
         	 System.out.println(rot);
         	 System.out.println(Saldo);
-        	 int Gleitzeit = (int) Saldo;
+
         	 
-        	 if(Gleitzeit <= gruen)
+        	 if(Saldo <= gruen)
         	 {
         		 grenzwert_gelb_label.setVisible(false);
         		 grenzwert_rot_label.setVisible(false);
@@ -104,7 +104,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         	 }
         	 else
         	 {
-        		 if(Gleitzeit >gruen && Gleitzeit <=rot)
+        		 if(Saldo >gruen && Saldo <=rot)
         		 {
         			 grenzwert_gelb_label.setVisible(true);
         			 grenzwert_gelb_label.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N

@@ -53,9 +53,9 @@ public class Ampel extends javax.swing.JPanel {
         	 System.out.println(rot);
         	 System.out.println(Saldo);
         	 
-        	 int Gleitzeit = (int) Saldo;
+
         	 
-        	 if(Gleitzeit <= gruen)
+        	 if(Saldo <= gruen)
         	 {
         		  gruenesPanel.setBackground(new java.awt.Color(0, 255, 0));
         	      gruenesPanel.setPreferredSize(new java.awt.Dimension(38, 38));
@@ -66,7 +66,7 @@ public class Ampel extends javax.swing.JPanel {
         	 }
         	 else
         	 {
-        		 if(Gleitzeit >gruen && Gleitzeit <=rot)
+        		 if(Saldo >gruen && Saldo <=rot)
         		 {
         			 gelbesPanel.setBackground(new java.awt.Color(255, 255, 0));
         		     gelbesPanel.setPreferredSize(new java.awt.Dimension(38, 38));
