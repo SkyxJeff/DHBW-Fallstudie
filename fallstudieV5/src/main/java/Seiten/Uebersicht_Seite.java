@@ -478,16 +478,19 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             int Age = rsAge.getInt(1);
             int beginnhh = Integer.parseInt(beginn.substring(0,2));
             int beginnmin = Integer.parseInt(beginn.substring(3,5));
+            int endehh = Integer.parseInt(ende.substring(0,2));
             String Date = rs1.getString(1);
             Calendar Cal = Calendar.getInstance();
             String Uhrzeit = ""+Cal.getTime();
             String uhrzeitnow = Uhrzeit.substring(11,16);
             String sechsuhr = "06:00";
+            String zzwanziguhr = "22:00";
             SimpleDateFormat format = new SimpleDateFormat("HH:mm");
             Date date1 = format.parse(beginn);
             Date date2 = format.parse(uhrzeitnow);
             Date date3 = format.parse(sechsuhr);
             Date date4 = format.parse(ende);
+            Date date22 = format.parse(zzwanziguhr);
             String heuteIst;
             LocalDate aktuellesDate = LocalDate.now();
             System.out.println(date4);
@@ -499,19 +502,25 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 
                 if(beginnhh == 0) {heuteIst = "0";}
 
-                else if(beginnhh<6) {
-                    heuteIst = ""+(date2.getTime() - date3.getTime())/36000;
-                }else if((date2.getTime()-date4.getTime())>0 && !ende.equals("00:00") ){
+                else if(beginnhh<6 && endehh<22) {
+                    if((date2.getTime()-date4.getTime())>0) {
+                        heuteIst = ""+(date4.getTime()-date3.getTime())/36000;
+                    }else {heuteIst = ""+(date2.getTime() - date3.getTime())/36000;}
+                }else if((date2.getTime()-date4.getTime())>0 ){
                     heuteIst = ""+(date4.getTime() - date1.getTime())/36000;
                     System.out.println("Hier");
-                } else {heuteIst = ""+(date2.getTime() - date1.getTime())/36000;System.out.println("Hallo");}
+                } else if(endehh > 22 && beginnhh > 6){
+                    heuteIst = ""+(date22.getTime()-date1.getTime())/36000;
+                } else if(endehh >22 && beginnhh < 6){heuteIst = ""+(date22.getTime()-date3.getTime())/36000;}
+
+                else {heuteIst = ""+(date2.getTime() - date1.getTime())/36000;System.out.println("Hallo");}
                 float heuteIst1 = Float.parseFloat(heuteIst);
                 heuteIst1 = heuteIst1/100;
                 System.out.println("Floatzahl heute ist: "+ heuteIst1);
 
                 if(pause.equals("0,0")) {
                     float heuteIst1NK = heuteIst1 - (int)heuteIst1;
-                    JOptionPane.showMessageDialog(null,"Ihre Pause ist zu kurz, bitte machen Sie mind. 0,5h Pause.");
+
                     String pausezeit = "0,0";
                     if((int)heuteIst1 > 9) {
                         if(Age >18) {pausezeit = "0,75";}
@@ -539,7 +548,6 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
                     pause = pause.replace(",", ".");
                     float pausefloat = Float.parseFloat(pause);
                     if(pausefloat < 0.5) {
-                        JOptionPane.showMessageDialog(null,"Ihre Pause ist zu kurz, bitte machen Sie mind. 0,5h Pause.");
                         String pausezeit = "0,0";
                         if((int)heuteIst1 > 9) {
                             if(Age >18) {pausezeit = "0,75";}
@@ -613,12 +621,12 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 			rs.next();
 			maxArbeitszeit = rs.getString(1);
 			return maxArbeitszeit;
-    		
+
     	} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (SQLException e) {			
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}	
+		}
     	return "00:00 Std.";
     }
 
@@ -644,7 +652,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             insertSaldo(Saldofloat);
             float SaldofloatNK = Saldofloat - (int)Saldofloat;
             String SaldofloatNK1 = ""+SaldofloatNK;
-            System.out.println(SaldofloatNK1);
+            System.out.println("SCHAUUUUUUU"+SaldofloatNK1);
             Float SaldofloatNK1float = Float.parseFloat(SaldofloatNK1);
             SaldofloatNK1float = (SaldofloatNK1float*60);
             System.out.println(SaldofloatNK1float);
@@ -659,8 +667,10 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
                     Saldodone = ""+saldo;
                     Saldodone = "-"+Saldodone.substring(11,16)+" Std.";
                     return Saldodone;
-                }else if((int)Saldofloat<0){
-                    Saldodone = ""+((int)Saldofloat)+":"+SaldofloatNK1float*(-1);
+                }else if((int)Saldofloat==0){
+                    System.out.println("HAAAAAAAAALLLOOOOO");
+                    Saldodone = ""+((int)Saldofloat)+":"+SaldofloatNK1float;
+                    System.out.println("HIIIIIEEERR"+SaldofloatNK1float);
                     Date saldo = format.parse(Saldodone);
                     Saldodone = ""+saldo;
                     Saldodone = "-"+Saldodone.substring(11,16)+" Std.";
@@ -731,7 +741,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 //			ResultSet rsQuartal = pstQuartal.executeQuery();
 //			rsQuartal.next();
 //			int QuartalInt = rsQuartal.getInt(1);
-            String SaldoSummeQuartal = "Select sum(Saldo) from eintraege where Quartal = '"+Quart+"' AND Mitarbeiter_ID = '"+Login.username+"';";
+            String SaldoSummeQuartal = "Select sum(Saldo) from eintraege where Quartal = '"+Quart+"' AND Mitarbeiter_ID = '"+Login.username+"' AND Datum Like '"+calendar.get(Calendar.YEAR)+"-__-__' ;";
             java.sql.PreparedStatement pstQuartalSumme = con.prepareStatement(SaldoSummeQuartal);
             ResultSet rsQuartalSumme = pstQuartalSumme.executeQuery();
             rsQuartalSumme.next();
@@ -772,7 +782,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 //			ResultSet rsKW = pstKW.executeQuery();
 //			rsKW.next();
 //			int KWInt = rsKW.getInt(1);
-            String SaldoSummeKW = "Select sum(Saldo) from eintraege where KW = '"+kw+"' AND Mitarbeiter_ID = '"+Login.username+"';";
+            String SaldoSummeKW = "Select sum(Saldo) from eintraege where Datum LIKE '"+calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-__' AND Mitarbeiter_ID = '"+Login.username+"';";
             java.sql.PreparedStatement pstKWSumme = con.prepareStatement(SaldoSummeKW);
             ResultSet rsKWSumme = pstKWSumme.executeQuery();
             rsKWSumme.next();

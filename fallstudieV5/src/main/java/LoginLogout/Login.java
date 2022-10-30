@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 //import com.mysql.jdbc.PreparedStatement;
 //import com.mysql.jdbc.*;
 
+import Seiten.MeineZeiten_Seite;
 import Seiten.Uebersicht_Seite;
 import dashboard.Home;
 
@@ -317,8 +318,8 @@ public class Login extends javax.swing.JFrame {
         if (passwort.length() >= MAX && uppercaseCounter >= MIN_Uppercase
                 && lowercaseCounter >= MIN_Lowercase && digitCounter >= NUM_Digits) {
             return true;}
-        JOptionPane.showMessageDialog(null, "Login fehlgeschlagen. Stellen Sie sicher, dass sie folgende Anforderungen erfüllen: \n "
-                + "- Mind. 8 Zeichen \n - Mind 1 Kleinbuchstabe \n - mind 1 Großbuchstabe \n - mind 1 Zahl");
+        JOptionPane.showMessageDialog(null, "Nicht gespeichert. Stellen Sie sicher, dass sie folgende Anforderungen erfüllen: \n "
+                + "- mind. 8 Zeichen \n - mind. 1 Kleinbuchstabe \n - mind 1 Großbuchstabe \n - mind 1 Zahl");
         return false;
     }
     public static void txtDateierstellen()
