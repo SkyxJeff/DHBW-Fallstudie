@@ -1,5 +1,6 @@
 package dashboard;
 
+import LoginLogout.Login;
 import LoginLogout.Logout;
 import Seiten.Uebersicht_Seite;
 import Seiten.Form;
@@ -9,7 +10,10 @@ import Seiten.Eintraege_Seite;
 import Seiten.MeineDaten_Seite;
 import Seiten.Einstellungen_Seite;
 import Seiten.Kalendar_Seite;
-import java.awt.Component;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
 
 public class Home extends javax.swing.JFrame {
 
@@ -32,7 +36,23 @@ public class Home extends javax.swing.JFrame {
                     showForm(new MeineZeiten_Seite());
                 } 
                 else if (index==3){
-                    showForm(new Eintraege_Seite());
+                    Login.txtDateierstellen();
+                    try {
+                        File file = new File("Eintraege.txt");
+                        if (!Desktop.isDesktopSupported())
+                        {
+                            JOptionPane.showMessageDialog(null,"Datei wird nicht unterstützt");
+                            return;
+                        }
+                        Desktop desktop = Desktop.getDesktop();
+                        if (file.exists())
+                        {
+                            desktop.open(file);
+                        }
+                    }catch (Exception e)
+                    {
+                       e.printStackTrace();
+                    }
                 }
                 else if (index==4){
                     showForm(new Kalendar_Seite());
@@ -42,6 +62,7 @@ public class Home extends javax.swing.JFrame {
                 }
                 else if (index==6){
                     new Logout().setVisible(true);
+
                 }
                 else {
                     showForm(new Form(index));

@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 //import com.mysql.jdbc.PreparedStatement;
 //import com.mysql.jdbc.*;
 
+import Seiten.Uebersicht_Seite;
 import dashboard.Home;
 
 public class Login extends javax.swing.JFrame {
@@ -251,53 +252,7 @@ public class Login extends javax.swing.JFrame {
     	}
 
 
-        try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-            String Ausgabe = ("SELECT * FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");
-            String Zahl = ("SELECT COUNT(Mitarbeiter_ID) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");
-            java.sql.PreparedStatement pst = con.prepareStatement(Ausgabe);
-            java.sql.PreparedStatement pst1 = con.prepareStatement(Zahl);
-            ResultSet rs = pst.executeQuery();
-            ResultSet rs1 = pst1.executeQuery();
-            rs.next();
-            rs1.next();
-            String Wert = rs.getString(1);
-            int zahl = rs1.getInt(1);
-            File datei = new File("test.txt");
-            FileWriter writer = new FileWriter(datei);
-            writer.write("ID\t\t");
-            writer.write("Datum\t \t");
-            writer.write("Beginn\t");
-            writer.write("Pause\t");
-            writer.write("Ende\t");
-            writer.write("Art\t\t");
-            writer.write("Saldo\n");
-            writer.write("------------------------------------------------------ \n");
-            writer.write(rs.getString(2) + "\t");
-            writer.write(rs.getString(3) + "\t");
-            writer.write(rs.getString(4) + "\t");
-            writer.write(rs.getString(5) + "\t\t");
-            writer.write(rs.getString(6) + "\t");
-            writer.write(rs.getString(7) + "\t");
-            writer.write(rs.getString(11) + "Std.\n");
-
-            while(rs.next()) {
-
-                writer.write(rs.getString(2) + "\t");
-                writer.write(rs.getString(3) + "\t");
-                writer.write(rs.getString(4) + "\t");
-                writer.write(rs.getString(5) + "\t\t");
-                writer.write(rs.getString(6) + "\t");
-                writer.write(rs.getString(7) + "\t");
-                writer.write(rs.getString(11) + "Std.\n");
-            }
-            writer.flush();
-            writer.close();
-        }catch (IOException e){
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        txtDateierstellen();
 
 
     }//GEN-LAST:event_loginbuttonActionPerformed
@@ -365,6 +320,58 @@ public class Login extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Login fehlgeschlagen. Stellen Sie sicher, dass sie folgende Anforderungen erfüllen: \n "
                 + "- Mind. 8 Zeichen \n - Mind 1 Kleinbuchstabe \n - mind 1 Großbuchstabe \n - mind 1 Zahl");
         return false;
+    }
+    public static void txtDateierstellen()
+    {
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+            String Ausgabe = ("SELECT `Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo` FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");
+            String Zahl = ("SELECT COUNT(Mitarbeiter_ID) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");
+            java.sql.PreparedStatement pst = con.prepareStatement(Ausgabe);
+            java.sql.PreparedStatement pst1 = con.prepareStatement(Zahl);
+            ResultSet rs = pst.executeQuery();
+            ResultSet rs1 = pst1.executeQuery();
+            rs.next();
+            rs1.next();
+            String Wert = rs.getString(1);
+            int zahl = rs1.getInt(1);
+            File datei = new File("Eintraege.txt");
+            FileWriter writer = new FileWriter(datei);
+            writer.write("ID\t");
+            writer.write("Datum\t \t");
+            writer.write("Beginn\t");
+            writer.write("Pause\t");
+            writer.write("Ende\t");
+            writer.write("Art\t");
+            writer.write("Saldo\n");
+            writer.write("---------------------------------------------------------------- \n");
+            writer.write(rs.getString(1) + "\t");
+            writer.write(rs.getString(2) + "\t");
+            writer.write(rs.getString(3) + "\t");
+            writer.write(rs.getString(4) + "\t");
+            writer.write(rs.getString(5) + "\t");
+            writer.write(rs.getString(6) + "\t");
+            writer.write(rs.getFloat(7) + "Std.\n");
+
+
+            while(rs.next()) {
+
+                writer.write(rs.getString(1) + "\t");
+                writer.write(rs.getString(2) + "\t");
+                writer.write(rs.getString(3) + "\t");
+                writer.write(rs.getString(4) + "\t");
+                writer.write(rs.getString(5) + "\t");
+                writer.write(rs.getString(6) + "\t");
+                writer.write(rs.getFloat(7) + "Std.\n");
+
+            }
+            writer.flush();
+            writer.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,5 +1,9 @@
 package Seiten;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
+
 public class Eintraege_Seite extends javax.swing.JPanel {
 
     public Eintraege_Seite() {
@@ -28,7 +32,7 @@ public class Eintraege_Seite extends javax.swing.JPanel {
 
 
 
-        jScrollPane1.setViewportView(eintraege_tabelle);
+
 
         javax.swing.GroupLayout hintergrund_panelLayout = new javax.swing.GroupLayout(hintergrund_panel);
         hintergrund_panel.setLayout(hintergrund_panelLayout);
@@ -64,6 +68,8 @@ public class Eintraege_Seite extends javax.swing.JPanel {
             .addComponent(hintergrund_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
