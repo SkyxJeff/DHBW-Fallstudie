@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -26,8 +27,13 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 	int Urlaub_aktuelles_Jahr1;
 	int Urlaub_vorjahr1;
 	int Urlaub_genommen1;
+	long Urlaub_genommen2;
 	int Urlaub_verfuegbar1;
+	int Urlaub_verfuegbar2;
 	int anzahl;
+	long urlaubvorjahrwichtig;
+	long Urlaub_aktuelles_Jahr2;
+	long tage;
 	public int kalenderWoche;
 	public int quartal;
 	public int Jahrpublic;
@@ -674,6 +680,9 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 
 public void Urlaub(){
 	try {
+		Calendar now = new GregorianCalendar();
+		int tag = now.get(Calendar.DAY_OF_MONTH);
+		int monat = now.get(Calendar.MONTH) +1;
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
 			String Urlaubsanspruch = ("SELECT Urlaubsanspruch FROM `urlaub` WHERE MitarbeiterID = '" + Login.username + "'");
 			String Urlaub_aktuelles_Jahr = ("SELECT UrlaubaktuellesJahr FROM `urlaub` WHERE MitarbeiterID = '" + Login.username + "'");
@@ -700,6 +709,13 @@ public void Urlaub(){
 			Urlaub_vorjahr1 = Integer.parseInt(r3.getString(1));
 			Urlaub_genommen1 = Integer.parseInt(r4.getString(1));
 			Urlaub_verfuegbar1 = Integer.parseInt(r5.getString(1));
+			if(tag == 1 && monat == 1)
+			{
+				int Urlaub_überbleibsel = Urlaub_aktuelles_Jahr1;
+				String update = ("UPDATE urlaub SET `Urlaubsanspruch`= '30',`UrlaubaktuellesJahr`= '30',`Urlaubvorjahr` = '"+Urlaub_überbleibsel+"',`Urlaubgenommen`= '0', `Urlaubverfuegbar`= '30' WHERE MitarbeiterID = '"+Login.username+"'");
+				java.sql.PreparedStatement pst9 = con.prepareStatement(update);
+				pst9.executeUpdate();
+			}
 	} catch (SQLException e) {
 		JOptionPane.showMessageDialog(null, "Datenbankverbindung geht nicht");
 		e.printStackTrace();
@@ -720,7 +736,7 @@ public void Urlaub(){
 	    	String DateAktuell = ""+Datumaktuell;
 	    	String Abwesendheitsbeginn = abwesenheitsbeginn_textfeld.getText();
 	    	String Abwesendheitsende = abwesenheitsende_textfeld.getText();
-	    	long tage;
+
 
 
 			if(Abwesendheitsbeginn.equals(Abwesendheitsende))
@@ -735,7 +751,7 @@ public void Urlaub(){
 		    	long diff = Ende.getTime() - Beginn.getTime();
 		    	TimeUnit time = TimeUnit.DAYS;
 		    	tage = time.convert(diff, TimeUnit.MILLISECONDS);
-		    	tage++;
+		    	tage = tage +1;
 	    	}
 	    	String Notiz = notiz_textfeld.getText();
 	    	System.out.println(DateAktuell);
@@ -751,10 +767,30 @@ public void Urlaub(){
 	    	pst1.executeUpdate();
 	    	if(abwesenheitsgrund_combobox.getSelectedItem() == "Urlaub")
 	    	{
-	    		long Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - tage;
-	    		long Urlaub_genommen2 = Urlaub_genommen1 + tage;
-	    		long Urlaub_verfuegbar2 = Urlaub_verfuegbar1 - tage;
-	    		String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '"+Urlaub_aktuelles_Jahr2+"', `Urlaubgenommen` = '"+Urlaub_genommen2+"', `Urlaubverfuegbar` = '"+Urlaub_verfuegbar2+"'");
+				if(Urlaub_vorjahr1>0 && Urlaub_vorjahr1 > tage)
+				{
+					urlaubvorjahrwichtig  = Urlaub_vorjahr1 - tage;
+
+				}
+				else {
+					if (Urlaub_vorjahr1>0 && Urlaub_vorjahr1 <tage)
+					{
+						long rest = tage - Urlaub_vorjahr1;
+						urlaubvorjahrwichtig = Urlaub_vorjahr1 - Urlaub_vorjahr1;
+						Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - rest;
+						Urlaub_genommen2 = Urlaub_genommen1 + rest + Urlaub_vorjahr1;
+						Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
+
+
+					}
+					else {
+						Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1  - tage;
+						Urlaub_genommen2 = Urlaub_genommen1 + tage;
+						Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
+					}
+				}
+
+	    		String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '"+Urlaub_aktuelles_Jahr2+"',`Urlaubvorjahr` = '"+urlaubvorjahrwichtig+"', `Urlaubgenommen` = '"+Urlaub_genommen2+"', `Urlaubverfuegbar` = '"+Urlaub_verfuegbar2+"' WHERE MitarbeiterID = '"+Login.username+"'");
 	    		java.sql.PreparedStatement pst2 = con1.prepareStatement(update);
 	    		pst2.executeUpdate();
 	    		
@@ -763,6 +799,7 @@ public void Urlaub(){
 	    	
 		} catch (SQLException e1) {
 			JOptionPane.showMessageDialog(null, "Keine Verbindung zur Datenbank möglich");
+			e1.printStackTrace();
 		}
     	catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "Tage gehen nicht");
