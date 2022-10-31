@@ -7,6 +7,8 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -244,7 +246,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         woche_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         woche_label.setForeground(new java.awt.Color(255, 255, 255));
         woche_label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        woche_label.setText("Woche");
+        woche_label.setText("Monat");
 
         javax.swing.GroupLayout woche_panelLayout = new javax.swing.GroupLayout(woche_panel);
         woche_panel.setLayout(woche_panelLayout);
@@ -523,11 +525,11 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 
                     String pausezeit = "0,0";
                     if((int)heuteIst1 > 9) {
-                        if(Age >18) {pausezeit = "0,75";}
+                        if(Age >18) {pausezeit = "0,75";JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,75h eingetragen, bitte realisieren Sie dies.");}
                         JOptionPane.showMessageDialog(null,"Sie arbeiten zu viel.");
                     } else if((int)heuteIst1 >6) {
-                        if(Age >18 ) {pausezeit = "0,5";} else {pausezeit = "1,0";} }
-                    else if((int)heuteIst1 <6 && heuteIst1 > 4.5 && Age < 18) {pausezeit = "0,5";} else {System.out.println("Waddup");}
+                        if(Age >18 ) {pausezeit = "0,5";JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,5h eingetragen, bitte realisieren Sie dies.");} else {pausezeit = "1,0";JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 1h eingetragen, bitte realisieren Sie dies.");} }
+                    else if((int)heuteIst1 <6 && heuteIst1 > 4.5 && Age < 18) {pausezeit = "0,5";JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,5h eingetragen, bitte realisieren Sie dies.");} else {System.out.println("Waddup");}
                     String pauseEintragen6h = "Update eintraege set Pause = '"+pausezeit+"' where Datum = '"+aktuellesDatum+"' and Mitarbeiter_ID = '"+Login.username+"';";
                     java.sql.PreparedStatement pstPauseEintrag6h = con.prepareStatement(pauseEintragen6h);
                     pstPauseEintrag6h.executeUpdate();
@@ -550,11 +552,11 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
                     if(pausefloat < 0.5) {
                         String pausezeit = "0,0";
                         if((int)heuteIst1 > 9) {
-                            if(Age >18) {pausezeit = "0,75";}
+                            if(Age >18) {pausezeit = "0,75";JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,75h eingetragen, bitte realisieren Sie dies.");}
                             JOptionPane.showMessageDialog(null,"Sie arbeiten zu viel.");
                         } else if((int)heuteIst1 >6) {
-                            if(Age >18 ) {pausezeit = "0,5";} else {pausezeit = "1,0";} }
-                        else if((int)heuteIst1 <6 && heuteIst1 > 4.5 && Age < 18) {pausezeit = "0,5";} else {System.out.println("Waddup");}
+                            if(Age >18 ) {pausezeit = "0,5"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,5h eingetragen, bitte realisieren Sie dies.");} else {pausezeit = "1,0"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 1h eingetragen, bitte realisieren Sie dies.");} }
+                        else if((int)heuteIst1 <6 && heuteIst1 > 4.5 && Age < 18) {pausezeit = "0,5"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,5h eingetragen, bitte realisieren Sie dies.");} else {System.out.println("Waddup");}
                         String pauseEintragen6h = "Update eintraege set Pause = '"+pausezeit+"' where Datum = '"+aktuellesDatum+"' and Mitarbeiter_ID = '"+Login.username+"';";
                         java.sql.PreparedStatement pstPauseEintrag6h = con.prepareStatement(pauseEintragen6h);
                         pstPauseEintrag6h.executeUpdate();
@@ -855,12 +857,13 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             java.sql.PreparedStatement pst1 = con.prepareStatement(Beginn);
             ResultSet rs = pst1.executeQuery();
             rs.next();
-            String ArbZGmax = "Select ArbZGmax from mitarbeiter where Mitarbeiter_ID = '"+Login.username+"';";
+            String ArbZGmax = "Select ArbZGmax,Age from mitarbeiter where Mitarbeiter_ID = '"+Login.username+"';";
             java.sql.PreparedStatement pst2 = con.prepareStatement(ArbZGmax);
             ResultSet rs1 = pst2.executeQuery();
             rs1.next();
             String beginn = rs.getString(1);
             int maxArbZG = rs1.getInt(1);
+            int Age = rs1.getInt(2);
             String pause = rs.getString(2);
             pause = pause.replace(",", ".");
             float pausefloat = Float.parseFloat(pause);
@@ -883,7 +886,11 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
                 heuteistvor6float = heuteistvor6float/100;
                 heuteistvor6float = heuteistvor6float+1; // gibt immer ne Stunde zu wenig aus, warum auch immer
                 System.out.println("WHYYYY "+heuteistvor6float);
-                if( heuteistvor6float >maxArbZG ) {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+                String aktuelleUhrzeit =""+dtf.format(LocalDateTime.now());
+                aktuelleUhrzeit = aktuelleUhrzeit.substring(11,13);
+                int aktuelleUhrzeitInt = Integer.parseInt(aktuelleUhrzeit);
+                if( heuteistvor6float >maxArbZG ||(aktuelleUhrzeitInt>=20 && Age <18)) {
 
                     JOptionPane.showMessageDialog(null, "Sie haben Ihre heutige Arbeitszeit lauft ArbZG überschritten, melden Sie dies bei Ihrem Vorgesetzen.");
                 }
@@ -901,7 +908,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-	}
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Ampel.Ampel ampel;

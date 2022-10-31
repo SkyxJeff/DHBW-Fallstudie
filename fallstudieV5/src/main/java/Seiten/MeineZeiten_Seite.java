@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -26,8 +27,13 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 	int Urlaub_aktuelles_Jahr1;
 	int Urlaub_vorjahr1;
 	int Urlaub_genommen1;
+	long Urlaub_genommen2;
 	int Urlaub_verfuegbar1;
+	int Urlaub_verfuegbar2;
 	int anzahl;
+	long urlaubvorjahrwichtig;
+	long Urlaub_aktuelles_Jahr2;
+	long tage;
 	public int kalenderWoche;
 	public int quartal;
 	public int Jahrpublic;
@@ -102,6 +108,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
         SimpleDateFormat formatdeutsch = new SimpleDateFormat("dd.MM.yyyy");
         DateAktuell = ""+formatdeutsch.format(deutschesAktuellDate);
         datum_textfeld.setText(DateAktuell);
+		System.out.println("Timo Schmelzle ist ein kleiner Bastard "+DateAktuell);
        
 
         beginn_textfeld.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -424,7 +431,11 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 			System.out.println(kw);
 			System.out.println(EndeUhrzeit);
 
-
+			SimpleDateFormat formatDatum = new SimpleDateFormat("yyyy-MM-dd");
+			Date aktuell = formatDatum.parse(DateAktuell);
+			Date eingabe = formatDatum.parse(eingDatumEngl);
+			long diff = eingabe.getTime()-aktuell.getTime();
+			System.out.println("ICH HASSE DIESES PROJEKT "+ diff);
 
 			//irgendwo beim Insert noch checken, ob Arbeitszeit unterhalb 8h oder so liegt, wies halt im ArbZG steht
 			String DatenAusEintraege = ("Select Datum from eintraege where Mitarbeiter_ID = '"+Login.username+"';");
@@ -478,10 +489,10 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 				pst5.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Eintrag gespeichert!");
 			}
-			else if(!DateAktuell.equals(eingDatumEngl)&&(beginn_textfeld.getText().equals("00:00") || pause_textfeld.getText().equals("0,0")||ende_textfeld.getText().equals("00:00"))){
-				JOptionPane.showMessageDialog(null, "Unvollständige Nachträge sind nicht gestattet.");
+			else if((!DateAktuell.equals(eingDatumEngl)&&(beginn_textfeld.getText().equals("00:00") /*|| pause_textfeld.getText().equals("0,0") */||ende_textfeld.getText().equals("00:00"))) || diff >0){
+				JOptionPane.showMessageDialog(null, "Unvollständige Nachträge oder Einträge für die Zukunft sind nicht gestattet.");
 			}
-			else if(!DateAktuell.equals(eingDatumEngl) && !beginn_textfeld.getText().equals("00:00") && !pause_textfeld.getText().equals("0,0")&&!ende_textfeld.getText().equals("00:00")){
+			else if(!DateAktuell.equals(eingDatumEngl) && !beginn_textfeld.getText().equals("00:00") /*&& !pause_textfeld.getText().equals("0,0")*/ &&!ende_textfeld.getText().equals("00:00")){
 				System.out.println("Bin hier");
 				for(int y = 0; y<i ; y++) {
 					String DatumausCount = DatumArr [y];
@@ -490,6 +501,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 						SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 						String StartUhrzeit = beginn_textfeld.getText().substring(0,5);
 						String EndUhrzeit = ende_textfeld.getText().substring(0,5);
+						int endHH = Integer.parseInt(EndeUhrzeit.substring(0,2));
 						String PauseZeit = pause_textfeld.getText();
 						Date StartTime = format.parse(StartUhrzeit);
 						Date EndTime = format.parse(EndUhrzeit);
@@ -499,8 +511,9 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 						float WorkTimeUpdateFloat = Float.parseFloat(WorkTimeUpdate);
 						WorkTimeUpdateFloat = WorkTimeUpdateFloat/100;
 						WorkTimeUpdateFloat = WorkTimeUpdateFloat - PauseZeitUpdate;
-						if((WorkTimeUpdateFloat >9 && PauseZeitUpdate < 0.75 && Age >= 18 ) || (WorkTimeUpdateFloat >6 && PauseZeitUpdate < 0.5 && Age >= 18) || (WorkTimeUpdateFloat >6 && PauseZeitUpdate < 1 && Age < 18) || (WorkTimeUpdateFloat <6 && WorkTimeUpdateFloat > 4.5 && PauseZeitUpdate < 0.5 && Age < 18)) {
-							JOptionPane.showMessageDialog(null, "Sie haben nach ArbZG nicht die nötige Pausenzeit eingelegt, bitte informieren Sie sich und nehmen Sie korrekte Pausen.\n Ihr Eintrag wurde nicht aktualisiert, achten Sie auf Ihre Gesundheit");
+						if(WorkTimeUpdateFloat > 10 && Age >= 18 || WorkTimeUpdateFloat > 8 && Age < 18) {JOptionPane.showMessageDialog(null, "Ihre Arbeitszeit des Nachtrags überschreitet Ihre maximal tägliche Arbeitszeit. Eintrag wurde nicht gepsichert");}
+						else if((WorkTimeUpdateFloat >9 && PauseZeitUpdate < 0.75 && Age >= 18 ) || (WorkTimeUpdateFloat >6 && PauseZeitUpdate < 0.5 && Age >= 18) || (WorkTimeUpdateFloat >6 && PauseZeitUpdate < 1 && Age < 18) || (WorkTimeUpdateFloat <6 && WorkTimeUpdateFloat > 4.5 && PauseZeitUpdate < 0.5 && Age < 18) ||(endHH >=20 && Age <18)) {
+							JOptionPane.showMessageDialog(null, "Sie haben nach ArbZG nicht die nötige Pausenzeit eingelegt oder dagegen verstoßen, bitte informieren Sie sich und tragen die angemessenen Werte ein.\n Ihr Eintrag wurde nicht aktualisiert, achten Sie auf Ihre Gesundheit");
 						}else {
 							String sql7 = ("Update eintraege set Beginn = '"+beginn_textfeld.getText()+"'where Datum = '"+eingDatumEngl+"'AND Mitarbeiter_ID = '"+Login.username+"';");
 							String sql4 = ("Update eintraege set Ende = '"+ende_textfeld.getText()+"'where Datum = '"+eingDatumEngl+"'AND Mitarbeiter_ID = '"+Login.username+"';");
@@ -582,7 +595,8 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 					Date BeginnDateFeld = format.parse(beginn_textfeld.getText());
 					Date EndeFeld = format.parse(ende_textfeld.getText());
 					float ArbeitsZeitNachtrag = ((EndeFeld.getTime()-pauseEingabeFloat-BeginnDateFeld.getTime())/36000) / 100;
-					if(((int)ArbeitsZeitNachtrag >9 && pauseEingabeFloat < 0.75 && Age >= 18 ) || ((int)ArbeitsZeitNachtrag >6 && pauseEingabeFloat < 0.5 && Age >= 18) ||((int)ArbeitsZeitNachtrag >6 && pauseEingabeFloat < 1 && Age < 18) || ((int)ArbeitsZeitNachtrag <6 && ArbeitsZeitNachtrag > 4.5 && pauseEingabeFloat < 0.5 && Age < 18) ) {
+					if(ArbeitsZeitNachtrag > 10 && Age >= 18 || ArbeitsZeitNachtrag > 8 && Age < 18) {JOptionPane.showMessageDialog(null, "Ihre Arbeitszeit des Nachtrags überschreitet Ihre maximal tägliche Arbeitszeit. Eintrag wurde nicht gepsichert");}
+					else if(((int)ArbeitsZeitNachtrag >9 && pauseEingabeFloat < 0.75 && Age >= 18 ) || ((int)ArbeitsZeitNachtrag >6 && pauseEingabeFloat < 0.5 && Age >= 18) ||((int)ArbeitsZeitNachtrag >6 && pauseEingabeFloat < 1 && Age < 18) || ((int)ArbeitsZeitNachtrag <6 && ArbeitsZeitNachtrag > 4.5 && pauseEingabeFloat < 0.5 && Age < 18) ) {
 						JOptionPane.showMessageDialog(null, "Sie haben nach ArbZG nicht die nötige Pausenzeit eingelegt, bitte informieren Sie sich und nehmen Sie korrekte Pausen.\n Ihr Eintrag wurde nicht gespeichert, achten Sie auf Ihre Gesundheit");
 					}else {
 
@@ -664,6 +678,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen2");
+			e.printStackTrace();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -672,8 +687,42 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
     	
     }//GEN-LAST:event_speichern_button1ActionPerformed
 
+	public void Feiertage()
+	{
+		String weihnachten = "25.12.2022";
+		String weihnachtenzwei = "26.12.2022";
+		String Neujahr = "01.01.2023";
+		String HDK = "06.01.2023";
+		String Karfreitag ="07.04.2023";
+		String Ostern ="09.04.2023";
+		String Ostermontag ="10.04.2023";
+		String Tag_der_Arbeit ="01.05.2023";
+		String Christi ="18.05.2023";
+		String Pfingsten ="29.05.2023";
+		String Fronleichnam ="08.06.2023";
+		String Tag_der_Deutschen ="03.10.2023";
+		String Allerheiligen ="01.11.2023";
+		String weihnachten1 = "25.12.2023";
+		String weihnachtenzwei1 = "26.12.2023";
+	}
+	public void Wochenende()
+	{
+		Calendar calendar = new GregorianCalendar();
+		int tag =calendar.get(Calendar.DAY_OF_WEEK);
+		String Tag;
+		switch (tag){
+			case 1:
+				Tag = "Sonntag";
+				break;
+			case 7:
+				Tag = "Samstag";
+		}
+	}
 public void Urlaub(){
 	try {
+		Calendar now = new GregorianCalendar();
+		int tag = now.get(Calendar.DAY_OF_MONTH);
+		int monat = now.get(Calendar.MONTH) +1;
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
 			String Urlaubsanspruch = ("SELECT Urlaubsanspruch FROM `urlaub` WHERE MitarbeiterID = '" + Login.username + "'");
 			String Urlaub_aktuelles_Jahr = ("SELECT UrlaubaktuellesJahr FROM `urlaub` WHERE MitarbeiterID = '" + Login.username + "'");
@@ -700,6 +749,13 @@ public void Urlaub(){
 			Urlaub_vorjahr1 = Integer.parseInt(r3.getString(1));
 			Urlaub_genommen1 = Integer.parseInt(r4.getString(1));
 			Urlaub_verfuegbar1 = Integer.parseInt(r5.getString(1));
+			if(tag == 1 && monat == 1)
+			{
+				int Urlaub_überbleibsel = Urlaub_aktuelles_Jahr1;
+				String update = ("UPDATE urlaub SET `Urlaubsanspruch`= '30',`UrlaubaktuellesJahr`= '30',`Urlaubvorjahr` = '"+Urlaub_überbleibsel+"',`Urlaubgenommen`= '0', `Urlaubverfuegbar`= '30' WHERE MitarbeiterID = '"+Login.username+"'");
+				java.sql.PreparedStatement pst9 = con.prepareStatement(update);
+				pst9.executeUpdate();
+			}
 	} catch (SQLException e) {
 		JOptionPane.showMessageDialog(null, "Datenbankverbindung geht nicht");
 		e.printStackTrace();
@@ -720,7 +776,7 @@ public void Urlaub(){
 	    	String DateAktuell = ""+Datumaktuell;
 	    	String Abwesendheitsbeginn = abwesenheitsbeginn_textfeld.getText();
 	    	String Abwesendheitsende = abwesenheitsende_textfeld.getText();
-	    	long tage;
+
 
 
 			if(Abwesendheitsbeginn.equals(Abwesendheitsende))
@@ -735,7 +791,7 @@ public void Urlaub(){
 		    	long diff = Ende.getTime() - Beginn.getTime();
 		    	TimeUnit time = TimeUnit.DAYS;
 		    	tage = time.convert(diff, TimeUnit.MILLISECONDS);
-		    	tage++;
+		    	tage = tage +1;
 	    	}
 	    	String Notiz = notiz_textfeld.getText();
 	    	System.out.println(DateAktuell);
@@ -751,10 +807,30 @@ public void Urlaub(){
 	    	pst1.executeUpdate();
 	    	if(abwesenheitsgrund_combobox.getSelectedItem() == "Urlaub")
 	    	{
-	    		long Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - tage;
-	    		long Urlaub_genommen2 = Urlaub_genommen1 + tage;
-	    		long Urlaub_verfuegbar2 = Urlaub_verfuegbar1 - tage;
-	    		String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '"+Urlaub_aktuelles_Jahr2+"', `Urlaubgenommen` = '"+Urlaub_genommen2+"', `Urlaubverfuegbar` = '"+Urlaub_verfuegbar2+"'");
+				if(Urlaub_vorjahr1>0 && Urlaub_vorjahr1 > tage)
+				{
+					urlaubvorjahrwichtig  = Urlaub_vorjahr1 - tage;
+
+				}
+				else {
+					if (Urlaub_vorjahr1>0 && Urlaub_vorjahr1 <tage)
+					{
+						long rest = tage - Urlaub_vorjahr1;
+						urlaubvorjahrwichtig = Urlaub_vorjahr1 - Urlaub_vorjahr1;
+						Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - rest;
+						Urlaub_genommen2 = Urlaub_genommen1 + rest + Urlaub_vorjahr1;
+						Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
+
+
+					}
+					else {
+						Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1  - tage;
+						Urlaub_genommen2 = Urlaub_genommen1 + tage;
+						Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
+					}
+				}
+
+	    		String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '"+Urlaub_aktuelles_Jahr2+"',`Urlaubvorjahr` = '"+urlaubvorjahrwichtig+"', `Urlaubgenommen` = '"+Urlaub_genommen2+"', `Urlaubverfuegbar` = '"+Urlaub_verfuegbar2+"' WHERE MitarbeiterID = '"+Login.username+"'");
 	    		java.sql.PreparedStatement pst2 = con1.prepareStatement(update);
 	    		pst2.executeUpdate();
 	    		
@@ -763,6 +839,7 @@ public void Urlaub(){
 	    	
 		} catch (SQLException e1) {
 			JOptionPane.showMessageDialog(null, "Keine Verbindung zur Datenbank möglich");
+			e1.printStackTrace();
 		}
     	catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "Tage gehen nicht");
