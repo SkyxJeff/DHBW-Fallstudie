@@ -108,6 +108,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
         SimpleDateFormat formatdeutsch = new SimpleDateFormat("dd.MM.yyyy");
         DateAktuell = ""+formatdeutsch.format(deutschesAktuellDate);
         datum_textfeld.setText(DateAktuell);
+		System.out.println("Timo Schmelzle ist ein kleiner Bastard "+DateAktuell);
        
 
         beginn_textfeld.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -678,6 +679,37 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
     	
     }//GEN-LAST:event_speichern_button1ActionPerformed
 
+	public void Feiertage()
+	{
+		String weihnachten = "25.12.2022";
+		String weihnachtenzwei = "26.12.2022";
+		String Neujahr = "01.01.2023";
+		String HDK = "06.01.2023";
+		String Karfreitag ="07.04.2023";
+		String Ostern ="09.04.2023";
+		String Ostermontag ="10.04.2023";
+		String Tag_der_Arbeit ="01.05.2023";
+		String Christi ="18.05.2023";
+		String Pfingsten ="29.05.2023";
+		String Fronleichnam ="08.06.2023";
+		String Tag_der_Deutschen ="03.10.2023";
+		String Allerheiligen ="01.11.2023";
+		String weihnachten1 = "25.12.2023";
+		String weihnachtenzwei1 = "26.12.2023";
+	}
+	public void Wochenende()
+	{
+		Calendar calendar = new GregorianCalendar();
+		int tag =calendar.get(Calendar.DAY_OF_WEEK);
+		String Tag;
+		switch (tag){
+			case 1:
+				Tag = "Sonntag";
+				break;
+			case 7:
+				Tag = "Samstag";
+		}
+	}
 public void Urlaub(){
 	try {
 		Calendar now = new GregorianCalendar();

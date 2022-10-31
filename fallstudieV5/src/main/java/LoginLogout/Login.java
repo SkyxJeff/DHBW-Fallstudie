@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -195,65 +196,81 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_passworttextfeldActionPerformed
 
     private void loginbuttonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_loginbuttonActionPerformed
-    	String StandardPW = "start";
+        String StandardPW = "start";
+        LocalDate DateAktuell = LocalDate.now();
+        int jahr = DateAktuell.getYear();
+        String [] Feiertage = {jahr+"-12-25",jahr+"-12-26",jahr+"-01-01",jahr+"-01-06",jahr+"-04-07",jahr+"-04-09",jahr+"-04-10",jahr+"-05-01",jahr+"-05-18",jahr+"-05-29",jahr+"-06-08",jahr+"-10-03",jahr+"-11-01"};
+        String DatumAktuell = ""+DateAktuell;
 
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-            username = benutzernametextfeld.getText();
-            String sql = "Select * from login_daten_mitarbeiter where Mitarbeiter_ID=? and Passwort=?";
-            java.sql.PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, benutzernametextfeld.getText());
-            pst.setString(2, passworttextfeld.getText());
-            ResultSet rs = pst.executeQuery();
+        int Wochentag = DateAktuell.getDayOfWeek().getValue();
+        boolean Feiertaggefunden = false;
+        for(int i = 0; i<Feiertage.length; i++) {
+            String DatumFeiertage = Feiertage[i];
+            if(DatumAktuell.equals(DatumFeiertage)) {
+                Feiertaggefunden = true;
+                break;}
+        }
+        if((Wochentag == 6 || Wochentag == 7) || Feiertaggefunden == true ) {
+            JOptionPane.showMessageDialog(null, "Wir haben das Tool an Wochenenden und Feiertagem gesperrt. Verbringen Sie Zeit mir Ihrer Familie.");
+        }
+        else {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+                username = benutzernametextfeld.getText();
+                String sql = "Select * from login_daten_mitarbeiter where Mitarbeiter_ID=? and Passwort=?";
+                java.sql.PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, benutzernametextfeld.getText());
+                pst.setString(2, passworttextfeld.getText());
+                ResultSet rs = pst.executeQuery();
 
-            String sql1PW = "Select Passwort from login_daten_mitarbeiter where Mitarbeiter_ID='"+Login.username+"';";
-            java.sql.PreparedStatement pst1 = con.prepareStatement(sql1PW);
-            ResultSet rs1 = pst1.executeQuery();
-            rs1.next();
-            String pw = rs1.getString(1);
-            System.out.println(pw);
+                String sql1PW = "Select Passwort from login_daten_mitarbeiter where Mitarbeiter_ID='"+Login.username+"';";
+                java.sql.PreparedStatement pst1 = con.prepareStatement(sql1PW);
+                ResultSet rs1 = pst1.executeQuery();
+                rs1.next();
+                String pw = rs1.getString(1);
+                System.out.println(pw);
 
 
-            if(pw.equals("")&&passworttextfeld.getText().equals(StandardPW)) {
-                String sql3 = "Update login_daten_mitarbeiter set Passwort = 'start'where Mitarbeiter_ID= '"+Login.username+"';";
-                java.sql.PreparedStatement pst3 = con.prepareStatement(sql3);
-                pst3.executeUpdate(sql3);
-                JOptionPane.showMessageDialog(null, "Standardpasswort zurückgesetzt, geben Sie nun Ihr eigenes Passwort ein.");
-                passworttextfeld.setText("");
-                System.out.println("Ich bin hier");
+                if(pw.equals("")&&passworttextfeld.getText().equals(StandardPW)) {
+                    String sql3 = "Update login_daten_mitarbeiter set Passwort = 'start'where Mitarbeiter_ID= '"+Login.username+"';";
+                    java.sql.PreparedStatement pst3 = con.prepareStatement(sql3);
+                    pst3.executeUpdate(sql3);
+                    JOptionPane.showMessageDialog(null, "Standardpasswort zurückgesetzt, geben Sie nun Ihr eigenes Passwort ein.");
+                    passworttextfeld.setText("");
+                    System.out.println("Ich bin hier");
 
-            }else if(pw.equals("start") && !passworttextfeld.getText().equals(StandardPW)) {
-                boolean PWPruef = passwortPruefen(passworttextfeld.getText());
-                if(PWPruef) {
-                    String sql2 = "Update login_daten_mitarbeiter set Passwort = '"+passworttextfeld.getText()+"'where Mitarbeiter_ID= '"+Login.username+"';";
-                    java.sql.PreparedStatement pst2 = con.prepareStatement(sql2);
-                    pst2.executeUpdate(sql2);
+                }else if(pw.equals("start") && !passworttextfeld.getText().equals(StandardPW)) {
+                    boolean PWPruef = passwortPruefen(passworttextfeld.getText());
+                    if(PWPruef) {
+                        String sql2 = "Update login_daten_mitarbeiter set Passwort = '"+passworttextfeld.getText()+"'where Mitarbeiter_ID= '"+Login.username+"';";
+                        java.sql.PreparedStatement pst2 = con.prepareStatement(sql2);
+                        pst2.executeUpdate(sql2);
+                        JOptionPane.showMessageDialog(null, "Login erfolgreich");
+                        new Home().setVisible(true);
+                        dispose();
+                        System.out.println("Ich bin jz hier");
+                    }
+
+
+                }else if (!pw.equals(StandardPW) && pw.equals(passworttextfeld.getText())) {
                     JOptionPane.showMessageDialog(null, "Login erfolgreich");
                     new Home().setVisible(true);
                     dispose();
-                    System.out.println("Ich bin jz hier");
                 }
+                else {
+                    JOptionPane.showMessageDialog(null, "Login fehlgeschlagen");
+                    benutzernametextfeld.setText("");
+                    passworttextfeld.setText("");
+                }
+                con.close();
 
-
-            }else if (!pw.equals(StandardPW) && pw.equals(passworttextfeld.getText())) {
-                JOptionPane.showMessageDialog(null, "Login erfolgreich");
-                new Home().setVisible(true);
-                dispose();
             }
-            else {
-                JOptionPane.showMessageDialog(null, "Login fehlgeschlagen");
-                benutzernametextfeld.setText("");
-                passworttextfeld.setText("");
+            catch(Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Login fehlgeschlagen1");
             }
-            con.close();
-
-    	}
-    	catch(Exception e) {
-    		e.printStackTrace();
-    		JOptionPane.showMessageDialog(null, "Login fehlgeschlagen1");
-    	}
-
+        }
 
         txtDateierstellen();
 
