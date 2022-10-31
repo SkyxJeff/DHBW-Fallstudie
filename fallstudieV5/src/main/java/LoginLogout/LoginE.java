@@ -1,34 +1,23 @@
 package LoginLogout;
 
+import dashboard.FallstudieE;
+import dashboard.Home;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
-import javax.swing.JOptionPane;
-
-//import com.mysql.jdbc.PreparedStatement;
-//import com.mysql.jdbc.*;
-
-import Seiten.MeineZeiten_Seite;
-import Seiten.Uebersicht_Seite;
-import dashboard.Fallstudie;
-import dashboard.FallstudieE;
-import dashboard.Home;
-
-public class Login extends javax.swing.JFrame {
+public class LoginE extends javax.swing.JFrame {
 
 	public static String username;
 
 
-    public Login() {
+    public LoginE() {
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -198,84 +187,67 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_passworttextfeldActionPerformed
 
     private void loginbuttonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_loginbuttonActionPerformed
-        String StandardPW = "start";
-        LocalDate DateAktuell = LocalDate.now();
-        int jahr = DateAktuell.getYear();
-        String [] Feiertage = {jahr+"-12-25",jahr+"-12-26",jahr+"-01-01",jahr+"-01-06",jahr+"-04-07",jahr+"-04-09",jahr+"-04-10",jahr+"-05-01",jahr+"-05-18",jahr+"-05-29",jahr+"-06-08",jahr+"-10-03",jahr+"-11-01"};
-        String DatumAktuell = ""+DateAktuell;
+    	String StandardPW = "start";
 
-        int Wochentag = DateAktuell.getDayOfWeek().getValue();
-        boolean Feiertaggefunden = false;
-        for(int i = 0; i<Feiertage.length; i++) {
-            String DatumFeiertage = Feiertage[i];
-            if(DatumAktuell.equals(DatumFeiertage)) {
-                Feiertaggefunden = true;
-                break;}
-        }
-        if((Wochentag == 6 || Wochentag == 7) || Feiertaggefunden == true ) {
-            JOptionPane.showMessageDialog(null, "Wir haben das Tool an Wochenenden und Feiertagem gesperrt. Verbringen Sie Zeit mir Ihrer Familie.");
-        }
-        else {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-                username = benutzernametextfeld.getText();
-                String sql = "Select * from login_daten_mitarbeiter where Mitarbeiter_ID=? and Passwort=?";
-                java.sql.PreparedStatement pst = con.prepareStatement(sql);
-                pst.setString(1, benutzernametextfeld.getText());
-                pst.setString(2, passworttextfeld.getText());
-                ResultSet rs = pst.executeQuery();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+            username = benutzernametextfeld.getText();
+            String sql = "Select * from login_daten_mitarbeiter where Mitarbeiter_ID=? and Passwort=?";
+            java.sql.PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, benutzernametextfeld.getText());
+            pst.setString(2, passworttextfeld.getText());
+            ResultSet rs = pst.executeQuery();
 
-                String sql1PW = "Select Passwort from login_daten_mitarbeiter where Mitarbeiter_ID='"+Login.username+"';";
-                java.sql.PreparedStatement pst1 = con.prepareStatement(sql1PW);
-                ResultSet rs1 = pst1.executeQuery();
-                rs1.next();
-                String pw = rs1.getString(1);
-                System.out.println(pw);
+            String sql1PW = "Select Passwort from login_daten_mitarbeiter where Mitarbeiter_ID='"+ LoginE.username+"';";
+            java.sql.PreparedStatement pst1 = con.prepareStatement(sql1PW);
+            ResultSet rs1 = pst1.executeQuery();
+            rs1.next();
+            String pw = rs1.getString(1);
+            System.out.println(pw);
 
 
-                if(pw.equals("")&&passworttextfeld.getText().equals(StandardPW)) {
-                    String sql3 = "Update login_daten_mitarbeiter set Passwort = 'start'where Mitarbeiter_ID= '"+Login.username+"';";
-                    java.sql.PreparedStatement pst3 = con.prepareStatement(sql3);
-                    pst3.executeUpdate(sql3);
-                    JOptionPane.showMessageDialog(null, "Standardpasswort zurückgesetzt, geben Sie nun Ihr eigenes Passwort ein.");
-                    passworttextfeld.setText("");
-                    System.out.println("Ich bin hier");
+            if(pw.equals("")&&passworttextfeld.getText().equals(StandardPW)) {
+                String sql3 = "Update login_daten_mitarbeiter set Passwort = 'start'where Mitarbeiter_ID= '"+ LoginE.username+"';";
+                java.sql.PreparedStatement pst3 = con.prepareStatement(sql3);
+                pst3.executeUpdate(sql3);
+                JOptionPane.showMessageDialog(null, "Single use password resetted, please enter your own password.");
+                passworttextfeld.setText("");
+                System.out.println("Im there");
 
-                }else if(pw.equals("start") && !passworttextfeld.getText().equals(StandardPW)) {
-                    boolean PWPruef = passwortPruefen(passworttextfeld.getText());
-                    if(PWPruef) {
-                        String sql2 = "Update login_daten_mitarbeiter set Passwort = '"+passworttextfeld.getText()+"'where Mitarbeiter_ID= '"+Login.username+"';";
-                        java.sql.PreparedStatement pst2 = con.prepareStatement(sql2);
-                        pst2.executeUpdate(sql2);
-                        JOptionPane.showMessageDialog(null, "Login erfolgreich");
-                        new Home().setVisible(true);
-                        dispose();
-                        System.out.println("Ich bin jz hier");
-                    }
-
-
-                }else if (!pw.equals(StandardPW) && pw.equals(passworttextfeld.getText())) {
-                    JOptionPane.showMessageDialog(null, "Login erfolgreich");
+            }else if(pw.equals("start") && !passworttextfeld.getText().equals(StandardPW)) {
+                boolean PWPruef = passwortPruefen(passworttextfeld.getText());
+                if(PWPruef) {
+                    String sql2 = "Update login_daten_mitarbeiter set Passwort = '"+passworttextfeld.getText()+"'where Mitarbeiter_ID= '"+ LoginE.username+"';";
+                    java.sql.PreparedStatement pst2 = con.prepareStatement(sql2);
+                    pst2.executeUpdate(sql2);
+                    JOptionPane.showMessageDialog(null, "Login required");
                     new Home().setVisible(true);
                     dispose();
+                    System.out.println("Im there now");
                 }
-                else {
-                    JOptionPane.showMessageDialog(null, "Login fehlgeschlagen");
-                    benutzernametextfeld.setText("");
-                    passworttextfeld.setText("");
-                }
-                con.close();
 
+
+            }else if (!pw.equals(StandardPW) && pw.equals(passworttextfeld.getText())) {
+                JOptionPane.showMessageDialog(null, "Login successful");
+                new Home().setVisible(true);
+                dispose();
             }
-            catch(Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Login fehlgeschlagen1");
+            else {
+                JOptionPane.showMessageDialog(null, "Login failed");
+                benutzernametextfeld.setText("");
+                passworttextfeld.setText("");
             }
-        }
+            con.close();
+
+    	}
+    	catch(Exception e) {
+    		e.printStackTrace();
+    		JOptionPane.showMessageDialog(null, "Login failed1");
+    	}
+
 
         txtDateierstellen();
-
 
 
     }//GEN-LAST:event_loginbuttonActionPerformed
@@ -302,20 +274,20 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new LoginE().setVisible(true);
             }
         });
     }
@@ -340,18 +312,16 @@ public class Login extends javax.swing.JFrame {
         if (passwort.length() >= MAX && uppercaseCounter >= MIN_Uppercase
                 && lowercaseCounter >= MIN_Lowercase && digitCounter >= NUM_Digits) {
             return true;}
-        JOptionPane.showMessageDialog(null, "Nicht gespeichert. Stellen Sie sicher, dass sie folgende Anforderungen erfüllen: \n "
-                + "- mind. 8 Zeichen \n - mind. 1 Kleinbuchstabe \n - mind 1 Großbuchstabe \n - mind 1 Zahl");
+        JOptionPane.showMessageDialog(null, "Couldn't save password, please check the requirements: \n "
+                + "- at least 8 characters \n - at least 1 lowercase character \n - at least 1 uppercase character \n - at least 1 number");
         return false;
     }
     public static void txtDateierstellen()
     {
-        Calendar calendar = new GregorianCalendar();
-        System.out.println("Heute ist:"+calendar.get(Calendar.DAY_OF_WEEK));
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-            String Ausgabe = ("SELECT `Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo` FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");
-            String Zahl = ("SELECT COUNT(Mitarbeiter_ID) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");
+            String Ausgabe = ("SELECT `Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo` FROM eintraege WHERE Mitarbeiter_ID = '"+ LoginE.username+"'");
+            String Zahl = ("SELECT COUNT(Mitarbeiter_ID) FROM eintraege WHERE Mitarbeiter_ID = '"+ LoginE.username+"'");
             java.sql.PreparedStatement pst = con.prepareStatement(Ausgabe);
             java.sql.PreparedStatement pst1 = con.prepareStatement(Zahl);
             ResultSet rs = pst.executeQuery();
@@ -363,12 +333,12 @@ public class Login extends javax.swing.JFrame {
             File datei = new File("Eintraege.txt");
             FileWriter writer = new FileWriter(datei);
             writer.write("ID\t");
-            writer.write("Datum\t \t");
-            writer.write("Beginn\t");
-            writer.write("Pause\t");
-            writer.write("Ende\t");
-            writer.write("Art\t");
-            writer.write("Saldo\n");
+            writer.write("Date\t \t");
+            writer.write("Shift start\t");
+            writer.write("Break\t");
+            writer.write("Shift finished\t");
+            writer.write("Type\t");
+            writer.write("Summary\n");
             writer.write("---------------------------------------------------------------- \n");
             writer.write(rs.getString(1) + "\t");
             writer.write(rs.getString(2) + "\t");
@@ -376,7 +346,7 @@ public class Login extends javax.swing.JFrame {
             writer.write(rs.getString(4) + "\t");
             writer.write(rs.getString(5) + "\t");
             writer.write(rs.getString(6) + "\t");
-            writer.write(rs.getFloat(7) + "Std.\n");
+            writer.write(rs.getFloat(7) + "Hrs.\n");
 
 
             while(rs.next()) {
@@ -387,7 +357,7 @@ public class Login extends javax.swing.JFrame {
                 writer.write(rs.getString(4) + "\t");
                 writer.write(rs.getString(5) + "\t");
                 writer.write(rs.getString(6) + "\t");
-                writer.write(rs.getFloat(7) + "Std.\n");
+                writer.write(rs.getFloat(7) + "Hrs.\n");
 
             }
             writer.flush();

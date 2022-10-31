@@ -10,6 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="DHBW-Fallstudie" target="19" />
       <module name="FallstudieV5" target="19" />
     </bytecodeTargetLevel>
   </component>
