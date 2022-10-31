@@ -431,7 +431,11 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 			System.out.println(kw);
 			System.out.println(EndeUhrzeit);
 
-
+			SimpleDateFormat formatDatum = new SimpleDateFormat("yyyy-MM-dd");
+			Date aktuell = formatDatum.parse(DateAktuell);
+			Date eingabe = formatDatum.parse(eingDatumEngl);
+			long diff = eingabe.getTime()-aktuell.getTime();
+			System.out.println("ICH HASSE DIESES PROJEKT "+ diff);
 
 			//irgendwo beim Insert noch checken, ob Arbeitszeit unterhalb 8h oder so liegt, wies halt im ArbZG steht
 			String DatenAusEintraege = ("Select Datum from eintraege where Mitarbeiter_ID = '"+Login.username+"';");
@@ -485,10 +489,10 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 				pst5.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Eintrag gespeichert!");
 			}
-			else if(!DateAktuell.equals(eingDatumEngl)&&(beginn_textfeld.getText().equals("00:00") || pause_textfeld.getText().equals("0,0")||ende_textfeld.getText().equals("00:00"))){
-				JOptionPane.showMessageDialog(null, "Unvollständige Nachträge sind nicht gestattet.");
+			else if((!DateAktuell.equals(eingDatumEngl)&&(beginn_textfeld.getText().equals("00:00") /*|| pause_textfeld.getText().equals("0,0") */||ende_textfeld.getText().equals("00:00"))) || diff >0){
+				JOptionPane.showMessageDialog(null, "Unvollständige Nachträge oder Einträge für die Zukunft sind nicht gestattet.");
 			}
-			else if(!DateAktuell.equals(eingDatumEngl) && !beginn_textfeld.getText().equals("00:00") && !pause_textfeld.getText().equals("0,0")&&!ende_textfeld.getText().equals("00:00")){
+			else if(!DateAktuell.equals(eingDatumEngl) && !beginn_textfeld.getText().equals("00:00") /*&& !pause_textfeld.getText().equals("0,0")*/ &&!ende_textfeld.getText().equals("00:00")){
 				System.out.println("Bin hier");
 				for(int y = 0; y<i ; y++) {
 					String DatumausCount = DatumArr [y];
@@ -497,6 +501,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 						SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 						String StartUhrzeit = beginn_textfeld.getText().substring(0,5);
 						String EndUhrzeit = ende_textfeld.getText().substring(0,5);
+						int endHH = Integer.parseInt(EndeUhrzeit.substring(0,2));
 						String PauseZeit = pause_textfeld.getText();
 						Date StartTime = format.parse(StartUhrzeit);
 						Date EndTime = format.parse(EndUhrzeit);
@@ -506,8 +511,9 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 						float WorkTimeUpdateFloat = Float.parseFloat(WorkTimeUpdate);
 						WorkTimeUpdateFloat = WorkTimeUpdateFloat/100;
 						WorkTimeUpdateFloat = WorkTimeUpdateFloat - PauseZeitUpdate;
-						if((WorkTimeUpdateFloat >9 && PauseZeitUpdate < 0.75 && Age >= 18 ) || (WorkTimeUpdateFloat >6 && PauseZeitUpdate < 0.5 && Age >= 18) || (WorkTimeUpdateFloat >6 && PauseZeitUpdate < 1 && Age < 18) || (WorkTimeUpdateFloat <6 && WorkTimeUpdateFloat > 4.5 && PauseZeitUpdate < 0.5 && Age < 18)) {
-							JOptionPane.showMessageDialog(null, "Sie haben nach ArbZG nicht die nötige Pausenzeit eingelegt, bitte informieren Sie sich und nehmen Sie korrekte Pausen.\n Ihr Eintrag wurde nicht aktualisiert, achten Sie auf Ihre Gesundheit");
+						if(WorkTimeUpdateFloat > 10 && Age >= 18 || WorkTimeUpdateFloat > 8 && Age < 18) {JOptionPane.showMessageDialog(null, "Ihre Arbeitszeit des Nachtrags überschreitet Ihre maximal tägliche Arbeitszeit. Eintrag wurde nicht gepsichert");}
+						else if((WorkTimeUpdateFloat >9 && PauseZeitUpdate < 0.75 && Age >= 18 ) || (WorkTimeUpdateFloat >6 && PauseZeitUpdate < 0.5 && Age >= 18) || (WorkTimeUpdateFloat >6 && PauseZeitUpdate < 1 && Age < 18) || (WorkTimeUpdateFloat <6 && WorkTimeUpdateFloat > 4.5 && PauseZeitUpdate < 0.5 && Age < 18) ||(endHH >=20 && Age <18)) {
+							JOptionPane.showMessageDialog(null, "Sie haben nach ArbZG nicht die nötige Pausenzeit eingelegt oder dagegen verstoßen, bitte informieren Sie sich und tragen die angemessenen Werte ein.\n Ihr Eintrag wurde nicht aktualisiert, achten Sie auf Ihre Gesundheit");
 						}else {
 							String sql7 = ("Update eintraege set Beginn = '"+beginn_textfeld.getText()+"'where Datum = '"+eingDatumEngl+"'AND Mitarbeiter_ID = '"+Login.username+"';");
 							String sql4 = ("Update eintraege set Ende = '"+ende_textfeld.getText()+"'where Datum = '"+eingDatumEngl+"'AND Mitarbeiter_ID = '"+Login.username+"';");
@@ -589,7 +595,8 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 					Date BeginnDateFeld = format.parse(beginn_textfeld.getText());
 					Date EndeFeld = format.parse(ende_textfeld.getText());
 					float ArbeitsZeitNachtrag = ((EndeFeld.getTime()-pauseEingabeFloat-BeginnDateFeld.getTime())/36000) / 100;
-					if(((int)ArbeitsZeitNachtrag >9 && pauseEingabeFloat < 0.75 && Age >= 18 ) || ((int)ArbeitsZeitNachtrag >6 && pauseEingabeFloat < 0.5 && Age >= 18) ||((int)ArbeitsZeitNachtrag >6 && pauseEingabeFloat < 1 && Age < 18) || ((int)ArbeitsZeitNachtrag <6 && ArbeitsZeitNachtrag > 4.5 && pauseEingabeFloat < 0.5 && Age < 18) ) {
+					if(ArbeitsZeitNachtrag > 10 && Age >= 18 || ArbeitsZeitNachtrag > 8 && Age < 18) {JOptionPane.showMessageDialog(null, "Ihre Arbeitszeit des Nachtrags überschreitet Ihre maximal tägliche Arbeitszeit. Eintrag wurde nicht gepsichert");}
+					else if(((int)ArbeitsZeitNachtrag >9 && pauseEingabeFloat < 0.75 && Age >= 18 ) || ((int)ArbeitsZeitNachtrag >6 && pauseEingabeFloat < 0.5 && Age >= 18) ||((int)ArbeitsZeitNachtrag >6 && pauseEingabeFloat < 1 && Age < 18) || ((int)ArbeitsZeitNachtrag <6 && ArbeitsZeitNachtrag > 4.5 && pauseEingabeFloat < 0.5 && Age < 18) ) {
 						JOptionPane.showMessageDialog(null, "Sie haben nach ArbZG nicht die nötige Pausenzeit eingelegt, bitte informieren Sie sich und nehmen Sie korrekte Pausen.\n Ihr Eintrag wurde nicht gespeichert, achten Sie auf Ihre Gesundheit");
 					}else {
 
@@ -671,6 +678,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen2");
+			e.printStackTrace();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
