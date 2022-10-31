@@ -788,28 +788,29 @@ public void Urlaub(){
 				String Jahr = Abwesendheitsbeginn.substring(6);
 				Calendar calendar = new GregorianCalendar(Integer.parseInt(Tag), Integer.parseInt(Monat), Integer.parseInt(Jahr));
 				int ausgabe = calendar.get(Calendar.DAY_OF_WEEK);
+				System.err.println(ausgabe);
 				if (ausgabe == 2 && tage >=8 && tage <=12) {
-					tage = tage -2;
+					tage = tage - 2;
 				} else if (ausgabe == 2 && tage >= 15 && tage <=19) {
-					tage = tage -4;
+					tage = tage - 4;
 				} else if (ausgabe == 3 && tage >=7 && tage <= 11) {
-					tage = tage -2;
+					tage = tage - 2;
 				} else if (ausgabe == 3 && tage >=14 && tage <= 18) {
-					tage = tage -4;
+					tage = tage - 4;
 				} else if (ausgabe == 4 && tage >= 6 && tage <= 10) {
-					tage = tage -2;
+					tage = tage - 2;
 				} else if (ausgabe == 4 && tage >= 13 && tage <= 17) {
-					tage = tage -4;
+					tage = tage - 4;
 				} else if (ausgabe == 5 && tage >= 5 && tage <= 9) {
-					tage = tage -2;
+					tage = tage - 2;
 				} else if (ausgabe == 5 && tage >= 12 && tage <= 16) {
-					tage = tage -4;
+					tage = tage - 4;
 				} else if (ausgabe == 6 && tage >= 4 && tage <= 8) {
-					tage = tage -2;
+					tage = tage - 2;
 				} else if (ausgabe == 6 && tage >= 11 && tage <= 15) {
-					tage = tage -4;
+					tage = tage - 4;
 				}
-			System.err.println("Mama"+tage);
+
 			}
 
 	    	String Notiz = notiz_textfeld.getText();
