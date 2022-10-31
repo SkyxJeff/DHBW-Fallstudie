@@ -244,7 +244,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         woche_label.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         woche_label.setForeground(new java.awt.Color(255, 255, 255));
         woche_label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        woche_label.setText("Woche");
+        woche_label.setText("Monat");
 
         javax.swing.GroupLayout woche_panelLayout = new javax.swing.GroupLayout(woche_panel);
         woche_panel.setLayout(woche_panelLayout);

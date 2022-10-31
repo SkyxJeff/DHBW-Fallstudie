@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.JOptionPane;
 
@@ -325,6 +327,8 @@ public class Login extends javax.swing.JFrame {
     }
     public static void txtDateierstellen()
     {
+        Calendar calendar = new GregorianCalendar();
+        System.out.println("Heute ist:"+calendar.get(Calendar.DAY_OF_WEEK));
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
             String Ausgabe = ("SELECT `Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo` FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");

@@ -45,7 +45,6 @@ public class Menue extends javax.swing.JPanel {
         addMenu("Meine Daten", 1);
         addMenu("Meine Zeiten", 2);
         addMenu("Einträge", 3);
-        addMenu("Kalender", 4);
         addMenu("Einstellungen", 5);
         addMenu("Logout", 6);
     }
