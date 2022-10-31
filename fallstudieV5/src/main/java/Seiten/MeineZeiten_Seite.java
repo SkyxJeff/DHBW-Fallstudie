@@ -705,24 +705,14 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 		String weihnachten1 = "25.12.2023";
 		String weihnachtenzwei1 = "26.12.2023";
 	}
-	public void Wochenende()
-	{
-		Calendar calendar = new GregorianCalendar();
-		int tag =calendar.get(Calendar.DAY_OF_WEEK);
-		String Tag;
-		switch (tag){
-			case 1:
-				Tag = "Sonntag";
-				break;
-			case 7:
-				Tag = "Samstag";
-		}
-	}
+
 public void Urlaub(){
 	try {
 		Calendar now = new GregorianCalendar();
 		int tag = now.get(Calendar.DAY_OF_MONTH);
 		int monat = now.get(Calendar.MONTH) +1;
+		int Year = now.get(Calendar.YEAR)+1;
+		int aktuellesJahr = now.get(Calendar.YEAR);
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
 			String Urlaubsanspruch = ("SELECT Urlaubsanspruch FROM `urlaub` WHERE MitarbeiterID = '" + Login.username + "'");
 			String Urlaub_aktuelles_Jahr = ("SELECT UrlaubaktuellesJahr FROM `urlaub` WHERE MitarbeiterID = '" + Login.username + "'");
@@ -749,10 +739,10 @@ public void Urlaub(){
 			Urlaub_vorjahr1 = Integer.parseInt(r3.getString(1));
 			Urlaub_genommen1 = Integer.parseInt(r4.getString(1));
 			Urlaub_verfuegbar1 = Integer.parseInt(r5.getString(1));
-			if(tag == 1 && monat == 1)
+			if(tag == 1 && monat == 1 && Year != aktuellesJahr)
 			{
-				int Urlaub_überbleibsel = Urlaub_aktuelles_Jahr1;
-				String update = ("UPDATE urlaub SET `Urlaubsanspruch`= '30',`UrlaubaktuellesJahr`= '30',`Urlaubvorjahr` = '"+Urlaub_überbleibsel+"',`Urlaubgenommen`= '0', `Urlaubverfuegbar`= '30' WHERE MitarbeiterID = '"+Login.username+"'");
+				int Urlaub_ueberbleibsel = Urlaub_aktuelles_Jahr1;
+				String update = ("UPDATE urlaub SET `Urlaubsanspruch`= '30',`UrlaubaktuellesJahr`= '30',`Urlaubvorjahr` = '"+Urlaub_ueberbleibsel+"',`Urlaubgenommen`= '0', `Urlaubverfuegbar`= '30' WHERE MitarbeiterID = '"+Login.username+"'");
 				java.sql.PreparedStatement pst9 = con.prepareStatement(update);
 				pst9.executeUpdate();
 			}
@@ -785,6 +775,7 @@ public void Urlaub(){
 	    	}
 	    	else
 	    	{
+
 		    	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 		    	Date Beginn = sdf.parse(Abwesendheitsbeginn);
 		    	Date Ende = sdf.parse(Abwesendheitsende);
@@ -792,14 +783,36 @@ public void Urlaub(){
 		    	TimeUnit time = TimeUnit.DAYS;
 		    	tage = time.convert(diff, TimeUnit.MILLISECONDS);
 		    	tage = tage +1;
-	    	}
+				String Tag = Abwesendheitsbeginn.substring(0,2);
+				String Monat = Abwesendheitsbeginn.substring(3,5);
+				String Jahr = Abwesendheitsbeginn.substring(6);
+				Calendar calendar = new GregorianCalendar(Integer.parseInt(Tag), Integer.parseInt(Monat), Integer.parseInt(Jahr));
+				int ausgabe = calendar.get(Calendar.DAY_OF_WEEK);
+				if (ausgabe == 2 && tage >=8 && tage <=12) {
+					tage = tage -2;
+				} else if (ausgabe == 2 && tage >= 15 && tage <=19) {
+					tage = tage -4;
+				} else if (ausgabe == 3 && tage >=7 && tage <= 11) {
+					tage = tage -2;
+				} else if (ausgabe == 3 && tage >=14 && tage <= 18) {
+					tage = tage -4;
+				} else if (ausgabe == 4 && tage >= 6 && tage <= 10) {
+					tage = tage -2;
+				} else if (ausgabe == 4 && tage >= 13 && tage <= 17) {
+					tage = tage -4;
+				} else if (ausgabe == 5 && tage >= 5 && tage <= 9) {
+					tage = tage -2;
+				} else if (ausgabe == 5 && tage >= 12 && tage <= 16) {
+					tage = tage -4;
+				} else if (ausgabe == 6 && tage >= 4 && tage <= 8) {
+					tage = tage -2;
+				} else if (ausgabe == 6 && tage >= 11 && tage <= 15) {
+					tage = tage -4;
+				}
+			System.err.println("Mama"+tage);
+			}
+
 	    	String Notiz = notiz_textfeld.getText();
-	    	System.out.println(DateAktuell);
-	    	System.out.println(Abwesendheitsbeginn);
-	    	System.out.println(Abwesendheitsende);
-	    	System.out.println(tage);
-	    	System.out.println(Notiz);
-	    	System.out.println(abwesenheitsgrund_combobox.getSelectedItem());
 	    	
 	    	//INSERT INTO `abwesendheit`(`MitarbeiterID`, `Datum`, `Beginn`, `Ende`, `Grund`, `Notiz`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]')
 	    	String eingabe = ("INSERT INTO `abwesendheit`(`MitarbeiterID`, `Datum`, `Beginn`, `Ende`, `Tage`, `Grund`, `Notiz`) VALUES ('"+Login.username+"','"+DateAktuell+"','"+Abwesendheitsbeginn+"','"+Abwesendheitsende+"','"+tage+"','"+abwesenheitsgrund_combobox.getSelectedItem()+"','"+Notiz+"')");
@@ -807,34 +820,34 @@ public void Urlaub(){
 	    	pst1.executeUpdate();
 	    	if(abwesenheitsgrund_combobox.getSelectedItem() == "Urlaub")
 	    	{
-				if(Urlaub_vorjahr1>0 && Urlaub_vorjahr1 > tage)
-				{
-					urlaubvorjahrwichtig  = Urlaub_vorjahr1 - tage;
-
-				}
-				else {
-					if (Urlaub_vorjahr1>0 && Urlaub_vorjahr1 <tage)
-					{
-						long rest = tage - Urlaub_vorjahr1;
-						urlaubvorjahrwichtig = Urlaub_vorjahr1 - Urlaub_vorjahr1;
-						Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - rest;
-						Urlaub_genommen2 = Urlaub_genommen1 + rest + Urlaub_vorjahr1;
-						Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
 
 
+
+					if (Urlaub_vorjahr1 > 0 && Urlaub_vorjahr1 > tage) {
+						urlaubvorjahrwichtig = Urlaub_vorjahr1 - tage;
+
+					} else {
+						if (Urlaub_vorjahr1 > 0 && Urlaub_vorjahr1 < tage) {
+							long rest = tage - Urlaub_vorjahr1;
+							urlaubvorjahrwichtig = Urlaub_vorjahr1 - Urlaub_vorjahr1;
+							Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - rest;
+							Urlaub_genommen2 = Urlaub_genommen1 + rest + Urlaub_vorjahr1;
+							Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
+
+
+						} else {
+							Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - tage;
+							Urlaub_genommen2 = Urlaub_genommen1 + tage;
+							Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
+						}
 					}
-					else {
-						Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1  - tage;
-						Urlaub_genommen2 = Urlaub_genommen1 + tage;
-						Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
-					}
-				}
 
-	    		String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '"+Urlaub_aktuelles_Jahr2+"',`Urlaubvorjahr` = '"+urlaubvorjahrwichtig+"', `Urlaubgenommen` = '"+Urlaub_genommen2+"', `Urlaubverfuegbar` = '"+Urlaub_verfuegbar2+"' WHERE MitarbeiterID = '"+Login.username+"'");
-	    		java.sql.PreparedStatement pst2 = con1.prepareStatement(update);
-	    		pst2.executeUpdate();
+					String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '" + Urlaub_aktuelles_Jahr2 + "',`Urlaubvorjahr` = '" + urlaubvorjahrwichtig + "', `Urlaubgenommen` = '" + Urlaub_genommen2 + "', `Urlaubverfuegbar` = '" + Urlaub_verfuegbar2 + "' WHERE MitarbeiterID = '" + Login.username + "'");
+					java.sql.PreparedStatement pst2 = con1.prepareStatement(update);
+					pst2.executeUpdate();
+				}
 	    		
-	    	}
+
 	    	loeschen_button2ActionPerformed(evt);
 	    	
 		} catch (SQLException e1) {
