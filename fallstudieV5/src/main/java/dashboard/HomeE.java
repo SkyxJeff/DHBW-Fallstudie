@@ -5,12 +5,8 @@ import LoginLogout.LogoutE;
 import Menue.EventMenu;
 import Menue.EventMenuE;
 
-import Menue.MenueE;
-
 import Seiten.Einstellungen_SeiteE;
-import Seiten.Eintraege_SeiteE;
 import Seiten.FormE;
-import Seiten.Kalendar_SeiteE;
 import Seiten.MeineDaten_SeiteE;
 import Seiten.MeineZeiten_SeiteE;
 import Seiten.Uebersicht_SeiteE;
@@ -60,7 +56,7 @@ public class HomeE extends JFrame {
                     }
                 }
                 else if (index==4){
-                    showForm(new Kalendar_SeiteE());
+
                 }
                 else if (index==5){
                     showForm(new Einstellungen_SeiteE());

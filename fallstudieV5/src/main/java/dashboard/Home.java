@@ -6,10 +6,8 @@ import Seiten.Uebersicht_Seite;
 import Seiten.Form;
 import Menue.EventMenu;
 import Seiten.MeineZeiten_Seite;
-import Seiten.Eintraege_Seite;
 import Seiten.MeineDaten_Seite;
 import Seiten.Einstellungen_Seite;
-import Seiten.Kalendar_Seite;
 
 import javax.swing.*;
 import java.awt.*;
