@@ -493,6 +493,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             Date date3 = format.parse(sechsuhr);
             Date date4 = format.parse(ende);
             Date date22 = format.parse(zzwanziguhr);
+            System.out.println(date4.getTime());
             String heuteIst;
             LocalDate aktuellesDate = LocalDate.now();
             System.out.println(date4);
@@ -508,7 +509,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
                     if((date2.getTime()-date4.getTime())>0) {
                         heuteIst = ""+(date4.getTime()-date3.getTime())/36000;
                     }else {heuteIst = ""+(date2.getTime() - date3.getTime())/36000;}
-                }else if((date2.getTime()-date4.getTime())>0 ){
+                }else if((date2.getTime()-date4.getTime())>0 && date4.getTime()!= (-3600000) ){
                     heuteIst = ""+(date4.getTime() - date1.getTime())/36000;
                     System.out.println("Hier");
                 } else if(endehh > 22 && beginnhh > 6){
@@ -549,18 +550,17 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
                 } else {
                     pause = pause.replace(",", ".");
                     float pausefloat = Float.parseFloat(pause);
-                    if(pausefloat < 0.5) {
-                        String pausezeit = "0,0";
-                        if((int)heuteIst1 > 9) {
-                            if(Age >18) {pausezeit = "0,75";JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,75h eingetragen, bitte realisieren Sie dies.");}
-                            JOptionPane.showMessageDialog(null,"Sie arbeiten zu viel.");
-                        } else if((int)heuteIst1 >6) {
-                            if(Age >18 ) {pausezeit = "0,5"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,5h eingetragen, bitte realisieren Sie dies.");} else {pausezeit = "1,0"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 1h eingetragen, bitte realisieren Sie dies.");} }
-                        else if((int)heuteIst1 <6 && heuteIst1 > 4.5 && Age < 18) {pausezeit = "0,5"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,5h eingetragen, bitte realisieren Sie dies.");} else {System.out.println("Waddup");}
-                        String pauseEintragen6h = "Update eintraege set Pause = '"+pausezeit+"' where Datum = '"+aktuellesDatum+"' and Mitarbeiter_ID = '"+Login.username+"';";
-                        java.sql.PreparedStatement pstPauseEintrag6h = con.prepareStatement(pauseEintragen6h);
-                        pstPauseEintrag6h.executeUpdate();
-                    }
+                    String pausezeit = ""+pausefloat;
+                    if((int)heuteIst1 > 9) {
+                        if(Age >18 && pausefloat <0.75) {pausezeit = "0,75";JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,75h eingetragen, bitte realisieren Sie dies.");}
+                        JOptionPane.showMessageDialog(null,"Sie arbeiten zu viel.");
+                    } else if((int)heuteIst1 >6) {
+                        if(Age >18 && pausefloat<0.5 ) {pausezeit = "0,5"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,5h eingetragen, bitte realisieren Sie dies.");} else {pausezeit = "1,0"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 1h eingetragen, bitte realisieren Sie dies.");} }
+                    else if((int)heuteIst1 <6 && heuteIst1 > 4.5 && Age < 18 && pausefloat < 0.5) {pausezeit = "0,5"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,5h eingetragen, bitte realisieren Sie dies.");} else {System.out.println("Waddup");}
+                    String pauseEintragen6h = "Update eintraege set Pause = '"+pausezeit+"' where Datum = '"+aktuellesDatum+"' and Mitarbeiter_ID = '"+Login.username+"';";
+                    java.sql.PreparedStatement pstPauseEintrag6h = con.prepareStatement(pauseEintragen6h);
+                    pstPauseEintrag6h.executeUpdate();
+
                     System.out.println("Pause: "+pausefloat);
                     float heuteIst1NK = (heuteIst1-pausefloat) - ((int)(heuteIst1-pausefloat));
                     String heuteIst1NK1 = ""+heuteIst1NK;

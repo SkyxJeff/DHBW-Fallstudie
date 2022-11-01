@@ -8,8 +8,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.JOptionPane;
@@ -26,7 +28,7 @@ import dashboard.Home;
 public class Login extends javax.swing.JFrame {
 
 	public static String username;
-
+    static int tage;
 
     public Login() {
         initComponents();
@@ -201,7 +203,8 @@ public class Login extends javax.swing.JFrame {
         String StandardPW = "start";
         LocalDate DateAktuell = LocalDate.now();
         int jahr = DateAktuell.getYear();
-        String [] Feiertage = {jahr+"-12-25",jahr+"-12-26",jahr+"-01-01",jahr+"-01-06",jahr+"-04-07",jahr+"-04-09",jahr+"-04-10",jahr+"-05-01",jahr+"-05-18",jahr+"-05-29",jahr+"-06-08",jahr+"-10-03",jahr+"-11-01"};
+        //,jahr+"-11-01"
+        String [] Feiertage = {jahr+"-12-25",jahr+"-12-26",jahr+"-01-01",jahr+"-01-06",jahr+"-04-07",jahr+"-04-09",jahr+"-04-10",jahr+"-05-01",jahr+"-05-18",jahr+"-05-29",jahr+"-06-08",jahr+"-10-03"};
         String DatumAktuell = ""+DateAktuell;
 
         int Wochentag = DateAktuell.getDayOfWeek().getValue();
@@ -344,43 +347,117 @@ public class Login extends javax.swing.JFrame {
                 + "- mind. 8 Zeichen \n - mind. 1 Kleinbuchstabe \n - mind 1 Großbuchstabe \n - mind 1 Zahl");
         return false;
     }
-    public static void txtDateierstellen()
+    public static void eintragerstellen()
     {
-        Calendar calendar = new GregorianCalendar();
-        System.out.println("Heute ist:"+calendar.get(Calendar.DAY_OF_WEEK));
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-            String Ausgabe = ("SELECT `Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo` FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");
-            String Zahl = ("SELECT COUNT(Mitarbeiter_ID) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"'");
-            java.sql.PreparedStatement pst = con.prepareStatement(Ausgabe);
-            java.sql.PreparedStatement pst1 = con.prepareStatement(Zahl);
-            ResultSet rs = pst.executeQuery();
-            ResultSet rs1 = pst1.executeQuery();
-            rs.next();
-            rs1.next();
-            String Wert = rs.getString(1);
-            int zahl = rs1.getInt(1);
-            File datei = new File("Eintraege.txt");
-            FileWriter writer = new FileWriter(datei);
-            writer.write("ID\t");
-            writer.write("Datum\t \t");
-            writer.write("Beginn\t");
-            writer.write("Pause\t");
-            writer.write("Ende\t");
-            writer.write("Art\t");
-            writer.write("Saldo\n");
-            writer.write("---------------------------------------------------------------- \n");
-            writer.write(rs.getString(1) + "\t");
-            writer.write(rs.getString(2) + "\t");
-            writer.write(rs.getString(3) + "\t");
-            writer.write(rs.getString(4) + "\t");
-            writer.write(rs.getString(5) + "\t");
-            writer.write(rs.getString(6) + "\t");
-            writer.write(rs.getFloat(7) + "Std.\n");
+            LocalDate Datumaktuell = LocalDate.now();
+            String DateAktuell = "" + Datumaktuell;
+            Date deutschesAktuellDate = new Date();
+            SimpleDateFormat formatdeutsch = new SimpleDateFormat("dd.MM.yyyy");
+            SimpleDateFormat formatEnglisch = new SimpleDateFormat("yyyy-MM-dd");
+            DateAktuell = "" + formatdeutsch.format(deutschesAktuellDate);
+            String Datumausgabe = "" + formatEnglisch.format(deutschesAktuellDate);
+            String anzahl = ("SELECT count(Datum) FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
+            String suche = ("SELECT Datum FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
+            String Urlaub = ("SELECT `Tage` FROM abwesendheit WHERE MitarbeiterID = '" + Login.username +"'");
+            java.sql.PreparedStatement pst10 = con.prepareStatement(anzahl);
+            java.sql.PreparedStatement pst9 = con.prepareStatement(suche);
+            java.sql.PreparedStatement pst69 = con.prepareStatement(Urlaub);
+            ResultSet rs6 = pst9.executeQuery();
+            ResultSet rs10 = pst10.executeQuery();
+            ResultSet rs69  = pst69.executeQuery();
+            rs69.next();
+            int tage = rs69.getInt(1);
+            rs10.next();
+            int e = rs10.getInt(1);
+            int i = 0;
+            int t = 0;
+            String [] Datumarr = new String[e];
+            while(rs6.next())
+            {
+                String Datum = rs6.getString(1);
+                Datumarr[i] = Datum;
+                i++;
+            }
+            for (int c=0;c<Datumarr.length;c++)
+            {
+                if(Datumarr[c].equals(Datumausgabe))
+                {
+                    System.err.println(Datumarr[c]);
+                }
+                else
+                {
+                    if(tage == t) {
 
 
-            while(rs.next()) {
+                    }
+                    else {
+                        String eingabe = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + Datumausgabe + "','00:00','0,0','00:00','Urlaub','0')");
+                        java.sql.PreparedStatement pst7 = con.prepareStatement(eingabe);
+                        pst7.executeUpdate();
+                        t++;
+                    }
+                }
+            }
 
+
+
+
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+    public static void txtDateierstellen()
+    {
+        eintragerstellen();
+        Calendar calendar = new GregorianCalendar();
+        int tag =calendar.get(Calendar.DAY_OF_WEEK);
+        LocalDate Datumaktuell = LocalDate.now();
+        String DateAktuell = ""+Datumaktuell;
+        Date deutschesAktuellDate = new Date();
+        SimpleDateFormat formatdeutsch = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat formatEnglisch = new SimpleDateFormat("yyyy-MM-dd");
+        DateAktuell = ""+formatdeutsch.format(deutschesAktuellDate);
+        String Datumausgabe = ""+formatEnglisch.format(deutschesAktuellDate);
+        if(tag == 1 || tag == 7)
+        {
+            JOptionPane.showMessageDialog(null, "Heute ist Wochenende. Es werden keine Eintraege erzeugt.");
+        }
+        else {
+            try {
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+                String Ausgabe = ("SELECT `Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo` FROM eintraege WHERE Mitarbeiter_ID = '" + Login.username + "'");
+                String Zahl = ("SELECT COUNT(Mitarbeiter_ID) FROM eintraege WHERE Mitarbeiter_ID = '" + Login.username + "'");
+                String Urlaub = ("SELECT `Beginn`, `Ende`, `Tage`, `Grund` FROM abwesendheit WHERE MitarbeiterID = '" + Login.username +"'");
+                java.sql.PreparedStatement pst = con.prepareStatement(Ausgabe);
+                java.sql.PreparedStatement pst1 = con.prepareStatement(Zahl);
+                java.sql.PreparedStatement pst2 = con.prepareStatement(Urlaub);
+                ResultSet rs = pst.executeQuery();
+                ResultSet rs1 = pst1.executeQuery();
+                ResultSet rs2 = pst2.executeQuery();
+                rs.next();
+                rs1.next();
+                rs2.next();
+                String Wert = rs.getString(1);
+                int zahl = rs1.getInt(1);
+                String Grund = rs2.getString(4);
+                String Beginn = rs2.getString(1);
+                String Ende = rs2.getString(2);
+                File datei = new File("Eintraege.txt");
+                FileWriter writer = new FileWriter(datei);
+                System.err.println(Grund);
+                System.err.println(DateAktuell);
+                writer.write("ID\t");
+                writer.write("Datum\t \t");
+                writer.write("Beginn\t");
+                writer.write("Pause\t");
+                writer.write("Ende\t");
+                writer.write("Art\t");
+                writer.write("Saldo\n");
+                writer.write("---------------------------------------------------------------- \n");
                 writer.write(rs.getString(1) + "\t");
                 writer.write(rs.getString(2) + "\t");
                 writer.write(rs.getString(3) + "\t");
@@ -389,13 +466,62 @@ public class Login extends javax.swing.JFrame {
                 writer.write(rs.getString(6) + "\t");
                 writer.write(rs.getFloat(7) + "Std.\n");
 
+
+                while (rs.next()) {
+
+                    writer.write(rs.getString(1) + "\t");
+                    writer.write(rs.getString(2) + "\t");
+                    writer.write(rs.getString(3) + "\t");
+                    writer.write(rs.getString(4) + "\t");
+                    writer.write(rs.getString(5) + "\t");
+                    writer.write(rs.getString(6) + "\t");
+                    writer.write(rs.getFloat(7) + "Std.\n");
+
+                }
+                if(Grund.equals("Urlaub") && Beginn.equals(DateAktuell))
+                {
+                    String Urlaubeintrag = ("SELECT * FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
+                    java.sql.PreparedStatement pst33 = con.prepareStatement(Urlaubeintrag);
+                    ResultSet rs33 = pst33.executeQuery();
+                    rs33.next();
+                    writer.write(rs33.getString(1)+ "\t");
+                    writer.write(rs33.getString(2)+ "\t");
+                    writer.write(rs33.getString(3)+ "\t");
+                    writer.write(rs33.getString(4)+ "\t");
+                    writer.write(rs33.getString(5)+ "\t");
+                    writer.write(rs33.getString(6)+ "\t");
+                    writer.write(rs33.getString(7)+ "\n");
+                } else if (Grund.equals("Urlaub")) {
+                    String Urlaubeintrag = ("SELECT * FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
+                    java.sql.PreparedStatement pst33 = con.prepareStatement(Urlaubeintrag);
+                    ResultSet rs33 = pst33.executeQuery();
+                    rs33.next();
+                    writer.write(rs33.getString(1)+ "\t");
+                    writer.write(rs33.getString(2)+ "\t");
+                    writer.write(rs33.getString(3)+ "\t");
+                    writer.write(rs33.getString(4)+ "\t");
+                    writer.write(rs33.getString(5)+ "\t");
+                    writer.write(rs33.getString(6)+ "\t");
+                    writer.write(rs33.getString(7)+ "\n");
+
+                    while(rs33.next())
+                    {
+                        writer.write(rs33.getString(1)+ "\t");
+                        writer.write(rs33.getString(2)+ "\t");
+                        writer.write(rs33.getString(3)+ "\t");
+                        writer.write(rs33.getString(4)+ "\t");
+                        writer.write(rs33.getString(5)+ "\t");
+                        writer.write(rs33.getString(6)+ "\t");
+                        writer.write(rs33.getString(7)+ "\n");
+                    }
+                }
+                writer.flush();
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            writer.flush();
-            writer.close();
-        }catch (IOException e){
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
