@@ -20,7 +20,7 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         initComponents();
-        setExtendedState(Home.MAXIMIZED_BOTH);
+        setSize(1200,600);
         setTitle("BBQ GmbH - Zeiterfassungsportal");
         EventMenu event = new EventMenu() {
             @Override
