@@ -390,7 +390,7 @@ public class Login extends javax.swing.JFrame {
                 {
                     if(tage == t) {
 
-
+                    t=0;
                     }
                     else {
                         String eingabe = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + Datumausgabe + "','00:00','0,0','00:00','Urlaub','0')");
