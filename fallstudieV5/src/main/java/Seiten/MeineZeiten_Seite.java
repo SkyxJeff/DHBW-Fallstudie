@@ -837,9 +837,11 @@ public void Urlaub(){
 			String Krank = "";
 			String eingabe = ("INSERT INTO `abwesendheit`(`MitarbeiterID`, `Datum`, `Beginn`, `Ende`, `Tage`, `Grund`, `Notiz`) VALUES ('"+Login.username+"','"+DateAktuell+"','"+Abwesendheitsbeginn+"','"+Abwesendheitsende+"','"+tage+"','"+abwesenheitsgrund_combobox.getSelectedItem()+"','"+Notiz+"')");
 			if (abwesenheitsgrund_combobox.getSelectedItem() == "Urlaub") {
-				 urlaubeintrag = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + DateAktuell + "','00:00','0,0','00:00','Urlaub','0')");
-				java.sql.PreparedStatement pst7 = con1.prepareStatement(urlaubeintrag);
-				pst7.executeUpdate();
+				if(abwesenheitsbeginn_textfeld.getText().equals(DateAktuell)) {
+					urlaubeintrag = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + DateAktuell + "','00:00','0,0','00:00','Urlaub','0')");
+					java.sql.PreparedStatement pst7 = con1.prepareStatement(urlaubeintrag);
+					pst7.executeUpdate();
+				}
 			} else if (abwesenheitsgrund_combobox.getSelectedItem() == "Krank") {
 				 Krank = ("INSERT INTO `krank`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + Datumausgabe + "','00:00','0,0','00:00','Urlaub','0')");
 			}
