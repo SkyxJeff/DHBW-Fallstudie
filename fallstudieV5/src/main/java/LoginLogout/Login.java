@@ -204,7 +204,7 @@ public class Login extends javax.swing.JFrame {
         LocalDate DateAktuell = LocalDate.now();
         int jahr = DateAktuell.getYear();
         //,jahr+"-11-01"
-        String [] Feiertage = {jahr+"-12-25",jahr+"-12-26",jahr+"-01-01",jahr+"-01-06",jahr+"-04-07",jahr+"-04-09",jahr+"-04-10",jahr+"-05-01",jahr+"-05-18",jahr+"-05-29",jahr+"-06-08",jahr+"-10-03"};
+        String [] Feiertage = {jahr+"-12-25",jahr+"-12-26",jahr+"-01-01",jahr+"-01-06",jahr+"-04-07",jahr+"-04-09",jahr+"-04-10",jahr+"-05-01",jahr+"-05-18",jahr+"-05-29",jahr+"-06-08",jahr+"-10-03", jahr+"-11-01"};
         String DatumAktuell = ""+DateAktuell;
 
         int Wochentag = DateAktuell.getDayOfWeek().getValue();
@@ -277,7 +277,7 @@ public class Login extends javax.swing.JFrame {
             }
         }
 
-        txtDateierstellen();
+
 
 
 
@@ -385,28 +385,35 @@ public class Login extends javax.swing.JFrame {
             {
                 if(Datumarr[c].equals(DateAktuell))
                 {
-                    System.err.println(Datumarr[c]);
-                }
-                else
-                {
-                    if(tage == t) {
-                    t=0;
-                    String letztedatum = ("SELECT MAX(DATUM) FROM `urlaubeintrag` WHERE MitarbeiterID = '"+Login.username+"'");
+                    System.err.println("gdjkfgdsfhdsogfdshjkfgdshfdsj"+Datumarr[c]);
+                } else if (tage == t) {
+                    t = 0;
+                    String letztedatum = ("SELECT MAX(DATUM) FROM `urlaubeintrag` WHERE MitarbeiterID = '" + Login.username + "'");
                     java.sql.PreparedStatement pst98 = con.prepareStatement(letztedatum);
-                    ResultSet rs98= pst98.executeQuery();
+                    ResultSet rs98 = pst98.executeQuery();
                     String datum = rs98.getString(1);
-                    String delete =("DELETE FROM `abwesendheit` WHERE MitarbeiterID = '"+Login.username+"'AND Ende = '"+datum+"'AND Grund = 'Krank'");
+                    String delete = ("DELETE FROM `abwesendheit` WHERE MitarbeiterID = '" + Login.username + "'AND Ende = '" + datum + "'AND Grund = 'Krank'");
                     java.sql.PreparedStatement pst5 = con.prepareStatement(delete);
                     pst5.executeUpdate();
-                    }
-                    else {
-                        String eingabe = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + DateAktuell + "','00:00','0,0','00:00','Urlaub','0')");
-                        java.sql.PreparedStatement pst7 = con.prepareStatement(eingabe);
-                        pst7.executeUpdate();
-                        t++;
+                     } else {
+
+                        String suchen = ("SELECT Datum FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' ORDER BY Datum DESC LIMIT 1");
+                        java.sql.PreparedStatement pst88 = con.prepareStatement(suchen);
+                        ResultSet rs88 = pst88.executeQuery();
+                        rs88.next();
+                        String AktuellDat = rs88.getString(1);
+                        if(AktuellDat.equals(DateAktuell))
+                        {
+                            System.err.println("gjhkglhfjgkhgjfdkhgjfdklghfdj, Es wurde ein Datensatz schon erzeugt");
+                        }
+                        else {
+                            String eingabe = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + DateAktuell + "','00:00','0,0','00:00','Urlaub','0')");
+                            java.sql.PreparedStatement pst7 = con.prepareStatement(eingabe);
+                            pst7.executeUpdate();
+                            t++;
+                        }
                     }
                 }
-            }
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -435,7 +442,7 @@ public class Login extends javax.swing.JFrame {
             try {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
                 String Ausgabe = ("SELECT `Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo` FROM eintraege WHERE Mitarbeiter_ID = '" + Login.username + "'");
-                String Urlaub = ("SELECT `Beginn`, `Ende`, `Tage`, `Grund` FROM abwesendheit WHERE MitarbeiterID = '" + Login.username +"' AND Datum = '"+DateAktuell+"'");
+                String Urlaub = ("SELECT `Beginn`, `Ende`, `Tage`, `Grund` FROM abwesendheit WHERE MitarbeiterID = '" + Login.username +"'");
                 java.sql.PreparedStatement pst = con.prepareStatement(Ausgabe);
                 java.sql.PreparedStatement pst2 = con.prepareStatement(Urlaub);
                 ResultSet rs = pst.executeQuery();
