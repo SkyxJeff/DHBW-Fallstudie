@@ -378,33 +378,39 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void speichern_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichern_button1ActionPerformed
-
 		boolean EintragAktualisiert = false;
 		boolean AktuellerEintragAktualisiert = false;
+		boolean istAbwesend = false;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+			LocalDate Datumaktuell = LocalDate.now();
+			String DateAktuell = ""+Datumaktuell;
 			String Ende = ("Select `Ende` from eintraege where Datum = (SELECT MAX(Datum) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"') AND Mitarbeiter_ID = '"+Login.username+"';");
 			String maxDatum = ("SELECT MAX(Datum),count(EintraegeNr) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"';");
 			String age  = "Select Age from mitarbeiter where Mitarbeiter_ID = '"+Login.username+"';";
+			String Urlaub = "Select count(Datum) from urlaubeintrag where MitarbeiterID = '"+Login.username+"';";
 			java.sql.PreparedStatement pst1 = con.prepareStatement(Ende);
 			java.sql.PreparedStatement pst2 = con.prepareStatement(maxDatum);
 			java.sql.PreparedStatement pstage = con.prepareStatement(age);
+			java.sql.PreparedStatement pstUrlaubCount = con.prepareStatement(Urlaub);
 			ResultSet rs = pst1.executeQuery();
 			ResultSet rs1 = pst2.executeQuery();
 			ResultSet rsAge = pstage.executeQuery();
+			ResultSet rsUrlaubCount = pstUrlaubCount.executeQuery();
 			rs.next();
 			rs1.next();
 			rsAge.next();
+			rsUrlaubCount.next();
 			int Age = rsAge.getInt(1);
 			String end = rs.getString(1); //Nochmal ran
 			String Date = rs1.getString(1);
 			int countEintraege = rs1.getInt(2);
+			int countUrlaub = rsUrlaubCount.getInt(1);
 			String EndeUhrzeit = ""+end;
 			System.out.println(Date);
 			System.out.println(EndeUhrzeit);
-			LocalDate Datumaktuell = LocalDate.now();
-			String DateAktuell = ""+Datumaktuell;
+
 			System.out.println("LEEEEEEEEEEEEEEEEEEEEEEEEEE"+DateAktuell);
 
 			String eingegebenesDate = ""+datum_textfeld.getText();
@@ -460,6 +466,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 				System.out.println(DatumArr[i-1]);
 			}
 
+
 			if(/*EndeUhrzeit.equals("00:00") && */ DateAktuell.equals(eingDatumEngl)) {
 				for(int y = 0; y<i ; y++) {
 					String DatumausCount = DatumArr [y];
@@ -500,7 +507,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 				JOptionPane.showMessageDialog(null, "Eintrag gespeichert!");
 			}
 			else if((!DateAktuell.equals(eingDatumEngl) && beginn_textfeld.getText().equals("00:00")) || (!DateAktuell.equals(eingDatumEngl)&&ende_textfeld.getText().equals("00:00")) || diff >0){
-				JOptionPane.showMessageDialog(null, "Unvollständige Nachträge oder Einträge für die Zukunft sind nicht gestattet.");
+				JOptionPane.showMessageDialog(null, "Unvollständige Nachträge oder Einträge für die Zukunft sind nicht gestattet.\n Wenn Sie heute eine Abwesenheit eingetragen haben, dürfen Sie ebenfalls keine Einträge erstellen.");
 			}
 			else if(!DateAktuell.equals(eingDatumEngl) && !beginn_textfeld.getText().equals("00:00") /*&& !pause_textfeld.getText().equals("0,0")*/ &&!ende_textfeld.getText().equals("00:00")){
 				System.out.println("Bin hier");
@@ -685,11 +692,11 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 
 
 		} catch (ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen1");
+			//JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen1");
 			loeschen_button1ActionPerformed(evt);
 			e.printStackTrace();
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen2");
+			//JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen2");
 			e.printStackTrace();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -853,7 +860,7 @@ public void Urlaub(){
 							Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - tage;
 							Urlaub_genommen2 = Urlaub_genommen1 + tage;
 							Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
-							String eingabe = ("INSERT INTO `abwesendheit`(`MitarbeiterID`, `Datum`, `Beginn`, `Ende`, `Tage`, `Grund`, `Notiz`) VALUES ('" + Login.username + "','" + DateAktuell + "','" + Abwesendheitsbeginn + "','" + Abwesendheitsende + "','" + tage + "','" + abwesenheitsgrund_combobox.getSelectedItem() + "','" + Notiz + "')");
+							String eingabe = ("INSERT INTO `abwesendheit`(`MitarbeiterID`, `Datum`, `Beginn`, `Ende`, `Tage`, `Grund`, `Notiz`) VALUES ('" + Login.username + "','" + Datumausgabe + "','" + Abwesendheitsbeginn + "','" + Abwesendheitsende + "','" + tage + "','" + abwesenheitsgrund_combobox.getSelectedItem() + "','" + Notiz + "')");
 							java.sql.PreparedStatement pst1 = con1.prepareStatement(eingabe);
 							pst1.executeUpdate();
 							String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '" + Urlaub_aktuelles_Jahr2 + "',`Urlaubvorjahr` = '" + urlaubvorjahrwichtig + "', `Urlaubgenommen` = '" + Urlaub_genommen2 + "', `Urlaubverfuegbar` = '" + Urlaub_verfuegbar2 + "' WHERE MitarbeiterID = '" + Login.username + "'");
@@ -866,13 +873,13 @@ public void Urlaub(){
 				}
 			}
 			if(abwesenheitsgrund_combobox.getSelectedItem() == "Krank" || abwesenheitsgrund_combobox.getSelectedItem() == "Dienstreise" || abwesenheitsgrund_combobox.getSelectedItem() == "Berufsschule" || abwesenheitsgrund_combobox.getSelectedItem() == "Hochschule"||abwesenheitsgrund_combobox.getSelectedItem() == "sonstige Abwesendheit") {
-				String eingabe = ("INSERT INTO `abwesendheit`(`MitarbeiterID`, `Datum`, `Beginn`, `Ende`, `Tage`, `Grund`, `Notiz`) VALUES ('" + Login.username + "','" + DateAktuell + "','" + Abwesendheitsbeginn + "','" + Abwesendheitsende + "','" + tage + "','" + abwesenheitsgrund_combobox.getSelectedItem() + "','" + Notiz + "')");
+				String eingabe = ("INSERT INTO `abwesendheit`(`MitarbeiterID`, `Datum`, `Beginn`, `Ende`, `Tage`, `Grund`, `Notiz`) VALUES ('" + Login.username + "','" + Datumausgabe + "','" + Abwesendheitsbeginn + "','" + Abwesendheitsende + "','" + tage + "','" + abwesenheitsgrund_combobox.getSelectedItem() + "','" + Notiz + "')");
 				java.sql.PreparedStatement pst1 = con1.prepareStatement(eingabe);
 				pst1.executeUpdate();
 			}
 			if (abwesenheitsgrund_combobox.getSelectedItem() == "Urlaub") {
 				if(abwesenheitsbeginn_textfeld.getText().equals(DateAktuell)) {
-					urlaubeintrag = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + DateAktuell + "','00:00','0,0','00:00','Urlaub','0')");
+					urlaubeintrag = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + Datumausgabe + "','00:00','0,0','00:00','Urlaub','0')");
 					java.sql.PreparedStatement pst7 = con1.prepareStatement(urlaubeintrag);
 					pst7.executeUpdate();
 				}

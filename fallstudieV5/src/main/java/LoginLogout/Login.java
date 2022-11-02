@@ -8,8 +8,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -376,6 +379,11 @@ public class Login extends javax.swing.JFrame {
             int i = 0;
             int t = 0;
             String [] Datumarr = new String[e];
+            String suche2 =("SELECT Beginn FROM abwesendheit WHERE MitarbeiterID = '"+Login.username+"' AND Grund = 'Urlaub' ORDER BY Beginn DESC LIMIT 1");
+            java.sql.PreparedStatement pst4 = con.prepareStatement(suche2);
+            ResultSet rs4 = pst4.executeQuery();
+            rs4.next();
+            String wichtig = rs4.getString(1);
             while(rs8.next())
             {
                 String Datum = rs8.getString(1);
@@ -384,7 +392,7 @@ public class Login extends javax.swing.JFrame {
             }
             for (int c=0;c<Datumarr.length;c++)
             {
-                if(Datumarr[c].equals(DateAktuell))
+                if(Datumarr[c].equals(Datumausgabe))
                 {
                     System.err.println("gdjkfgdsfhdsogfdshjkfgdshfdsj"+Datumarr[c]);
                 }
@@ -404,12 +412,19 @@ public class Login extends javax.swing.JFrame {
                         ResultSet rs88 = pst88.executeQuery();
                         rs88.next();
                         String AktuellDat = rs88.getString(1);
-                        if(AktuellDat.equals(DateAktuell))
+                        if(AktuellDat.equals(Datumausgabe))
                         {
                             System.err.println("gjhkglhfjgkhgjfdkhgjfdklghfdj, Es wurde ein Datensatz schon erzeugt");
+
+                        } else if (wichtig.equals(DateAktuell)) {
+                            String eingabe = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + Datumausgabe + "','00:00','0,0','00:00','Urlaub','0')");
+                            java.sql.PreparedStatement pst7 = con.prepareStatement(eingabe);
+                            pst7.executeUpdate();
+                            t++;
                         }
-                        else {
-                            String eingabe = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + DateAktuell + "','00:00','0,0','00:00','Urlaub','0')");
+                        else
+                        {
+                            String eingabe = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + Datumausgabe + "','00:00','0,0','00:00','Urlaub','0')");
                             java.sql.PreparedStatement pst7 = con.prepareStatement(eingabe);
                             pst7.executeUpdate();
                             t++;
@@ -433,8 +448,8 @@ public class Login extends javax.swing.JFrame {
         Date deutschesAktuellDate = new Date();
         SimpleDateFormat formatdeutsch = new SimpleDateFormat("dd.MM.yyyy");
         SimpleDateFormat formatEnglisch = new SimpleDateFormat("yyyy-MM-dd");
-        DateAktuell = ""+formatdeutsch.format(deutschesAktuellDate);
         String Datumausgabe = ""+formatEnglisch.format(deutschesAktuellDate);
+        DateAktuell = "" + formatdeutsch.format(deutschesAktuellDate);
         if(tag == 1 || tag == 7)
         {
             JOptionPane.showMessageDialog(null, "Heute ist Wochenende. Es werden keine Eintraege erzeugt.");
@@ -442,7 +457,7 @@ public class Login extends javax.swing.JFrame {
         else {
             try {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-                String Ausgabe = ("SELECT `Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo` FROM eintraege WHERE Mitarbeiter_ID = '" + Login.username + "'");
+                String Ausgabe = ("SELECT `Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo` FROM eintraege WHERE Mitarbeiter_ID = '" + Login.username + "' ORDER BY Datum ASC");
                 java.sql.PreparedStatement pst = con.prepareStatement(Ausgabe);
                 ResultSet rs = pst.executeQuery();
                 rs.next();
@@ -469,7 +484,7 @@ public class Login extends javax.swing.JFrame {
                 while (rs.next()) {
 
                     writer.write(rs.getString(1) + "\t");
-                    writer.write(rs.getString(2) + "\t");
+                    writer.write(rs.getString(2)+ "\t");
                     writer.write(rs.getString(3) + "\t");
                     writer.write(rs.getString(4) + "\t");
                     writer.write(rs.getString(5) + "\t");
@@ -478,35 +493,12 @@ public class Login extends javax.swing.JFrame {
 
                 }
                 eintragerstellenUrlaub();
-                String anzahl = ("SELECT count(Datum) FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
-                String Urlaub = ("SELECT `Beginn`, `Ende`, `Tage`, `Grund` FROM abwesendheit WHERE MitarbeiterID = '" + Login.username +"'");
-                String suche = ("SELECT Datum FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
-                java.sql.PreparedStatement pst8 = con.prepareStatement(suche);
-                java.sql.PreparedStatement pst1 = con.prepareStatement(anzahl);
-                java.sql.PreparedStatement pst2 = con.prepareStatement(Urlaub);
-                ResultSet rs8 = pst8.executeQuery();
-                ResultSet rs2 = pst2.executeQuery();
-                ResultSet rs3 = pst1.executeQuery();
-                rs2.next();
-                rs3.next();
-                int i = 0;
-                int t = 0;
-                int e = rs3.getInt(1);
-                String [] Datumarr = new String[e];
-                String Grund = rs2.getString(4);
-                String Beginn = rs2.getString(1);
-                String Ende = rs2.getString(2);
-                while(rs8.next())
-                {
-                    String Datum = rs8.getString(1);
-                    Datumarr[i] = Datum;
-                    i++;
-                }
-                for (int c=0;c<Datumarr.length;c++) {
-                    if (Datumarr[c].equals(DateAktuell)) {
-                        if(Grund.equals("Urlaub") && Beginn.equals(DateAktuell))
-                        {
-                            String Urlaubeintrag = ("SELECT * FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' AND Datum = '"+Datumarr[c]+"'");
+
+
+
+
+
+                            String Urlaubeintrag = ("SELECT * FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' AND Datum = '"+Datumausgabe+"'");
                             java.sql.PreparedStatement pst33 = con.prepareStatement(Urlaubeintrag);
                             ResultSet rs33 = pst33.executeQuery();
                             rs33.next();
@@ -516,25 +508,7 @@ public class Login extends javax.swing.JFrame {
                             writer.write(rs33.getString(4)+ "\t");
                             writer.write(rs33.getString(5)+ "\t");
                             writer.write(rs33.getString(6)+ "\t");
-                            writer.write(rs33.getString(7)+ "\n");
-                        } else if (Grund.equals("Urlaub")) {
-                            String Urlaubeintrag = ("SELECT * FROM urlaubeintrag WHERE MitarbeiterID = '" + Login.username + "' AND Datum = '"+DateAktuell+"'");
-                            String Urlaubdatum = ("SELECT Datum FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' AND Art = 'Urlaub' ORDER BY Datum DESC LIMIT 1");
-                            java.sql.PreparedStatement pst4 = con.prepareStatement(Urlaubdatum);
-                            java.sql.PreparedStatement pst33 = con.prepareStatement(Urlaubeintrag);
-                            ResultSet rs33 = pst33.executeQuery();
-                            ResultSet rs4 = pst4.executeQuery();
-                            rs33.next();
-                            rs4.next();
-                            if(Urlaubdatum.equals(DateAktuell)) {
-                                writer.write(rs33.getString(1) + "\t");
-                                writer.write(rs33.getString(2) + "\t");
-                                writer.write(rs33.getString(3) + "\t");
-                                writer.write(rs33.getString(4) + "\t");
-                                writer.write(rs33.getString(5) + "\t");
-                                writer.write(rs33.getString(6) + "\t");
-                                writer.write(rs33.getString(7) + "\n");
-
+                            writer.write(rs33.getString(7)+ " Std.\n");
                                 while (rs33.next()) {
                                     writer.write(rs33.getString(1) + "\t");
                                     writer.write(rs33.getString(2) + "\t");
@@ -542,14 +516,8 @@ public class Login extends javax.swing.JFrame {
                                     writer.write(rs33.getString(4) + "\t");
                                     writer.write(rs33.getString(5) + "\t");
                                     writer.write(rs33.getString(6) + "\t");
-                                    writer.write(rs33.getString(7) + "\n");
+                                    writer.write(rs33.getString(7) + "Std.\n");
                                 }
-                            }
-                        }
-                    }
-                }
-
-
 
 
                 writer.flush();
