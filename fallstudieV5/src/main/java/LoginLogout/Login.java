@@ -348,6 +348,7 @@ public class Login extends javax.swing.JFrame {
         return false;
     }
 
+
     public static void eintragerstellenUrlaub()
     {
         try {
@@ -386,18 +387,19 @@ public class Login extends javax.swing.JFrame {
                 if(Datumarr[c].equals(DateAktuell))
                 {
                     System.err.println("gdjkfgdsfhdsogfdshjkfgdshfdsj"+Datumarr[c]);
-                } else if (tage == t) {
+                }
+                else if (tage == t) {
                     t = 0;
                     String letztedatum = ("SELECT MAX(DATUM) FROM `urlaubeintrag` WHERE MitarbeiterID = '" + Login.username + "'");
                     java.sql.PreparedStatement pst98 = con.prepareStatement(letztedatum);
                     ResultSet rs98 = pst98.executeQuery();
                     String datum = rs98.getString(1);
-                    String delete = ("DELETE FROM `abwesendheit` WHERE MitarbeiterID = '" + Login.username + "'AND Ende = '" + datum + "'AND Grund = 'Krank'");
+                    String delete = ("DELETE FROM `abwesendheit` WHERE MitarbeiterID = '" + Login.username + "'AND Ende = '" + datum + "'AND Grund = 'Urlaub'");
                     java.sql.PreparedStatement pst5 = con.prepareStatement(delete);
                     pst5.executeUpdate();
                      } else {
 
-                        String suchen = ("SELECT Datum FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' ORDER BY Datum DESC LIMIT 1");
+                        String suchen = ("SELECT Datum FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' AND Art = 'Urlaub' ORDER BY Datum DESC LIMIT 1");
                         java.sql.PreparedStatement pst88 = con.prepareStatement(suchen);
                         ResultSet rs88 = pst88.executeQuery();
                         rs88.next();
@@ -423,7 +425,6 @@ public class Login extends javax.swing.JFrame {
     public static void txtDateierstellen()
     {
 
-        eintragerstellenUrlaub();
 
         Calendar calendar = new GregorianCalendar();
         int tag =calendar.get(Calendar.DAY_OF_WEEK);
@@ -442,20 +443,11 @@ public class Login extends javax.swing.JFrame {
             try {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
                 String Ausgabe = ("SELECT `Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo` FROM eintraege WHERE Mitarbeiter_ID = '" + Login.username + "'");
-                String Urlaub = ("SELECT `Beginn`, `Ende`, `Tage`, `Grund` FROM abwesendheit WHERE MitarbeiterID = '" + Login.username +"'");
                 java.sql.PreparedStatement pst = con.prepareStatement(Ausgabe);
-                java.sql.PreparedStatement pst2 = con.prepareStatement(Urlaub);
                 ResultSet rs = pst.executeQuery();
-                ResultSet rs2 = pst2.executeQuery();
                 rs.next();
-                rs2.next();
-                String Wert = rs.getString(1);
-                String Grund = rs2.getString(4);
-                String Beginn = rs2.getString(1);
-                String Ende = rs2.getString(2);
                 File datei = new File("Eintraege.txt");
                 FileWriter writer = new FileWriter(datei);
-                System.err.println(Grund);
                 System.err.println(DateAktuell);
                 writer.write("ID\t");
                 writer.write("Datum\t \t");
@@ -485,43 +477,80 @@ public class Login extends javax.swing.JFrame {
                     writer.write(rs.getFloat(7) + "Std.\n");
 
                 }
-                if(Grund.equals("Urlaub") && Beginn.equals(DateAktuell))
+                eintragerstellenUrlaub();
+                String anzahl = ("SELECT count(Datum) FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
+                String Urlaub = ("SELECT `Beginn`, `Ende`, `Tage`, `Grund` FROM abwesendheit WHERE MitarbeiterID = '" + Login.username +"'");
+                String suche = ("SELECT Datum FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
+                java.sql.PreparedStatement pst8 = con.prepareStatement(suche);
+                java.sql.PreparedStatement pst1 = con.prepareStatement(anzahl);
+                java.sql.PreparedStatement pst2 = con.prepareStatement(Urlaub);
+                ResultSet rs8 = pst8.executeQuery();
+                ResultSet rs2 = pst2.executeQuery();
+                ResultSet rs3 = pst1.executeQuery();
+                rs2.next();
+                rs3.next();
+                int i = 0;
+                int t = 0;
+                int e = rs3.getInt(1);
+                String [] Datumarr = new String[e];
+                String Grund = rs2.getString(4);
+                String Beginn = rs2.getString(1);
+                String Ende = rs2.getString(2);
+                while(rs8.next())
                 {
-                    String Urlaubeintrag = ("SELECT * FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' AND Datum = '"+DateAktuell+"'");
-                    java.sql.PreparedStatement pst33 = con.prepareStatement(Urlaubeintrag);
-                    ResultSet rs33 = pst33.executeQuery();
-                    rs33.next();
-                    writer.write(rs33.getString(1)+ "\t");
-                    writer.write(rs33.getString(2)+ "\t");
-                    writer.write(rs33.getString(3)+ "\t");
-                    writer.write(rs33.getString(4)+ "\t");
-                    writer.write(rs33.getString(5)+ "\t");
-                    writer.write(rs33.getString(6)+ "\t");
-                    writer.write(rs33.getString(7)+ "\n");
-                } else if (Grund.equals("Urlaub")) {
-                    String Urlaubeintrag = ("SELECT * FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
-                    java.sql.PreparedStatement pst33 = con.prepareStatement(Urlaubeintrag);
-                    ResultSet rs33 = pst33.executeQuery();
-                    rs33.next();
-                    writer.write(rs33.getString(1)+ "\t");
-                    writer.write(rs33.getString(2)+ "\t");
-                    writer.write(rs33.getString(3)+ "\t");
-                    writer.write(rs33.getString(4)+ "\t");
-                    writer.write(rs33.getString(5)+ "\t");
-                    writer.write(rs33.getString(6)+ "\t");
-                    writer.write(rs33.getString(7)+ "\n");
+                    String Datum = rs8.getString(1);
+                    Datumarr[i] = Datum;
+                    i++;
+                }
+                for (int c=0;c<Datumarr.length;c++) {
+                    if (Datumarr[c].equals(DateAktuell)) {
+                        if(Grund.equals("Urlaub") && Beginn.equals(DateAktuell))
+                        {
+                            String Urlaubeintrag = ("SELECT * FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' AND Datum = '"+Datumarr[c]+"'");
+                            java.sql.PreparedStatement pst33 = con.prepareStatement(Urlaubeintrag);
+                            ResultSet rs33 = pst33.executeQuery();
+                            rs33.next();
+                            writer.write(rs33.getString(1)+ "\t");
+                            writer.write(rs33.getString(2)+ "\t");
+                            writer.write(rs33.getString(3)+ "\t");
+                            writer.write(rs33.getString(4)+ "\t");
+                            writer.write(rs33.getString(5)+ "\t");
+                            writer.write(rs33.getString(6)+ "\t");
+                            writer.write(rs33.getString(7)+ "\n");
+                        } else if (Grund.equals("Urlaub")) {
+                            String Urlaubeintrag = ("SELECT * FROM urlaubeintrag WHERE MitarbeiterID = '" + Login.username + "' AND Datum = '"+DateAktuell+"'");
+                            String Urlaubdatum = ("SELECT Datum FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' AND Art = 'Urlaub' ORDER BY Datum DESC LIMIT 1");
+                            java.sql.PreparedStatement pst4 = con.prepareStatement(Urlaubdatum);
+                            java.sql.PreparedStatement pst33 = con.prepareStatement(Urlaubeintrag);
+                            ResultSet rs33 = pst33.executeQuery();
+                            ResultSet rs4 = pst4.executeQuery();
+                            rs33.next();
+                            rs4.next();
+                            if(Urlaubdatum.equals(DateAktuell)) {
+                                writer.write(rs33.getString(1) + "\t");
+                                writer.write(rs33.getString(2) + "\t");
+                                writer.write(rs33.getString(3) + "\t");
+                                writer.write(rs33.getString(4) + "\t");
+                                writer.write(rs33.getString(5) + "\t");
+                                writer.write(rs33.getString(6) + "\t");
+                                writer.write(rs33.getString(7) + "\n");
 
-                    while(rs33.next())
-                    {
-                        writer.write(rs33.getString(1)+ "\t");
-                        writer.write(rs33.getString(2)+ "\t");
-                        writer.write(rs33.getString(3)+ "\t");
-                        writer.write(rs33.getString(4)+ "\t");
-                        writer.write(rs33.getString(5)+ "\t");
-                        writer.write(rs33.getString(6)+ "\t");
-                        writer.write(rs33.getString(7)+ "\n");
+                                while (rs33.next()) {
+                                    writer.write(rs33.getString(1) + "\t");
+                                    writer.write(rs33.getString(2) + "\t");
+                                    writer.write(rs33.getString(3) + "\t");
+                                    writer.write(rs33.getString(4) + "\t");
+                                    writer.write(rs33.getString(5) + "\t");
+                                    writer.write(rs33.getString(6) + "\t");
+                                    writer.write(rs33.getString(7) + "\n");
+                                }
+                            }
+                        }
                     }
                 }
+
+
+
 
                 writer.flush();
                 writer.close();
@@ -532,6 +561,7 @@ public class Login extends javax.swing.JFrame {
             }
         }
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Resetbutton;

@@ -800,7 +800,7 @@ public void Urlaub(){
 				String Jahr = Abwesendheitsbeginn.substring(6);
 				Calendar calendar = new GregorianCalendar(Integer.parseInt(Tag), Integer.parseInt(Monat), Integer.parseInt(Jahr));
 				int ausgabe = calendar.get(Calendar.DAY_OF_WEEK);
-				System.err.println(ausgabe);
+				System.err.println("ghfdsjhkkfgfdsjhfgksfghj"+ausgabe);
 				if (ausgabe == 2 && tage >=8 && tage <=12) {
 					tage = tage - 2;
 				} else if (ausgabe == 2 && tage >= 15 && tage <=19) {
@@ -834,48 +834,52 @@ public void Urlaub(){
 			DateAktuell = "" + formatdeutsch.format(deutschesAktuellDate);
 			String Datumausgabe = "" + formatEnglisch.format(deutschesAktuellDate);
 			String urlaubeintrag = "";
-			String Krank = "";
-			String eingabe = ("INSERT INTO `abwesendheit`(`MitarbeiterID`, `Datum`, `Beginn`, `Ende`, `Tage`, `Grund`, `Notiz`) VALUES ('"+Login.username+"','"+DateAktuell+"','"+Abwesendheitsbeginn+"','"+Abwesendheitsende+"','"+tage+"','"+abwesenheitsgrund_combobox.getSelectedItem()+"','"+Notiz+"')");
+			if (abwesenheitsgrund_combobox.getSelectedItem() == "Urlaub") {
+				if (Urlaub_vorjahr1 > 0 && Urlaub_vorjahr1 > tage) {
+					urlaubvorjahrwichtig = Urlaub_vorjahr1 - tage;
+
+				} else {
+					if (Urlaub_vorjahr1 > 0 && Urlaub_vorjahr1 < tage) {
+						long rest = tage - Urlaub_vorjahr1;
+						urlaubvorjahrwichtig = Urlaub_vorjahr1 - Urlaub_vorjahr1;
+						Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - rest;
+						Urlaub_genommen2 = Urlaub_genommen1 + rest + Urlaub_vorjahr1;
+						Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
+
+
+					} else {
+						if (Urlaub_aktuelles_Jahr1 - tage >= 0) {
+							System.err.println("hgdfiogsdjdskflghdfsjgksdfhfgjdfskg" + tage);
+							Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - tage;
+							Urlaub_genommen2 = Urlaub_genommen1 + tage;
+							Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
+							String eingabe = ("INSERT INTO `abwesendheit`(`MitarbeiterID`, `Datum`, `Beginn`, `Ende`, `Tage`, `Grund`, `Notiz`) VALUES ('" + Login.username + "','" + DateAktuell + "','" + Abwesendheitsbeginn + "','" + Abwesendheitsende + "','" + tage + "','" + abwesenheitsgrund_combobox.getSelectedItem() + "','" + Notiz + "')");
+							java.sql.PreparedStatement pst1 = con1.prepareStatement(eingabe);
+							pst1.executeUpdate();
+							String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '" + Urlaub_aktuelles_Jahr2 + "',`Urlaubvorjahr` = '" + urlaubvorjahrwichtig + "', `Urlaubgenommen` = '" + Urlaub_genommen2 + "', `Urlaubverfuegbar` = '" + Urlaub_verfuegbar2 + "' WHERE MitarbeiterID = '" + Login.username + "'");
+							java.sql.PreparedStatement pst2 = con1.prepareStatement(update);
+							pst2.executeUpdate();
+						} else {
+							JOptionPane.showMessageDialog(null, "Sie haben nicht genug Urlaub über");
+						}
+					}
+				}
+			}
+			if(abwesenheitsgrund_combobox.getSelectedItem() == "Krank" || abwesenheitsgrund_combobox.getSelectedItem() == "Dienstreise" || abwesenheitsgrund_combobox.getSelectedItem() == "Berufsschule" || abwesenheitsgrund_combobox.getSelectedItem() == "Hochschule"||abwesenheitsgrund_combobox.getSelectedItem() == "sonstige Abwesendheit") {
+				String eingabe = ("INSERT INTO `abwesendheit`(`MitarbeiterID`, `Datum`, `Beginn`, `Ende`, `Tage`, `Grund`, `Notiz`) VALUES ('" + Login.username + "','" + DateAktuell + "','" + Abwesendheitsbeginn + "','" + Abwesendheitsende + "','" + tage + "','" + abwesenheitsgrund_combobox.getSelectedItem() + "','" + Notiz + "')");
+				java.sql.PreparedStatement pst1 = con1.prepareStatement(eingabe);
+				pst1.executeUpdate();
+			}
 			if (abwesenheitsgrund_combobox.getSelectedItem() == "Urlaub") {
 				if(abwesenheitsbeginn_textfeld.getText().equals(DateAktuell)) {
 					urlaubeintrag = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + DateAktuell + "','00:00','0,0','00:00','Urlaub','0')");
 					java.sql.PreparedStatement pst7 = con1.prepareStatement(urlaubeintrag);
 					pst7.executeUpdate();
 				}
-			} else if (abwesenheitsgrund_combobox.getSelectedItem() == "Krank") {
-				 Krank = ("INSERT INTO `krank`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + Datumausgabe + "','00:00','0,0','00:00','Urlaub','0')");
 			}
 
-	    	java.sql.PreparedStatement pst1 = con1.prepareStatement(eingabe);
-	    	pst1.executeUpdate();
-	    	if(abwesenheitsgrund_combobox.getSelectedItem() == "Urlaub")
-	    	{
 
 
-
-					if (Urlaub_vorjahr1 > 0 && Urlaub_vorjahr1 > tage) {
-						urlaubvorjahrwichtig = Urlaub_vorjahr1 - tage;
-
-					} else {
-						if (Urlaub_vorjahr1 > 0 && Urlaub_vorjahr1 < tage) {
-							long rest = tage - Urlaub_vorjahr1;
-							urlaubvorjahrwichtig = Urlaub_vorjahr1 - Urlaub_vorjahr1;
-							Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - rest;
-							Urlaub_genommen2 = Urlaub_genommen1 + rest + Urlaub_vorjahr1;
-							Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
-
-
-						} else {
-							Urlaub_aktuelles_Jahr2 = Urlaub_aktuelles_Jahr1 - tage;
-							Urlaub_genommen2 = Urlaub_genommen1 + tage;
-							Urlaub_verfuegbar2 = (int) (Urlaub_verfuegbar1 - tage);
-						}
-					}
-
-					String update = ("UPDATE `urlaub` SET `UrlaubaktuellesJahr` = '" + Urlaub_aktuelles_Jahr2 + "',`Urlaubvorjahr` = '" + urlaubvorjahrwichtig + "', `Urlaubgenommen` = '" + Urlaub_genommen2 + "', `Urlaubverfuegbar` = '" + Urlaub_verfuegbar2 + "' WHERE MitarbeiterID = '" + Login.username + "'");
-					java.sql.PreparedStatement pst2 = con1.prepareStatement(update);
-					pst2.executeUpdate();
-				}
 	    		
 
 	    	loeschen_button2ActionPerformed(evt);

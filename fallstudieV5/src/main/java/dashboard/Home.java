@@ -12,6 +12,9 @@ import Seiten.Einstellungen_Seite;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Home extends javax.swing.JFrame {
 
@@ -35,7 +38,9 @@ public class Home extends javax.swing.JFrame {
 
                 } 
                 else if (index==3){
+
                     Login.txtDateierstellen();
+
                     try {
                         File file = new File("Eintraege.txt");
                         if (!Desktop.isDesktopSupported())
