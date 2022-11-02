@@ -377,7 +377,6 @@ public class Login extends javax.swing.JFrame {
             rs11.next();
             int e = rs11.getInt(1);
             int i = 0;
-            int t = 0;
             String [] Datumarr = new String[e];
             String suche2 =("SELECT Beginn FROM abwesendheit WHERE MitarbeiterID = '"+Login.username+"' AND Grund = 'Urlaub' ORDER BY Beginn DESC LIMIT 1");
             java.sql.PreparedStatement pst4 = con.prepareStatement(suche2);
@@ -394,20 +393,19 @@ public class Login extends javax.swing.JFrame {
             {
                 if(Datumarr[c].equals(Datumausgabe))
                 {
-                    System.err.println("gdjkfgdsfhdsogfdshjkfgdshfdsj"+Datumarr[c]);
-                }
-                else if (tage == t) {
-                    t = 0;
-                    String letztedatum = ("SELECT MAX(DATUM) FROM `urlaubeintrag` WHERE MitarbeiterID = '" + Login.username + "'");
-                    java.sql.PreparedStatement pst98 = con.prepareStatement(letztedatum);
-                    ResultSet rs98 = pst98.executeQuery();
-                    String datum = rs98.getString(1);
-                    String delete = ("DELETE FROM `abwesendheit` WHERE MitarbeiterID = '" + Login.username + "'AND Ende = '" + datum + "'AND Grund = 'Urlaub'");
-                    java.sql.PreparedStatement pst5 = con.prepareStatement(delete);
-                    pst5.executeUpdate();
-                     } else {
+                    try {
+                        String delete = ("DELETE FROM `abwesendheit` WHERE MitarbeiterID = '" + Login.username + "'AND Ende = '" + DateAktuell + "'AND Grund = 'Urlaub'");
+                        java.sql.PreparedStatement pst5 = con.prepareStatement(delete);
+                        pst5.executeUpdate();
 
-                        String suchen = ("SELECT Datum FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' AND Art = 'Urlaub' ORDER BY Datum DESC LIMIT 1");
+                        System.err.println("gdjkfgdsfhdsogfdshjkfgdshfdsj"+delete);
+                    } catch (SQLException E1)
+                    {
+                        E1.printStackTrace();
+                    }
+
+                } else {
+                        String suchen = ("SELECT Datum FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' ORDER BY Datum DESC LIMIT 1");
                         java.sql.PreparedStatement pst88 = con.prepareStatement(suchen);
                         ResultSet rs88 = pst88.executeQuery();
                         rs88.next();
@@ -420,14 +418,14 @@ public class Login extends javax.swing.JFrame {
                             String eingabe = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + Datumausgabe + "','00:00','0,0','00:00','Urlaub','0')");
                             java.sql.PreparedStatement pst7 = con.prepareStatement(eingabe);
                             pst7.executeUpdate();
-                            t++;
+
                         }
                         else
                         {
                             String eingabe = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + Datumausgabe + "','00:00','0,0','00:00','Urlaub','0')");
                             java.sql.PreparedStatement pst7 = con.prepareStatement(eingabe);
                             pst7.executeUpdate();
-                            t++;
+
                         }
                     }
                 }
@@ -489,26 +487,24 @@ public class Login extends javax.swing.JFrame {
                     writer.write(rs.getString(4) + "\t");
                     writer.write(rs.getString(5) + "\t");
                     writer.write(rs.getString(6) + "\t");
-                    writer.write(rs.getFloat(7) + "Std.\n");
+                    writer.write(rs.getFloat(7) + "Std.\n \n");
 
                 }
                 eintragerstellenUrlaub();
 
-
-
-
-
-                            String Urlaubeintrag = ("SELECT * FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' AND Datum = '"+Datumausgabe+"'");
+                            String Urlaubeintrag = ("SELECT * FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
                             java.sql.PreparedStatement pst33 = con.prepareStatement(Urlaubeintrag);
                             ResultSet rs33 = pst33.executeQuery();
                             rs33.next();
+
+                            writer.write("---------------------------------------------------------------- \n");
                             writer.write(rs33.getString(1)+ "\t");
                             writer.write(rs33.getString(2)+ "\t");
                             writer.write(rs33.getString(3)+ "\t");
                             writer.write(rs33.getString(4)+ "\t");
                             writer.write(rs33.getString(5)+ "\t");
                             writer.write(rs33.getString(6)+ "\t");
-                            writer.write(rs33.getString(7)+ " Std.\n");
+                            writer.write(rs33.getString(7)+ "Std.\n");
                                 while (rs33.next()) {
                                     writer.write(rs33.getString(1) + "\t");
                                     writer.write(rs33.getString(2) + "\t");
