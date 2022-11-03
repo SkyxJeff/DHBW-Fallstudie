@@ -7,4 +7,9 @@ public class Fallstudie {
         new splashscreen.SplashScreen(null,true).setVisible(true);
         new Login().setVisible(true);
     }
+    public static void startManuell()
+    {
+        new splashscreen.SplashScreen(null,true).setVisible(true);
+        new Login().setVisible(true);
+    }
 }

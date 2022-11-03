@@ -1,8 +1,10 @@
 package LoginLogout;
 
 import dashboard.FallstudieEng;
+import dashboard.HomeEng;
+import dashboard.Fallstudie;
 
-import java.awt.event.WindowEvent;
+import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,20 +18,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.swing.JOptionPane;
-
-//import com.mysql.jdbc.PreparedStatement;
-//import com.mysql.jdbc.*;
-
-import dashboard.FallstudieEng;
-import dashboard.Home;
-
-public class Login extends javax.swing.JFrame {
+public class LoginEng extends javax.swing.JFrame {
 
 	public static String username;
     static int tage;
 
-    public Login() {
+    public LoginEng() {
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -102,14 +96,14 @@ public class Login extends javax.swing.JFrame {
 
         benutzernamelabel.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         benutzernamelabel.setForeground(new java.awt.Color(255, 255, 255));
-        benutzernamelabel.setText("Benutzername:");
+        benutzernamelabel.setText("Username:");
 
         passwortlabel.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         passwortlabel.setForeground(new java.awt.Color(255, 255, 255));
-        passwortlabel.setText("Passwort:");
+        passwortlabel.setText("Password:");
 
         jComboBox1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Deutsch", "Englisch" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "English", "German" }));
         jComboBox1.setBorder(null);
 
         jComboBox1.addActionListener(event ->
@@ -121,10 +115,10 @@ public class Login extends javax.swing.JFrame {
 
                     if ("comboBoxChanged".equals(command))
                     {
-                        if (auswahl1.equals("Englisch"))
+                        if (auswahl1.equals("German"))
                         {
                             dispose();
-                            FallstudieEng.startManuell();
+                            Fallstudie.startManuell();
                         }
                     }
                 }
@@ -234,7 +228,7 @@ public class Login extends javax.swing.JFrame {
                 break;}
         }
         if((Wochentag == 6 || Wochentag == 7) || Feiertaggefunden == true ) {
-            JOptionPane.showMessageDialog(null, "Wir haben das Tool an Wochenenden und Feiertagen gesperrt. Verbringen Sie Zeit mir Ihrer Familie.");
+            JOptionPane.showMessageDialog(null, "The Tool is locked on holidays. Spend some time with your family.");
         }
         else {
             try {
@@ -247,7 +241,7 @@ public class Login extends javax.swing.JFrame {
                 pst.setString(2, passworttextfeld.getText());
                 ResultSet rs = pst.executeQuery();
 
-                String sql1PW = "Select Passwort from login_daten_mitarbeiter where Mitarbeiter_ID='"+Login.username+"';";
+                String sql1PW = "Select Passwort from login_daten_mitarbeiter where Mitarbeiter_ID='"+ LoginEng.username+"';";
                 java.sql.PreparedStatement pst1 = con.prepareStatement(sql1PW);
                 ResultSet rs1 = pst1.executeQuery();
                 rs1.next();
@@ -256,33 +250,33 @@ public class Login extends javax.swing.JFrame {
 
 
                 if(pw.equals("")&&passworttextfeld.getText().equals(StandardPW)) {
-                    String sql3 = "Update login_daten_mitarbeiter set Passwort = 'start'where Mitarbeiter_ID= '"+Login.username+"';";
+                    String sql3 = "Update login_daten_mitarbeiter set Passwort = 'start'where Mitarbeiter_ID= '"+ LoginEng.username+"';";
                     java.sql.PreparedStatement pst3 = con.prepareStatement(sql3);
                     pst3.executeUpdate(sql3);
-                    JOptionPane.showMessageDialog(null, "Standardpasswort zurückgesetzt, geben Sie nun Ihr eigenes Passwort ein.");
+                    JOptionPane.showMessageDialog(null, "Standard password deleted, please use your own password now.");
                     passworttextfeld.setText("");
                     System.out.println("Ich bin hier");
 
                 }else if(pw.equals("start") && !passworttextfeld.getText().equals(StandardPW)) {
                     boolean PWPruef = passwortPruefen(passworttextfeld.getText());
                     if(PWPruef) {
-                        String sql2 = "Update login_daten_mitarbeiter set Passwort = '"+passworttextfeld.getText()+"'where Mitarbeiter_ID= '"+Login.username+"';";
+                        String sql2 = "Update login_daten_mitarbeiter set Passwort = '"+passworttextfeld.getText()+"'where Mitarbeiter_ID= '"+ LoginEng.username+"';";
                         java.sql.PreparedStatement pst2 = con.prepareStatement(sql2);
                         pst2.executeUpdate(sql2);
-                        JOptionPane.showMessageDialog(null, "Login erfolgreich");
-                        new Home().setVisible(true);
+                        JOptionPane.showMessageDialog(null, "Login success!");
+                        new HomeEng().setVisible(true);
                         dispose();
                         System.out.println("Ich bin jz hier");
                     }
 
 
                 }else if (!pw.equals(StandardPW) && pw.equals(passworttextfeld.getText())) {
-                    JOptionPane.showMessageDialog(null, "Login erfolgreich");
-                    new Home().setVisible(true);
+                    JOptionPane.showMessageDialog(null, "Login success!");
+                    new HomeEng().setVisible(true);
                     dispose();
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "Login fehlgeschlagen");
+                    JOptionPane.showMessageDialog(null, "Login failed!");
                     benutzernametextfeld.setText("");
                     passworttextfeld.setText("");
                 }
@@ -291,7 +285,7 @@ public class Login extends javax.swing.JFrame {
             }
             catch(Exception e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Login fehlgeschlagen1");
+                JOptionPane.showMessageDialog(null, "Login failed! Error: 1");
             }
         }
 
@@ -323,20 +317,20 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginEng.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginEng.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginEng.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginEng.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new LoginEng().setVisible(true);
             }
         });
     }
@@ -361,8 +355,8 @@ public class Login extends javax.swing.JFrame {
         if (passwort.length() >= MAX && uppercaseCounter >= MIN_Uppercase
                 && lowercaseCounter >= MIN_Lowercase && digitCounter >= NUM_Digits) {
             return true;}
-        JOptionPane.showMessageDialog(null, "Nicht gespeichert. Stellen Sie sicher, dass sie folgende Anforderungen erfüllen: \n "
-                + "- mind. 8 Zeichen \n - mind. 1 Kleinbuchstabe \n - mind 1 Großbuchstabe \n - mind 1 Zahl");
+        JOptionPane.showMessageDialog(null, "Your password was not saved, please check the requirements: \n "
+                + "- min. 8 characters \n - min. 1 lower case \n - min. 1 upper case \n - min. 1 number");
         return false;
     }
 
@@ -383,12 +377,12 @@ public class Login extends javax.swing.JFrame {
         DateAktuell = "" + formatdeutsch.format(deutschesAktuellDate);
         if(tag == 1 || tag == 7)
         {
-            JOptionPane.showMessageDialog(null, "Heute ist Wochenende. Es werden keine Eintraege erzeugt.");
+            JOptionPane.showMessageDialog(null, "It's the weekend, no entries can be created.");
         }
         else {
             try {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-                String Ausgabe = ("SELECT `Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo` FROM eintraege WHERE Mitarbeiter_ID = '" + Login.username + "' ORDER BY Datum ASC");
+                String Ausgabe = ("SELECT `Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo` FROM eintraege WHERE Mitarbeiter_ID = '" + LoginEng.username + "' ORDER BY Datum ASC");
                 java.sql.PreparedStatement pst = con.prepareStatement(Ausgabe);
                 ResultSet rs = pst.executeQuery();
                 rs.next();
@@ -396,12 +390,12 @@ public class Login extends javax.swing.JFrame {
                 FileWriter writer = new FileWriter(datei);
                 System.err.println(DateAktuell);
                 writer.write("ID\t");
-                writer.write("Datum\t \t");
-                writer.write("Beginn\t");
-                writer.write("Pause\t");
-                writer.write("Ende\t");
-                writer.write("Art\t");
-                writer.write("Saldo\n");
+                writer.write("Date\t \t");
+                writer.write("Start\t");
+                writer.write("Break\t");
+                writer.write("End\t");
+                writer.write("Type\t");
+                writer.write("Summary\n");
                 writer.write("---------------------------------------------------------------- \n");
                 writer.write(rs.getString(1) + "\t");
                 writer.write(rs.getString(2) + "\t");
@@ -409,7 +403,7 @@ public class Login extends javax.swing.JFrame {
                 writer.write(rs.getString(4) + "\t");
                 writer.write(rs.getString(5) + "\t");
                 writer.write(rs.getString(6) + "\t");
-                writer.write(rs.getFloat(7) + "Std.\n");
+                writer.write(rs.getFloat(7) + "Hrs.\n");
                 writer.write("---------------------------------------------------------------- \n");
 
 
@@ -421,7 +415,7 @@ public class Login extends javax.swing.JFrame {
                     writer.write(rs.getString(4) + "\t");
                     writer.write(rs.getString(5) + "\t");
                     writer.write(rs.getString(6) + "\t");
-                    writer.write(rs.getFloat(7) + "Std.\n");
+                    writer.write(rs.getFloat(7) + "Hrs.\n");
                     writer.write("---------------------------------------------------------------- \n");
 
                 }

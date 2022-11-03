@@ -20,11 +20,11 @@ import PasswortAendern.Passwort;
 
 public class Einstellungen_Seite extends javax.swing.JPanel {
 
-	int gruen;
-	int gelb;
-	int rot;
+    int gruen;
+    int gelb;
+    int rot;
 
-	
+
     public Einstellungen_Seite() {
         initComponents();
         setOpaque(false);
@@ -63,7 +63,7 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         sprache_label.setText("Sprache:");
 
         sprache_combobox.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        sprache_combobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Deutsch", "English" }));
+        sprache_combobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Deutsch", "Englisch" }));
         sprache_combobox.setBorder(null);
         sprache_combobox.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -89,12 +89,12 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         javax.swing.GroupLayout rotes_panelLayout = new javax.swing.GroupLayout(rotes_panel);
         rotes_panel.setLayout(rotes_panelLayout);
         rotes_panelLayout.setHorizontalGroup(
-            rotes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 35, Short.MAX_VALUE)
+                rotes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 35, Short.MAX_VALUE)
         );
         rotes_panelLayout.setVerticalGroup(
-            rotes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 35, Short.MAX_VALUE)
+                rotes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 35, Short.MAX_VALUE)
         );
 
         gelbes_panel.setBackground(new java.awt.Color(255, 255, 0));
@@ -103,12 +103,12 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         javax.swing.GroupLayout gelbes_panelLayout = new javax.swing.GroupLayout(gelbes_panel);
         gelbes_panel.setLayout(gelbes_panelLayout);
         gelbes_panelLayout.setHorizontalGroup(
-            gelbes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 35, Short.MAX_VALUE)
+                gelbes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 35, Short.MAX_VALUE)
         );
         gelbes_panelLayout.setVerticalGroup(
-            gelbes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 35, Short.MAX_VALUE)
+                gelbes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 35, Short.MAX_VALUE)
         );
 
         gruenes_panel.setBackground(new java.awt.Color(51, 255, 0));
@@ -117,35 +117,35 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         javax.swing.GroupLayout gruenes_panelLayout = new javax.swing.GroupLayout(gruenes_panel);
         gruenes_panel.setLayout(gruenes_panelLayout);
         gruenes_panelLayout.setHorizontalGroup(
-            gruenes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 35, Short.MAX_VALUE)
+                gruenes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 35, Short.MAX_VALUE)
         );
         gruenes_panelLayout.setVerticalGroup(
-            gruenes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 35, Short.MAX_VALUE)
+                gruenes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 35, Short.MAX_VALUE)
         );
-        
+
         try {
-        	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-        	String Gruen = ("SELECT Gruen FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
-        	String Gelb = ("SELECT Gelb FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
-        	String Rot = ("SELECT Rot FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
-        	java.sql.PreparedStatement pst = con.prepareStatement(Gruen);
-        	java.sql.PreparedStatement pst1 = con.prepareStatement(Gelb);
-        	java.sql.PreparedStatement pst2 = con.prepareStatement(Rot);
-        	ResultSet rs = pst.executeQuery();
-        	ResultSet rs1 = pst1.executeQuery();
-        	ResultSet rs2 = pst2.executeQuery();
-        	rs.next();
-        	rs1.next();
-        	rs2.next();
-        	 gruen = rs.getInt(1);
-        	 gelb = rs1.getInt(1);
-        	 rot = rs2.getInt(1);
-		} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, "Verbindung zur DB fehlgeschlagen. Die Ampel Werte konnten nicht gezogen werden");
-					
-		}
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
+            String Gruen = ("SELECT Gruen FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
+            String Gelb = ("SELECT Gelb FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
+            String Rot = ("SELECT Rot FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
+            java.sql.PreparedStatement pst = con.prepareStatement(Gruen);
+            java.sql.PreparedStatement pst1 = con.prepareStatement(Gelb);
+            java.sql.PreparedStatement pst2 = con.prepareStatement(Rot);
+            ResultSet rs = pst.executeQuery();
+            ResultSet rs1 = pst1.executeQuery();
+            ResultSet rs2 = pst2.executeQuery();
+            rs.next();
+            rs1.next();
+            rs2.next();
+            gruen = rs.getInt(1);
+            gelb = rs1.getInt(1);
+            rot = rs2.getInt(1);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Verbindung zur DB fehlgeschlagen. Die Ampel Werte konnten nicht gezogen werden");
+
+        }
 
         rot_grenzwert_textfeld.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         rot_grenzwert_textfeld.setBorder(null);
@@ -154,11 +154,11 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         gelb_grenzwert_textfeld.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gelb_grenzwert_textfeld.setBorder(null);
         gelb_grenzwert_textfeld.setText(String.valueOf(gelb));
-        
+
         gruen_grenzwert_textfeld.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         gruen_grenzwert_textfeld.setBorder(null);
         gruen_grenzwert_textfeld.setText(String.valueOf(gruen));
-        
+
 
         speichern_button.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         speichern_button.setText("Speichern");
@@ -181,86 +181,86 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         javax.swing.GroupLayout hintergrund_panelLayout = new javax.swing.GroupLayout(hintergrund_panel);
         hintergrund_panel.setLayout(hintergrund_panelLayout);
         hintergrund_panelLayout.setHorizontalGroup(
-            hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(hintergrund_panelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Ueberschrift_label)
-                    .addGroup(hintergrund_panelLayout.createSequentialGroup()
-                        .addComponent(sprache_label)
-                        .addGap(18, 18, 18)
-                        .addComponent(sprache_combobox, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(hintergrund_panelLayout.createSequentialGroup()
-                        .addComponent(passwortAendern_label)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(passwortAendern_button))
-                    .addGroup(hintergrund_panelLayout.createSequentialGroup()
-                        .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(hintergrund_panelLayout.createSequentialGroup()
-                                .addComponent(grenzwerte_label)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rotes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(gelbes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(gruenes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(gelb_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(hintergrund_panelLayout.createSequentialGroup()
-                                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(rot_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(gruen_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(116, 116, 116)
-                                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(loeschen_button, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(speichern_button, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(212, Short.MAX_VALUE))
+                hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(hintergrund_panelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(Ueberschrift_label)
+                                        .addGroup(hintergrund_panelLayout.createSequentialGroup()
+                                                .addComponent(sprache_label)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(sprache_combobox, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(hintergrund_panelLayout.createSequentialGroup()
+                                                .addComponent(passwortAendern_label)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(passwortAendern_button))
+                                        .addGroup(hintergrund_panelLayout.createSequentialGroup()
+                                                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addGroup(hintergrund_panelLayout.createSequentialGroup()
+                                                                .addComponent(grenzwerte_label)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(rotes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(gelbes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(gruenes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(gelb_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(hintergrund_panelLayout.createSequentialGroup()
+                                                                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(rot_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(gruen_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addGap(116, 116, 116)
+                                                                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(loeschen_button, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(speichern_button, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addContainerGap(212, Short.MAX_VALUE))
         );
         hintergrund_panelLayout.setVerticalGroup(
-            hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(hintergrund_panelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Ueberschrift_label)
-                .addGap(18, 18, 18)
-                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sprache_label)
-                    .addComponent(sprache_combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwortAendern_label)
-                    .addComponent(passwortAendern_button))
-                .addGap(29, 29, 29)
-                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(hintergrund_panelLayout.createSequentialGroup()
-                        .addComponent(grenzwerte_label)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(gruen_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(hintergrund_panelLayout.createSequentialGroup()
-                        .addComponent(rotes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(gelbes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hintergrund_panelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(rot_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(speichern_button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(loeschen_button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(17, 17, 17)
-                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(gruenes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gelb_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(154, 195, Short.MAX_VALUE))
+                hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(hintergrund_panelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(Ueberschrift_label)
+                                .addGap(18, 18, 18)
+                                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(sprache_label)
+                                        .addComponent(sprache_combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(24, 24, 24)
+                                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(passwortAendern_label)
+                                        .addComponent(passwortAendern_button))
+                                .addGap(29, 29, 29)
+                                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(hintergrund_panelLayout.createSequentialGroup()
+                                                .addComponent(grenzwerte_label)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(gruen_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(hintergrund_panelLayout.createSequentialGroup()
+                                                .addComponent(rotes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(gelbes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hintergrund_panelLayout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(rot_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(speichern_button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(18, 18, 18)
+                                                .addComponent(loeschen_button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(17, 17, 17)
+                                .addGroup(hintergrund_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(gruenes_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(gelb_grenzwert_textfeld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(154, 195, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(hintergrund_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(hintergrund_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(hintergrund_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(hintergrund_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -284,12 +284,12 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "Es ist ein Fehler aufgetreten");
         }
-    
+
     }//GEN-LAST:event_speichern_buttonActionPerformed
 
     private void loeschen_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_löschen_buttonActionPerformed
         rot_grenzwert_textfeld.setText("");
-        gelb_grenzwert_textfeld.setText(""); 
+        gelb_grenzwert_textfeld.setText("");
         gruen_grenzwert_textfeld.setText("");
     }//GEN-LAST:event_löschen_buttonActionPerformed
 
