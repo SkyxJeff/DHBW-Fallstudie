@@ -2,8 +2,6 @@ package Menue;
 
 
 import Komponenten.RundesPanel;
-import LoginLogout.LoginE;
-import LoginLogout.LoginE;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,5 @@
 package Seiten;
 
-import LoginLogout.LoginE;
 import PasswortAendern.PasswortE;
 
 import javax.swing.*;

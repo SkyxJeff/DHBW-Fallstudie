@@ -1,6 +1,5 @@
 package Seiten;
 
-import LoginLogout.LoginE;
 import Menue.MenueE;
 
 import javax.swing.*;
