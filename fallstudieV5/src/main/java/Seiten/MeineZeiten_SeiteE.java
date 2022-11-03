@@ -1,7 +1,5 @@
 package Seiten;
 
-import LoginLogout.LoginE;
-
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;

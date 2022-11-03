@@ -32,6 +32,7 @@ public class Login extends javax.swing.JFrame {
 
 	public static String username;
     static int tage;
+    static boolean urlaubDa = false;
 
     public Login() {
         initComponents();
@@ -351,90 +352,6 @@ public class Login extends javax.swing.JFrame {
         return false;
     }
 
-
-    public static void eintragerstellenUrlaub()
-    {
-        try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-            LocalDate Datumaktuell = LocalDate.now();
-            String DateAktuell = "" + Datumaktuell;
-            Date deutschesAktuellDate = new Date();
-            SimpleDateFormat formatdeutsch = new SimpleDateFormat("dd.MM.yyyy");
-            SimpleDateFormat formatEnglisch = new SimpleDateFormat("yyyy-MM-dd");
-            DateAktuell = "" + formatdeutsch.format(deutschesAktuellDate);
-            String Datumausgabe = "" + formatEnglisch.format(deutschesAktuellDate);
-            String anzahl = ("SELECT count(Datum) FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
-            String suche = ("SELECT Datum FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
-            String Urlaub = ("SELECT `Tage` FROM abwesendheit WHERE MitarbeiterID = '" + Login.username +"' AND Grund = 'Urlaub'");
-            java.sql.PreparedStatement pst11 = con.prepareStatement(anzahl);
-            java.sql.PreparedStatement pst8 = con.prepareStatement(suche);
-            java.sql.PreparedStatement pst68 = con.prepareStatement(Urlaub);
-            ResultSet rs11 = pst11.executeQuery();
-            ResultSet rs8 = pst8.executeQuery();
-            ResultSet rs68  = pst68.executeQuery();
-            rs68.next();
-            int tage = rs68.getInt(1);
-            rs11.next();
-            int e = rs11.getInt(1);
-            int i = 0;
-            String [] Datumarr = new String[e];
-            String suche2 =("SELECT Beginn FROM abwesendheit WHERE MitarbeiterID = '"+Login.username+"' AND Grund = 'Urlaub' ORDER BY Beginn DESC LIMIT 1");
-            java.sql.PreparedStatement pst4 = con.prepareStatement(suche2);
-            ResultSet rs4 = pst4.executeQuery();
-            rs4.next();
-            String wichtig = rs4.getString(1);
-            while(rs8.next())
-            {
-                String Datum = rs8.getString(1);
-                Datumarr[i] = Datum;
-                i++;
-            }
-            for (int c=0;c<Datumarr.length;c++)
-            {
-                if(Datumarr[c].equals(Datumausgabe))
-                {
-                    try {
-                        String delete = ("DELETE FROM `abwesendheit` WHERE MitarbeiterID = '" + Login.username + "'AND Ende = '" + DateAktuell + "'AND Grund = 'Urlaub'");
-                        java.sql.PreparedStatement pst5 = con.prepareStatement(delete);
-                        pst5.executeUpdate();
-
-                        System.err.println("gdjkfgdsfhdsogfdshjkfgdshfdsj"+delete);
-                    } catch (SQLException E1)
-                    {
-                        E1.printStackTrace();
-                    }
-
-                } else {
-                        String suchen = ("SELECT Datum FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"' ORDER BY Datum DESC LIMIT 1");
-                        java.sql.PreparedStatement pst88 = con.prepareStatement(suchen);
-                        ResultSet rs88 = pst88.executeQuery();
-                        rs88.next();
-                        String AktuellDat = rs88.getString(1);
-                        if(AktuellDat.equals(Datumausgabe))
-                        {
-                            System.err.println("gjhkglhfjgkhgjfdkhgjfdklghfdj, Es wurde ein Datensatz schon erzeugt");
-
-                        } else if (wichtig.equals(DateAktuell)) {
-                            String eingabe = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + Datumausgabe + "','00:00','0,0','00:00','Urlaub','0')");
-                            java.sql.PreparedStatement pst7 = con.prepareStatement(eingabe);
-                            pst7.executeUpdate();
-
-                        }
-                        else
-                        {
-                            String eingabe = ("INSERT INTO `urlaubeintrag`(`MitarbeiterID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`, `Saldo`) VALUES ('" + Login.username + "','" + Datumausgabe + "','00:00','0,0','00:00','Urlaub','0')");
-                            java.sql.PreparedStatement pst7 = con.prepareStatement(eingabe);
-                            pst7.executeUpdate();
-
-                        }
-                    }
-                }
-        }catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-    }
     public static void txtDateierstellen()
     {
 
@@ -490,33 +407,8 @@ public class Login extends javax.swing.JFrame {
                     writer.write(rs.getFloat(7) + "Std.\n \n");
 
                 }
-                eintragerstellenUrlaub();
 
-                            String Urlaubeintrag = ("SELECT * FROM urlaubeintrag WHERE MitarbeiterID = '"+Login.username+"'");
-                            java.sql.PreparedStatement pst33 = con.prepareStatement(Urlaubeintrag);
-                            ResultSet rs33 = pst33.executeQuery();
-                            rs33.next();
-
-                            writer.write("---------------------------------------------------------------- \n");
-                            writer.write(rs33.getString(1)+ "\t");
-                            writer.write(rs33.getString(2)+ "\t");
-                            writer.write(rs33.getString(3)+ "\t");
-                            writer.write(rs33.getString(4)+ "\t");
-                            writer.write(rs33.getString(5)+ "\t");
-                            writer.write(rs33.getString(6)+ "\t");
-                            writer.write(rs33.getString(7)+ "Std.\n");
-                                while (rs33.next()) {
-                                    writer.write(rs33.getString(1) + "\t");
-                                    writer.write(rs33.getString(2) + "\t");
-                                    writer.write(rs33.getString(3) + "\t");
-                                    writer.write(rs33.getString(4) + "\t");
-                                    writer.write(rs33.getString(5) + "\t");
-                                    writer.write(rs33.getString(6) + "\t");
-                                    writer.write(rs33.getString(7) + "Std.\n");
-                                }
-
-
-                writer.flush();
+               writer.flush();
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
