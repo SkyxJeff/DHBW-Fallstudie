@@ -143,7 +143,7 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         	 gelb = rs1.getInt(1);
         	 rot = rs2.getInt(1);
 		} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, "Geht nicht");
+					JOptionPane.showMessageDialog(null, "Verbindung zur DB fehlgeschlagen. Die Ampel Werte konnten nicht gezogen werden");
 					
 		}
 
@@ -277,12 +277,12 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
             String Update = ("UPDATE gleitzeitgrenze SET Gruen= '"+gruen+"', Gelb= '"+gelb+"', Rot= '"+rot+"' WHERE MitarbeiterID = '"+Login.username+"'");
             java.sql.PreparedStatement pst = con.prepareStatement(Update);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Hat gefunst");
+            JOptionPane.showMessageDialog(null, "Die Grenzwerte wurden geändert");
 
 
         } catch (SQLException e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, "neeeeeee");
+            JOptionPane.showMessageDialog(null, "Es ist ein Fehler aufgetreten");
         }
     
     }//GEN-LAST:event_speichern_buttonActionPerformed

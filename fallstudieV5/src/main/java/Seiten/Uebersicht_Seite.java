@@ -89,12 +89,6 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         	 gelb = Integer.parseInt(rs1.getString(1));
         	 rot = Integer.parseInt(rs2.getString(1));
         	 float Saldo = rs3.getFloat(1);
-        	 System.out.println(gruen);
-        	 System.out.println(gelb);
-        	 System.out.println(rot);
-        	 System.out.println(Saldo);
-
-        	 
         	 if(Saldo <= gruen)
         	 {
         		 grenzwert_gelb_label.setVisible(false);
@@ -102,7 +96,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         		 grenzwert_gruen_label.setVisible(true);
         		 grenzwert_gruen_label.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         	     grenzwert_gruen_label.setForeground(new java.awt.Color(255, 255, 255));
-        	     grenzwert_gruen_label.setText("Perfekt");
+        	     grenzwert_gruen_label.setText("Sie sind in ihrer Gleitzeitgrenze");
         	     
         	 }
         	 else
@@ -112,7 +106,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         			 grenzwert_gelb_label.setVisible(true);
         			 grenzwert_gelb_label.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         		     grenzwert_gelb_label.setForeground(new java.awt.Color(255, 255, 255));
-        		     grenzwert_gelb_label.setText("Achtung sie nähern sich der Gleitzeitgrenze");
+        		     grenzwert_gelb_label.setText("Achtung sie nähern sich der roten Gleitzeitgrenze");
             		 grenzwert_rot_label.setVisible(false);
             		 grenzwert_gruen_label.setVisible(false); 
         		 }
@@ -122,14 +116,13 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             		 grenzwert_rot_label.setVisible(true);
             		 grenzwert_rot_label.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
             	     grenzwert_rot_label.setForeground(new java.awt.Color(255, 255, 255));
-            	     grenzwert_rot_label.setText("Die Gleitzeit wird zu viel");
+            	     grenzwert_rot_label.setText("Die Gleitzeitgrenze wurde überschritten");
             		 grenzwert_gruen_label.setVisible(false);
         		 }
         	 }
         	
 		} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, "Fehler!!!!!!!!!!!!!!");
-					System.out.println(e);
+					JOptionPane.showMessageDialog(null, "Datenbankverbindung fehlgeschlagen");
 		}
 
         javax.swing.GroupLayout ampel_panelLayout = new javax.swing.GroupLayout(ampel_panel);
@@ -460,7 +453,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         String leer = "00:00 Std.";
         try {
             String leer1 = "00:00 Std.";
-            Class.forName("com.mysql.jdbc.Driver");
+            //Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
             String Beginn = ("Select Beginn,Pause,Ende from eintraege Where Datum = (SELECT MAX(Datum) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"') AND Mitarbeiter_ID = '"+Login.username+"';");
             String maxDatum = ("Select max(Datum) from `Eintraege` where `Mitarbeiter_ID` = '"+Login.username+"';");
@@ -493,37 +486,25 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             Date date3 = format.parse(sechsuhr);
             Date date4 = format.parse(ende);
             Date date22 = format.parse(zzwanziguhr);
-            System.out.println(date4.getTime());
             String heuteIst;
             LocalDate aktuellesDate = LocalDate.now();
-            System.out.println(date4);
-            System.out.println(date2);
-            System.out.println(date1);
-
             String aktuellesDatum = ""+aktuellesDate;
             if(Date.equals(aktuellesDatum)) {
-
                 if(beginnhh == 0) {heuteIst = "0";}
-
                 else if(beginnhh<6 && endehh<22) {
                     if((date2.getTime()-date4.getTime())>0) {
                         heuteIst = ""+(date4.getTime()-date3.getTime())/36000;
                     }else {heuteIst = ""+(date2.getTime() - date3.getTime())/36000;}
                 }else if((date2.getTime()-date4.getTime())>0 && date4.getTime()!= (-3600000) ){
                     heuteIst = ""+(date4.getTime() - date1.getTime())/36000;
-                    System.out.println("Hier");
                 } else if(endehh > 22 && beginnhh > 6){
                     heuteIst = ""+(date22.getTime()-date1.getTime())/36000;
                 } else if(endehh >22 && beginnhh < 6){heuteIst = ""+(date22.getTime()-date3.getTime())/36000;}
-
                 else {heuteIst = ""+(date2.getTime() - date1.getTime())/36000;System.out.println("Hallo");}
                 float heuteIst1 = Float.parseFloat(heuteIst);
                 heuteIst1 = heuteIst1/100;
-                System.out.println("Floatzahl heute ist: "+ heuteIst1);
-
                 if(pause.equals("0,0")) {
                     float heuteIst1NK = heuteIst1 - (int)heuteIst1;
-
                     String pausezeit = "0,0";
                     if((int)heuteIst1 > 9) {
                         if(Age >18) {pausezeit = "0,75";JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,75h eingetragen, bitte realisieren Sie dies.");}
@@ -535,33 +516,27 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
                     java.sql.PreparedStatement pstPauseEintrag6h = con.prepareStatement(pauseEintragen6h);
                     pstPauseEintrag6h.executeUpdate();
                     String heuteIst1NK1 = ""+heuteIst1NK;
-                    System.out.println("keine Pause NK heuteISt:"+ heuteIst1NK1 );
                     heuteIst1NK1 = heuteIst1NK1.substring(0,3);
                     Float heuteIst1NK1float = Float.parseFloat(heuteIst1NK1);
                     heuteIst1NK1float = heuteIst1NK1float*60;
-                    System.out.println("Keine Pause NK in Min: " + heuteIst1NK1float);
                     String heuteIstdone = ""+(int)heuteIst1+":"+heuteIst1NK1float;
                     Date heuteIstfertig = format.parse(heuteIstdone);
                     heuteIstdone = ""+heuteIstfertig;
                     heuteIstdone = heuteIstdone.substring(11,16)+" Std.";
-                    System.out.println("im format:" + heuteIstfertig);
-                    System.out.println("gesubbt:" + heuteIstdone);
                     return heuteIstdone;
                 } else {
                     pause = pause.replace(",", ".");
                     float pausefloat = Float.parseFloat(pause);
                     String pausezeit = ""+pausefloat;
                     if((int)heuteIst1 > 9) {
-                        if(Age >18 && pausefloat <0.75) {pausezeit = "0,75";JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,75h eingetragen, bitte realisieren Sie dies.");}
+                        if(Age >18 && pausefloat <0.75) {pausezeit = "0,75";JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihrer Arbeitszeit eine automatische Pause von 0,75h eingetragen, bitte realisieren Sie dies.");}
                         JOptionPane.showMessageDialog(null,"Sie arbeiten zu viel.");
                     } else if((int)heuteIst1 >6) {
-                        if(Age >18 && pausefloat<0.5 ) {pausezeit = "0,5"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,5h eingetragen, bitte realisieren Sie dies.");} else {pausezeit = "1,0"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 1h eingetragen, bitte realisieren Sie dies.");} }
-                    else if((int)heuteIst1 <6 && heuteIst1 > 4.5 && Age < 18 && pausefloat < 0.5) {pausezeit = "0,5"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihere Arbeitszeit eine automatische Pause von 0,5h eingetragen, bitte realisieren Sie dies.");} else {System.out.println("Waddup");}
+                        if(Age <18 && pausefloat<0.5 ) {pausezeit = "0,5"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihrer Arbeitszeit eine automatische Pause von 0,5h eingetragen, bitte realisieren Sie dies.");} else if (Age<18 && pausefloat <1.0) {JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihrer Arbeitszeit eine automatische Pause von 1h eingetragen, bitte realisieren Sie dies.");} }
+                    else if((int)heuteIst1 <6 && heuteIst1 > 4.5 && Age < 18 && pausefloat < 0.5) {pausezeit = "0,5"; JOptionPane.showMessageDialog(null,"Wir haben aufgrund Ihrer Arbeitszeit eine automatische Pause von 0,5h eingetragen, bitte realisieren Sie dies.");} else {System.out.println("Waddup");}
                     String pauseEintragen6h = "Update eintraege set Pause = '"+pausezeit+"' where Datum = '"+aktuellesDatum+"' and Mitarbeiter_ID = '"+Login.username+"';";
                     java.sql.PreparedStatement pstPauseEintrag6h = con.prepareStatement(pauseEintragen6h);
                     pstPauseEintrag6h.executeUpdate();
-
-                    System.out.println("Pause: "+pausefloat);
                     float heuteIst1NK = (heuteIst1-pausefloat) - ((int)(heuteIst1-pausefloat));
                     String heuteIst1NK1 = ""+heuteIst1NK;
                     heuteIst1NK1 = heuteIst1NK1.substring(0,3); //nackommas abschneiden
@@ -571,39 +546,24 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
                     Date heuteIstfertig = format.parse(heuteIstdone);
                     heuteIstdone = ""+heuteIstfertig;
                     heuteIstdone = heuteIstdone.substring(11,16)+" Std.";
-                    //heuteIstdone = heuteIstdone.replace(".", " ");
-                    System.out.println(heuteIstdone);
-                    //heuteIstdone = heuteIstdone.substring(0, 5);
-                    //heuteIstdone = heuteIstdone+"  Std.";
                     return heuteIstdone;
                 }
             }else {return leer1;}
-
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen4");
-
-        } catch (SQLException e) {
+        }  catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Sie haben sich das erste Mal angemeldet, bitte speichern Sie sofort unter 'Meine Zeiten' einen Zeiteintrag.");
             try {
-                Class.forName("com.mysql.jdbc.Driver");
+                //Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
                 LocalDate Datumaktuell = LocalDate.now();
                 String DateAktuell = ""+Datumaktuell;
                 String sql6 = ("Insert into eintraege (`Mitarbeiter_ID`, `Datum`, `Beginn`, `Pause`, `Ende`, `Art`,`KW`,`Quartal`, `Jahr`, `Saldo`) values ('"+Login.username+"','"+DateAktuell+"','00:00','0,0','00:00','-',0,0,0,0);");
                 java.sql.PreparedStatement pst6 = con.prepareStatement(sql6);
                 pst6.executeUpdate();
-
-            } catch (ClassNotFoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
             } catch (SQLException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
             e.printStackTrace();
-
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             JOptionPane.showMessageDialog(null, "Eingabe fehlgeschlagen5");
@@ -611,11 +571,9 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         }
         return leer;
     }
-    
     public String StundenUebersichtSoll() {
-    	
     	try {
-			Class.forName("com.mysql.jdbc.Driver");
+			//Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
 			String maxArbeitszeit = "Select maxArbeitszeitproTag from taetigkeit_bez where Bezeichnung = (Select Taetigkeit from Mitarbeiter where Mitarbeiter_ID = '"+Login.username+"');";
 			java.sql.PreparedStatement pst1 = con.prepareStatement(maxArbeitszeit);
@@ -623,41 +581,28 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 			rs.next();
 			maxArbeitszeit = rs.getString(1);
 			return maxArbeitszeit;
-
-    	} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+    	}  catch (SQLException e) {
 			e.printStackTrace();
 		}
     	return "00:00 Std.";
     }
-
     public String StundenUebersichtSaldo() {
         String Saldo;
         String Heuteist = StundenUebersichtHeuteIst();
         String Soll = StundenUebersichtSoll();
-        System.out.println(Heuteist);
         Heuteist = Heuteist.substring(0,5);
-        //float HeuteIst = Float.parseFloat(Heuteist);
-        System.out.println(Heuteist);
-
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         try {
             Date heuteist = format.parse(Heuteist);
-            System.out.println(heuteist);
             Date soll = format.parse(Soll);
-            System.out.println(soll);
             Saldo = ""+(soll.getTime()-heuteist.getTime())/36000;
             float Saldofloat = Float.parseFloat(Saldo);
             Saldofloat = (Saldofloat/100) * (-1);
-            System.out.println(Saldofloat);
             insertSaldo(Saldofloat);
             float SaldofloatNK = Saldofloat - (int)Saldofloat;
             String SaldofloatNK1 = ""+SaldofloatNK;
-            System.out.println("SCHAUUUUUUU"+SaldofloatNK1);
             Float SaldofloatNK1float = Float.parseFloat(SaldofloatNK1);
             SaldofloatNK1float = (SaldofloatNK1float*60);
-            System.out.println(SaldofloatNK1float);
             if(Saldofloat == 0) {
                 return "00:00 Std.";
             }
@@ -670,23 +615,26 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
                     Saldodone = "-"+Saldodone.substring(11,16)+" Std.";
                     return Saldodone;
                 }else if((int)Saldofloat==0){
-                    System.out.println("HAAAAAAAAALLLOOOOO");
-                    Saldodone = ""+((int)Saldofloat)+":"+SaldofloatNK1float;
-                    System.out.println("HIIIIIEEERR"+SaldofloatNK1float);
-                    Date saldo = format.parse(Saldodone);
-                    Saldodone = ""+saldo;
-                    Saldodone = "-"+Saldodone.substring(11,16)+" Std.";
-                    return Saldodone;
+                    if(SaldofloatNK1float <0) {
+                        Saldodone = "" + ((int) Saldofloat) + ":" + SaldofloatNK1float*(-1);
+                        Date saldo = format.parse(Saldodone);
+                        Saldodone = "" + saldo;
+                        Saldodone = "-" + Saldodone.substring(11, 16) + " Std.";
+                        return Saldodone;}
+                    else {
+                        Saldodone = "" + ((int) Saldofloat) + ":" + SaldofloatNK1float;
+                        Date saldo = format.parse(Saldodone);
+                        Saldodone = "" + saldo;
+                        Saldodone = "-" + Saldodone.substring(11, 16) + " Std.";
+                        return Saldodone;
+                    }
+
                 } else{
-                    System.out.println(Saldodone);
                     Date saldo = format.parse(Saldodone);
-                    System.out.println(saldo);
                     Saldodone = ""+saldo;
                     Saldodone = Saldodone.substring(11,16)+" Std.";
-                    System.out.println(Saldodone);
                     return Saldodone;
                 }
-
             }
         } catch (ParseException e) {
             // TODO Auto-generated catch block
@@ -694,11 +642,9 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         }
         return "00:00 Std.";
     }
-    
 	public void insertSaldo(float Saldo) {
-    	
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			//Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
 			String maxDatum = ("Select max(Datum) from `Eintraege` where `Mitarbeiter_ID` = '"+Login.username+"';");
 			java.sql.PreparedStatement pst2 = con.prepareStatement(maxDatum);
@@ -716,39 +662,21 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
-
     }
     
     public String GleitzeitproQuartal() {
-
         try {
             LocalDate Datumaktuell = LocalDate.now();
             Calendar calendar = new GregorianCalendar();
             calendar.set(Datumaktuell.getYear(), Datumaktuell.getMonthValue(),Datumaktuell.getDayOfMonth());
-            System.out.println("YEAR: " + calendar.get(Calendar.YEAR));
-            System.out.println("MONTH: " + calendar.get(Calendar.MONTH));
-            System.out.println("DAY: " + calendar.get(Calendar.DATE));
             int Quart = (calendar.get(Calendar.MONTH)/3) +1;
-            Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
-//
-//		    String DateAktuell = ""+Datumaktuell;
-//			String Quartal = "Select Quartal from eintraege Where Datum  = '"+DateAktuell+"' AND Mitarbeiter_ID = '"+Login.username+"';";
-//			java.sql.PreparedStatement pstQuartal = con.prepareStatement(Quartal);
-//			ResultSet rsQuartal = pstQuartal.executeQuery();
-//			rsQuartal.next();
-//			int QuartalInt = rsQuartal.getInt(1);
             String SaldoSummeQuartal = "Select sum(Saldo) from eintraege where Quartal = '"+Quart+"' AND Mitarbeiter_ID = '"+Login.username+"' AND Datum Like '"+calendar.get(Calendar.YEAR)+"-__-__' ;";
             java.sql.PreparedStatement pstQuartalSumme = con.prepareStatement(SaldoSummeQuartal);
             ResultSet rsQuartalSumme = pstQuartalSumme.executeQuery();
             rsQuartalSumme.next();
             Float SaldoSummeFloat = rsQuartalSumme.getFloat(1);
-            System.out.println(SaldoSummeFloat+"Quartal");
             DecimalFormat df = new DecimalFormat("0.00");
             String SaldoFlaotSumme = ""+SaldoSummeFloat;
             SaldoFlaotSumme = df.format(SaldoSummeFloat);
@@ -756,34 +684,19 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             String GleitzeitproQuartal = ""+SaldoFlaotSumme+" Std.";
             return GleitzeitproQuartal;
 
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return "0,0 Std.";
-
-        } catch (SQLException e) {
+        }  catch (SQLException e) {
             e.printStackTrace();
             return "0,0 Std.";
         }
 	}
 	public String GleitzeitproWoche() {
-
         try {
             LocalDate Datumaktuell = LocalDate.now();
             Calendar calendar = new GregorianCalendar();
             calendar.set(Datumaktuell.getYear(), Datumaktuell.getMonthValue(),Datumaktuell.getDayOfMonth());
-            System.out.println("YEAR: " + calendar.get(Calendar.YEAR));
-            System.out.println("MONTH: " + calendar.get(Calendar.MONTH));
-            System.out.println("DAY: " + calendar.get(Calendar.DATE));
             int kw = calendar.get(Calendar.WEEK_OF_YEAR);
-            Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
             String DateAktuell = ""+Datumaktuell;
-//			String KW = "Select KW from eintraege Where Datum  = '"+DateAktuell+"' AND Mitarbeiter_ID = '"+Login.username+"';";
-//			java.sql.PreparedStatement pstKW = con.prepareStatement(KW);
-//			ResultSet rsKW = pstKW.executeQuery();
-//			rsKW.next();
-//			int KWInt = rsKW.getInt(1);
             String SaldoSummeKW = "Select sum(Saldo) from eintraege where Datum LIKE '"+calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-__' AND Mitarbeiter_ID = '"+Login.username+"';";
             java.sql.PreparedStatement pstKWSumme = con.prepareStatement(SaldoSummeKW);
             ResultSet rsKWSumme = pstKWSumme.executeQuery();
@@ -795,63 +708,40 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             SaldoFlaotSumme = SaldoFlaotSumme.replace(".", ",");
             String GleitzeitproWoche = ""+SaldoFlaotSumme+" Std.";
             return GleitzeitproWoche;
-
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return "0,0 Std.";
-
-        } catch (SQLException e) {
+        }  catch (SQLException e) {
             e.printStackTrace();
             return "0,0 Std.";
         }
 	}
 
 	public String GleitzeitproJahr() {
-
         try {
             LocalDate Datumaktuell = LocalDate.now();
             Calendar calendar = new GregorianCalendar();
             calendar.set(Datumaktuell.getYear(), Datumaktuell.getMonthValue(),Datumaktuell.getDayOfMonth());
-            System.out.println("YEAR: " + calendar.get(Calendar.YEAR));
-            System.out.println("MONTH: " + calendar.get(Calendar.MONTH));
-            System.out.println("DAY: " + calendar.get(Calendar.DATE));
             int Year = calendar.get(Calendar.YEAR);
-            Class.forName("com.mysql.jdbc.Driver");
+           // Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
             String DateAktuell = ""+Datumaktuell;
-//		String Jahr = "Select Jahr from eintraege Where Datum  = '"+DateAktuell+"' AND Mitarbeiter_ID = '"+Login.username+"';";
-//		java.sql.PreparedStatement pstJahr = con.prepareStatement(Jahr);
-//		ResultSet rsJahr = pstJahr.executeQuery();
-//		rsJahr.next();
-//		int JahrInt = rsJahr.getInt(1);
             String SaldoSummeJahr = "Select sum(Saldo) from eintraege where Jahr = '"+Year+"' AND Mitarbeiter_ID = '"+Login.username+"';";
             java.sql.PreparedStatement pstJahrSumme = con.prepareStatement(SaldoSummeJahr);
             ResultSet rsJahrSumme = pstJahrSumme.executeQuery();
             rsJahrSumme.next();
             Float SaldoSummeFloat = rsJahrSumme.getFloat(1);
-            System.out.println("Jahr: "+SaldoSummeFloat);
             String SaldoFlaotSumme = ""+SaldoSummeFloat;
             DecimalFormat df = new DecimalFormat("0.00");
             SaldoFlaotSumme = df.format(SaldoSummeFloat);
             SaldoFlaotSumme = SaldoFlaotSumme.replace(".", ",");
             String GleitzeitproJahr = ""+SaldoFlaotSumme+" Std.";
             return GleitzeitproJahr;
-
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return "0,0 Std.";
-
-        } catch (SQLException e) {
+        }  catch (SQLException e) {
             e.printStackTrace();
             return "0,0 Std.";
         }
 	}
 	public void PopUp() {
-
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            //Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
             String Beginn = ("Select Beginn,Pause from eintraege Where Datum = (SELECT MAX(Datum) FROM eintraege WHERE Mitarbeiter_ID = '"+Login.username+"') AND Mitarbeiter_ID = '"+Login.username+"';");
             java.sql.PreparedStatement pst1 = con.prepareStatement(Beginn);
@@ -868,7 +758,6 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             pause = pause.replace(",", ".");
             float pausefloat = Float.parseFloat(pause);
             String Heuteist = StundenUebersichtHeuteIst();
-            System.out.println("HeutIStSTunden "+ Heuteist);
             String HeuteistStunden = Heuteist.substring(0,2);
             float HeuteistStundenfloat = Float.parseFloat(HeuteistStunden);
             int beginnhh = Integer.parseInt(beginn.substring(0,2));
@@ -878,29 +767,21 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             Date datebeginn = format.parse(beginn);
             Date datesechs = format.parse(sechsuhr);
             Date heute = format.parse(Heuteist);
-            System.out.println(heute);
             if(beginnhh < 6) {
                 String heuteIstvor6 = ""+(heute.getTime() + datesechs.getTime()-datebeginn.getTime())/36000;
                 float heuteistvor6float = Float.parseFloat(heuteIstvor6);
-                System.out.println("SAKDJHFKJASDF "+heuteistvor6float);
                 heuteistvor6float = heuteistvor6float/100;
                 heuteistvor6float = heuteistvor6float+1; // gibt immer ne Stunde zu wenig aus, warum auch immer
-                System.out.println("WHYYYY "+heuteistvor6float);
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
                 String aktuelleUhrzeit =""+dtf.format(LocalDateTime.now());
                 aktuelleUhrzeit = aktuelleUhrzeit.substring(11,13);
                 int aktuelleUhrzeitInt = Integer.parseInt(aktuelleUhrzeit);
                 if( heuteistvor6float >maxArbZG ||(aktuelleUhrzeitInt>=20 && Age <18)) {
-
                     JOptionPane.showMessageDialog(null, "Sie haben Ihre heutige Arbeitszeit lauft ArbZG überschritten, melden Sie dies bei Ihrem Vorgesetzen.");
                 }
-
             }else if(HeuteistStundenfloat >= maxArbZG) {
                 JOptionPane.showMessageDialog(null, "Sie haben Ihre heutige Arbeitszeit lauft ArbZG überschritten, melden Sie dies bei Ihrem Vorgesetzen.");
             }
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

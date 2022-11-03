@@ -141,7 +141,7 @@ public class Passwort extends javax.swing.JFrame {
 
         try {
 
-            Class.forName("com.mysql.jdbc.Driver");
+            //Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
             java.sql.PreparedStatement pst1 = con.prepareStatement(sql1);
             ResultSet rs = pst1.executeQuery();
@@ -168,9 +168,6 @@ public class Passwort extends javax.swing.JFrame {
 
         } catch (SQLException e) {
 
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     		

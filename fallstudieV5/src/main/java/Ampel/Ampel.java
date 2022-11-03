@@ -89,7 +89,7 @@ public class Ampel extends javax.swing.JPanel {
         	 }
         	
 		} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, "Fehler!!!!!!!!!!!!!!");
+					JOptionPane.showMessageDialog(null, "Es gab ein Fehler mit der Ampel");
 					System.out.println(e);
 		}
 
