@@ -18,6 +18,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+//Gleiche Klasse Login, allerdings mit englischer Beschriftung
+//--> Gleiche Funktionalitäten
 public class LoginEng extends javax.swing.JFrame {
 
 	public static String username;

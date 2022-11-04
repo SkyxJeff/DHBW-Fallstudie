@@ -4,6 +4,9 @@
  */
 package LoginLogout;
 
+
+//Gleiche Klasse Logout, allerdings mit englischer Beschriftung
+    //--> Gleiche Funktionalitäten
 public class LogoutEng extends javax.swing.JFrame {
 
     public LogoutEng() {

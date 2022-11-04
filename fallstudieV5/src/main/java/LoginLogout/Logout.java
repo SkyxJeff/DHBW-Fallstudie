@@ -6,6 +6,9 @@ package LoginLogout;
 
 public class Logout extends javax.swing.JFrame {
 
+
+    //Konstruktor für das Logoutfenster
+        //--> Aufruf von Komponenten
     public Logout() {
         initComponents();
         setLocationRelativeTo(null);
@@ -15,6 +18,7 @@ public class Logout extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        //Initialisierung der Komponenten
         hintergrund = new javax.swing.JPanel();
         fragelabel = new javax.swing.JLabel();
         ja_button = new javax.swing.JButton();
@@ -90,10 +94,12 @@ public class Logout extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Logik des "Ja"-Buttons beim Logout, schließt das gesamte Programm
     private void ja_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ja_buttonActionPerformed
             System.exit(0);
     }//GEN-LAST:event_ja_buttonActionPerformed
 
+    //Logik des "Nein"-Buttons beim Logout, schließt nur das Logoutfenster
     private void nein_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nein_buttonActionPerformed
             dispose();
     }//GEN-LAST:event_nein_buttonActionPerformed

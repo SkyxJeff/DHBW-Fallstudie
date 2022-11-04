@@ -24,11 +24,13 @@ import javax.swing.JOptionPane;
 import dashboard.FallstudieEng;
 import dashboard.Home;
 
+//Loginmaske
 public class Login extends javax.swing.JFrame {
 
 	public static String username;
     static int tage;
-
+//Konstruktor für das Loginfenster
+    //--> Aufruf der Komponenten
     public Login() {
         initComponents();
         setLocationRelativeTo(null);
@@ -40,6 +42,7 @@ public class Login extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    //Komponenten werden initialisiert
     private void initComponents() {
 
         hintergrund = new javax.swing.JPanel();
@@ -119,6 +122,7 @@ public class Login extends javax.swing.JFrame {
                     String command = event.getActionCommand();
                     System.out.println("ICH BIN DIE COMBOBOX: " +command);
 
+                    //Logik für den Wechsel der Sprache im Login Menü
                     if ("comboBoxChanged".equals(command))
                     {
                         if (auswahl1.equals("Englisch"))
@@ -209,6 +213,7 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void benutzernametextfeldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_benutzernametextfeldActionPerformed
         
     }//GEN-LAST:event_benutzernametextfeldActionPerformed
@@ -216,6 +221,8 @@ public class Login extends javax.swing.JFrame {
     private void passworttextfeldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passworttextfeldActionPerformed
         
     }//GEN-LAST:event_passworttextfeldActionPerformed
+
+    //Methode für den Loginbutton, checkt dass alle Werte passen und übergibt diese an Datenbank
 
     private void loginbuttonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_loginbuttonActionPerformed
         String StandardPW = "start";
@@ -301,6 +308,8 @@ public class Login extends javax.swing.JFrame {
 
     }//GEN-LAST:event_loginbuttonActionPerformed
 
+    //Resetbutton --> Setzt die Felder Benutzername und Password auf einen leeren Stand
+
     private void ResetbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetbuttonActionPerformed
             benutzernametextfeld.setText("");        
             passworttextfeld.setText("");
@@ -340,6 +349,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
+
+    //Logik für Überprüfung des Passworts
     public static boolean passwortPruefen(String passwort) {
         System.out.println(passwort);
         int MIN_Uppercase = 0;
@@ -367,7 +378,7 @@ public class Login extends javax.swing.JFrame {
     }
 
 
-
+    //Erstellung der Textdatei "Eintraege.txt"
     public static void txtDateierstellen()
     {
 

@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 public class RundesPanel extends JPanel {
 
+    //Initialisierung der Ampel
     public RundesPanel() {
         setOpaque(false);
     }
