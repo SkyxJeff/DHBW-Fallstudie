@@ -2,7 +2,7 @@ package Seiten;
 
 import LoginLogout.LoginEng;
 import Menue.MenueEng;
-
+// Genauso wie in MeineDaten Seite nur für die Englische Version
 public class MeineDaten_SeiteEng extends javax.swing.JPanel {
 
 

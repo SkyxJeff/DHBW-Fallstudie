@@ -8,7 +8,7 @@ import Seiten.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-
+//Genauso wie in Home, nur für die Englische Version
 public class HomeEng extends JFrame {
 
     /**

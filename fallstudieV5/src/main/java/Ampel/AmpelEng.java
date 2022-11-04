@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+// Genauso wie bei der Ampel, nur für die Englische Version
 public class AmpelEng extends javax.swing.JPanel {
 
     public AmpelEng() {

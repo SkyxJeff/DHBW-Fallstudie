@@ -16,6 +16,8 @@ import java.awt.geom.CubicCurve2D;
 import java.awt.geom.GeneralPath;
 import javax.swing.Timer;
 
+//Initialisierung einer KLasse für den Splashscreen
+// Hier werden wichtige Komponenten und Methoden für den Splashscreen deklariert
 public class CurvesPanel extends GradientPanel {
 
     private RenderingHints hints;

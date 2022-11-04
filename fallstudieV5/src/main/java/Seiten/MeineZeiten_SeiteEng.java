@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
+//Genauso wie in MeineZeiten, nur für die Englsiche Version
 public class MeineZeiten_SeiteEng extends javax.swing.JPanel {
 	int Urlaubsanspruch1;
 	int Urlaub_aktuelles_Jahr1;

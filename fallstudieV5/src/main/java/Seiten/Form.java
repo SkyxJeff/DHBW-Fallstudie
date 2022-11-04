@@ -12,6 +12,8 @@ public class Form extends javax.swing.JPanel {
     /**
      * Creates new form Form
      */
+    //Konstruktor für Form
+    // Aufrufen der Komponenten
     public Form(int index) {
         initComponents();
         setOpaque(false);
@@ -26,7 +28,7 @@ public class Form extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+        //Initialisierung der Komponenten
         jLabel1 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N

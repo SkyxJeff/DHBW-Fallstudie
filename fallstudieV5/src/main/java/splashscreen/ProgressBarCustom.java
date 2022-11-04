@@ -7,6 +7,8 @@ import java.awt.Insets;
 import javax.swing.JProgressBar;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 
+//Initialisierung einer KLasse für den Splashscreen
+// Hier werden wichtige Komponenten und Methoden für den Splashscreen deklariert
 public class ProgressBarCustom extends JProgressBar {
     
     public Color getColorString() {

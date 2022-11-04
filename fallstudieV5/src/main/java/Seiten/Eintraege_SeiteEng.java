@@ -1,7 +1,7 @@
 package Seiten;
 
 import javax.swing.*;
-
+//Genauso wie in Eintraege_Seite, nur für die Englische Version
 public class Eintraege_SeiteEng extends JPanel {
 
     public Eintraege_SeiteEng() {

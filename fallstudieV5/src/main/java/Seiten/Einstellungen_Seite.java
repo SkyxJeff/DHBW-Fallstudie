@@ -24,7 +24,8 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
     int gelb;
     int rot;
 
-
+// Konstruktor für die Einstellungsseite
+    //Aufruf der Komponenten
     public Einstellungen_Seite() {
         initComponents();
         setOpaque(false);
@@ -33,7 +34,7 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+// Initialisierung der Komponenten
         hintergrund_panel = new Komponenten.RundesPanel();
         Ueberschrift_label = new javax.swing.JLabel();
         sprache_label = new javax.swing.JLabel();
@@ -124,7 +125,7 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
                 gruenes_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGap(0, 35, Short.MAX_VALUE)
         );
-
+// Hier wreden die Grenzwerte für die Gleitzeit aus der DB gezogen und werden in das Textfeld von der jeweiligen Farbe eingefügt
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
             String Gruen = ("SELECT Gruen FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
@@ -264,10 +265,13 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    // Hier wird das Passwort Fenster geöffnet, nur wenn der Button gedrückt wird
     private void passwortAendern_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwortändern_buttonActionPerformed
         new Passwort().setVisible(true);
     }//GEN-LAST:event_passwortändern_buttonActionPerformed
 
+
+    // Hier wird der SpeichernButton definiert. Wenn die Grenzwerte geändert werden, kann man diese hiermit speichern
     private void speichern_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichern_buttonActionPerformed
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
@@ -286,7 +290,8 @@ public class Einstellungen_Seite extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_speichern_buttonActionPerformed
-
+    // Initialisierung Löschen Button
+    //--> Textfelder werden geleert.
     private void loeschen_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_löschen_buttonActionPerformed
         rot_grenzwert_textfeld.setText("");
         gelb_grenzwert_textfeld.setText("");

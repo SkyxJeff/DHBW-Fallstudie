@@ -11,7 +11,8 @@ import LoginLogout.Login;
 import Seiten.Uebersicht_Seite;
 
 public class Ampel extends javax.swing.JPanel {
-
+//Konstruktor für die Ampel
+	//Aufruf der Komponenten
     public Ampel() {
         initComponents();
         setOpaque(false);
@@ -20,12 +21,12 @@ public class Ampel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+//Initialisierung der Komponenten
         ampelPanel = new Komponenten.RundesPanel();
         rotesPanel = new Komponenten.RundesPanel();
         gelbesPanel = new Komponenten.RundesPanel();
         gruenesPanel = new Komponenten.RundesPanel();
-        
+        //Hier werden die Ampelwerte aus der DB gezogen und festgelegt, welcher Wert welche Farbe hat
         try {
         	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
         	String Gruen = ("SELECT Gruen FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");

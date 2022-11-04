@@ -13,7 +13,8 @@ public class Table extends JTable {
 
     public Table() {
     }
-
+//Methode für das Design der Tabelle
+    // Hier wird das Design für Tabellen festgelegt wird
     public void addTableStyle(JScrollPane scroll) {
         scroll.getViewport().setOpaque(false);
         scroll.setViewportBorder(null);

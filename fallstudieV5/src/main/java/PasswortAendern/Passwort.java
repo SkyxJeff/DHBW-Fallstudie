@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import LoginLogout.Login;
 
 public class Passwort extends javax.swing.JFrame {
-
+// Konstruktor von Passwort
     public Passwort() {
         initComponents();
         setLocationRelativeTo(null);
@@ -23,7 +23,7 @@ public class Passwort extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+// Initialisierung der Komponenten von Passwort
         hintergrund = new javax.swing.JPanel();
         Ueberschrift_label = new javax.swing.JLabel();
         altesPasswort_label = new javax.swing.JLabel();
@@ -131,7 +131,9 @@ public class Passwort extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
+    // Button Speichern in den Einstellungen wo man das Passwort ändern kann
+    // --> Zieht sich das Aktuelle Passwort aus der DB, gleicht das ab und wenn das passt wird es geändert
     private void speichern_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichern_buttonActionPerformed
 
         String altesPW = altesPasswort_textfeld.getText();
@@ -176,6 +178,7 @@ public class Passwort extends javax.swing.JFrame {
     	
     }//GEN-LAST:event_speichern_buttonActionPerformed
 
+    //Abbrechen Button von Passwort ändern
     private void abbrechen_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abbrechen_buttonActionPerformed
         dispose();
     }//GEN-LAST:event_abbrechen_buttonActionPerformed
@@ -183,6 +186,7 @@ public class Passwort extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    // Main Methode, damit das Passwortändern Interface startet
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

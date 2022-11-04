@@ -7,6 +7,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 public class TableHeaderCustom extends DefaultTableCellRenderer {
 
+    //Konsturktor für Den TableHeader
+    //Hier werden Werte für den Header angezeigt
     public TableHeaderCustom() {
         setPreferredSize(new Dimension(0, 35));
         setBackground(new Color(60, 60, 60));

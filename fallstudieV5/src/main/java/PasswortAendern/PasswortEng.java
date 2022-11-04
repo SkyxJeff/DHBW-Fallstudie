@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+//Gleich wie in Passwort, nur für die Englische Variante
 public class PasswortEng extends javax.swing.JFrame {
 
     public PasswortEng() {

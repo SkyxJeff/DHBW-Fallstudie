@@ -21,6 +21,9 @@ public class Home extends javax.swing.JFrame {
     /**
      * Creates new form Fallstudie
      */
+    //Konstruktor für die Klasse Home
+    //Aufruf der Komponenten
+    //Hier wird definiert das bei den unterschiedlichen Reitern passieren soll
     public Home() {
         initComponents();
         setSize(1200,600);
@@ -87,7 +90,7 @@ public class Home extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+//Initialisierung der Komponenten
         jPanel1 = new javax.swing.JPanel();
         roundPanel1 = new Komponenten.RundesPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -167,6 +170,8 @@ public class Home extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    //erzeugung einer Main Methode
+    //Startet die Homeklasse
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

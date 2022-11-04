@@ -1,5 +1,5 @@
 package PasswortAendern;
-
+// Gleich wie in PasswortAkzeptanz, nur für die Englische Version
 public class PasswortAkzeptanzEng extends javax.swing.JFrame {
 
     public PasswortAkzeptanzEng() {

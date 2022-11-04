@@ -11,7 +11,8 @@ import Menue.Menue;
 public class MeineDaten_Seite extends javax.swing.JPanel {
 	 
 	
-	
+	//Konstruktor für MeineDaten_Seite()
+    // Aufruf der Komponenten
     public MeineDaten_Seite() {
         initComponents();
         setOpaque(false);
@@ -24,7 +25,7 @@ public class MeineDaten_Seite extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
     	
-    	 
+    	 //Initialisierung der Komponenten
 
         hintergrund_panel = new Komponenten.RundesPanel();
         ueberschrift_panel = new javax.swing.JLabel();

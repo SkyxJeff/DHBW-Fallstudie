@@ -6,6 +6,8 @@ import java.io.IOException;
 
 public class Eintraege_Seite extends javax.swing.JPanel {
 
+    //Initialisierung des Konstruktors
+    // Aufruf der Komponenten
     public Eintraege_Seite() {
         initComponents();
         setOpaque(false);
@@ -15,7 +17,7 @@ public class Eintraege_Seite extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+        //Initialisierung der Komponenten
         hintergrund_panel = new Komponenten.RundesPanel();
         Ueberschrift_label = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();

@@ -6,7 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JScrollBar;
 
 public class ScrollBarCustom extends JScrollBar {
-
+//Konstruktor für die Custom Scrollbar
     public ScrollBarCustom() {
         setUI(new ModernScrollBarUI());
         setPreferredSize(new Dimension(5, 5));

@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+//Genauso wie in Übersichtseite, nur für die Englische Seite
 public class Uebersicht_SeiteEng extends javax.swing.JPanel {
 
     /**

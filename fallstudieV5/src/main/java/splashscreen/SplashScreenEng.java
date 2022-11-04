@@ -1,5 +1,5 @@
 package splashscreen;
-
+// Genauso wie in Splashscreen, nur für die Englische Version
 public class SplashScreenEng extends javax.swing.JDialog {
 
     public SplashScreenEng(java.awt.Frame parent, boolean modal) {

@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+// Genauso wie in den Einstellungen.java, nur die Englische Version
 public class Einstellungen_SeiteEng extends javax.swing.JPanel {
 
 	int gruen;

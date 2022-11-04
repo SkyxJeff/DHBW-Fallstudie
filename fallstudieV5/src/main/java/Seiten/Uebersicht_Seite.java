@@ -25,7 +25,8 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 	int gruen;
 	int gelb;
 	int rot;
-	
+	//Konstruktor für die Übersichtseite
+    //Aufruf der Komponenten
 	public Uebersicht_Seite() {
         initComponents();
         setOpaque(false);
@@ -34,7 +35,7 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+//Initialisierung der Komponenten
         ampel_panel = new Komponenten.RundesPanel();
         ampel = new Ampel.Ampel();
         grenzwert_rot_label = new javax.swing.JLabel();
@@ -66,7 +67,8 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(785, 390));
 
         ampel_panel.setBackground(new java.awt.Color(50, 50, 50));
-        
+        // Hier werden die Gleitzeitgrenzen aus der DB Selektiert
+        //Auf Basis der Werte, werden die Farben festgelegt
         try {
         	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
         	String Gruen = ("SELECT Gruen FROM `gleitzeitgrenze` WHERE MitarbeiterID = '"+Login.username+"'");
@@ -448,7 +450,8 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
                     .addComponent(ampel_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
-   
+   // Methode für die Stunden vom Heutigen Tag
+    //Hier werden die Stunden für den heutigen Tag berechnet und in der Übersicht ausgegeben
     public String StundenUebersichtHeuteIst() {
         String leer = "00:00 Std.";
         try {
@@ -571,6 +574,8 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         }
         return leer;
     }
+    //Methode für die Soll-Stunden
+    //Hier werden die Soll-STunden Selektiert und werden auf der Oberfläche angezeigt
     public String StundenUebersichtSoll() {
     	try {
 			//Class.forName("com.mysql.jdbc.Driver");
@@ -586,6 +591,8 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 		}
     	return "00:00 Std.";
     }
+    //Methode für den Saldo
+    //Hier wird der Saldo auf Basis von Ist-Stunden und Soll-Stunden Berechnet
     public String StundenUebersichtSaldo() {
         String Saldo;
         String Heuteist = StundenUebersichtHeuteIst();
@@ -642,8 +649,11 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
         }
         return "00:00 Std.";
     }
+    //Methode für den Insert des Saldos in die DB
+    //Hier wird der Saldo in die DB geladen, sobald er einen Aktuellen Eintrag hat
 	public void insertSaldo(float Saldo) {
 		try {
+
 			//Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
 			String maxDatum = ("Select max(Datum) from `Eintraege` where `Mitarbeiter_ID` = '"+Login.username+"';");
@@ -664,7 +674,8 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
 			e.printStackTrace();
 		}
     }
-    
+    //Methode für die Gleitzeit des Quartals
+    //Hier wird der Gleitzeitstand berechnet und ausgegeben
     public String GleitzeitproQuartal() {
         try {
             LocalDate Datumaktuell = LocalDate.now();
@@ -689,6 +700,8 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             return "0,0 Std.";
         }
 	}
+    //Methode für die Gleitzeit der Woche
+    //Hier wird der Gleitzeit Wert für die Woche berechnet und ausgegeben
 	public String GleitzeitproWoche() {
         try {
             LocalDate Datumaktuell = LocalDate.now();
@@ -713,7 +726,8 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             return "0,0 Std.";
         }
 	}
-
+//Methode für den Gleitzeitstand für das Jahr
+    //Hier wird der Gleitzeitstand für das Aktuelle Jahr berechnet und ausgegeben
 	public String GleitzeitproJahr() {
         try {
             LocalDate Datumaktuell = LocalDate.now();
@@ -739,6 +753,8 @@ public class Uebersicht_Seite extends javax.swing.JPanel {
             return "0,0 Std.";
         }
 	}
+    // Methode für ein PopUp Fenster
+    //Das PopUp wird erzeugt, wenn man gegen das ArbZG verstößt
 	public void PopUp() {
         try {
             //Class.forName("com.mysql.jdbc.Driver");

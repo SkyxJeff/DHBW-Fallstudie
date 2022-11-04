@@ -8,6 +8,8 @@ import java.awt.Paint;
 
 import javax.swing.JPanel;
 
+//Initialisierung einer KLasse für den Splashscreen
+// Hier werden wichtige Komponenten und Methoden für den Splashscreen deklariert
 public class GradientPanel extends JPanel {
 
     private final Color gradientStart;

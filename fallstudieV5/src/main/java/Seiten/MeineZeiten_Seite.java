@@ -38,6 +38,8 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 	public int quartal;
 	public int Jahrpublic;
 	int baum;
+	//Konstruktor für MeineZeiten_Seite
+	//Aufruf der Komponenten
     public MeineZeiten_Seite() {
         initComponents();
         setOpaque(false);
@@ -47,7 +49,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+//Initialisierung der Komponenten
         arbeits_panel = new Komponenten.RundesPanel();
         ueberschrift_label = new javax.swing.JLabel();
         datum_label = new javax.swing.JLabel();
@@ -277,6 +279,7 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 		Urlaub();
         urlaubs_tabelle.setBackground(new java.awt.Color(50, 50, 50));
         urlaubs_tabelle.setModel(new javax.swing.table.DefaultTableModel(
+           //Initialisierung der urlaubsanzeige bei meine Zeiten
             new Object [][] {
                 {Urlaubsanspruch1, Urlaub_aktuelles_Jahr1, Urlaub_vorjahr1, Urlaub_genommen1, Urlaub_verfuegbar1}
             },
@@ -377,6 +380,8 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+	// Deklarierung des speichern Buttons
+	// Bei diesem Button werden die Arbeitszeiten die eingetragen werden in die DB gespeichert
     private void speichern_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichern_button1ActionPerformed
 		boolean EintragAktualisiert = false;
 		boolean AktuellerEintragAktualisiert = false;
@@ -629,6 +634,8 @@ public class MeineZeiten_Seite extends javax.swing.JPanel {
 			e.printStackTrace();
 		}
     }//GEN-LAST:event_speichern_button1ActionPerformed
+	//Methode für den Urlaub
+	//Hier werden die Aktuelle Urlaubsdaten rausgesucht und ausgegeben
 public void Urlaub(){
 	try {
 		Calendar now = new GregorianCalendar();
@@ -674,6 +681,8 @@ public void Urlaub(){
 		e.printStackTrace();
 	}
 }
+//Löschen Button
+	//Hier werden die textfelder geleert
     private void loeschen_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_löschen_button1ActionPerformed
        beginn_textfeld.setText("");
        ende_textfeld.setText("");
@@ -682,6 +691,9 @@ public void Urlaub(){
        
     }//GEN-LAST:event_löschen_button1ActionPerformed
 
+	// Urlaubsspeichern Button
+	// Hier findet die Urlaubsberechnung statt mit berücksichtigung vom Wochenende und vom Urlaub vom Vorjahr
+	// Neue werte werden in der DB gespeichert
     private void speichern_button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichern_button2ActionPerformed
     	try {
 			Connection con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/fallstudie", "root", "");
@@ -785,6 +797,8 @@ public void Urlaub(){
 		}
     }//GEN-LAST:event_speichern_button2ActionPerformed
 
+	//Löschen Button für den Urlaub
+	//Textfelder werden geleert
     private void loeschen_button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_löschen_button2ActionPerformed
         abwesenheitsbeginn_textfeld.setText("");
         abwesenheitsende_textfeld.setText("");

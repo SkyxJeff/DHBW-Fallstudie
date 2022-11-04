@@ -2,6 +2,8 @@ package splashscreen;
 
 public class SplashScreen extends javax.swing.JDialog {
 
+    //Konstruktor für den Splashscreen
+    //Aufruf der Komponenten
     public SplashScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -11,7 +13,7 @@ public class SplashScreen extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+//Initialisierung der Komponenten
         curvesPanel1 = new splashscreen.CurvesPanel();
         pro = new splashscreen.ProgressBarCustom();
         lbStatus = new javax.swing.JLabel();
@@ -64,7 +66,8 @@ public class SplashScreen extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+//Methode für den Splashscreen
+    //Hier wird das aussehen des Splashscreen deklariert und kann hierdurch ausgeführt werden
     private void formWindowOpened(java.awt.event.WindowEvent evt) {                                  
         new Thread(new Runnable() {
             @Override

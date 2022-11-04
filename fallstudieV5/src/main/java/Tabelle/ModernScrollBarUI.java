@@ -11,6 +11,8 @@ import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+// Initialisierung von einer Klasse für eine Scrollbar für eine Tabelle
+// Wir benutzt sobald die Tabelle zu klein ist und nicht alles angezeigt wird
 public class ModernScrollBarUI extends BasicScrollBarUI {
 
     private final int THUMB_SIZE = 80;
