@@ -13,6 +13,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+//Gleiche Klasse Menue, allerdings mit englischer Beschriftung
+    //--> Gleiche Funktionalitäten
 public class MenueEng extends javax.swing.JPanel {
     /**
 	 *

@@ -14,6 +14,9 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
+
+//Vorgefertigte JFrame-Klasse, siehe JFrame Dokumentation
+    //--> Logik für Buttons
 public class ButtonMenu extends JButton {
     public Color getEffectColor() {
         return effectColor;

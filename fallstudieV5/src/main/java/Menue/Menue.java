@@ -17,6 +17,9 @@ import Komponenten.RundesPanel;
 import LoginLogout.Login;
 import Seiten.MeineDaten_Seite;
 
+
+//Klasse Menue.java, dient als Übersicht und Switch in andere Fenster
+    //--> Im Programm linke Box
 public class Menue extends javax.swing.JPanel {
     /**
 	 * 
@@ -39,6 +42,7 @@ public class Menue extends javax.swing.JPanel {
   
 
 
+    //Beschriftung für das linke Übersichtsmenü im Programm
 	public void initMenu(EventMenu event){
         this.event=event;
         addMenu("Übersicht", 0);
